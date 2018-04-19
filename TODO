@@ -1,10 +1,19 @@
 TO DO:
 board (storm32):
 	Stromversorgung
+
+Motoren:
+	Stromversorgung - Netzgerät
+
 Matlab:
 	Datenübertragung
+	
+Octave:
 	Kanten-Erkennung
-	Storm32/ Motoren ansteuern
+	
+Perl:
+	Storm32 ansteuern
+
 
 Links:
 	Mikrocontroller.net
