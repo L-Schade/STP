@@ -51,6 +51,7 @@ sub coordinaten{
     say $z;
     say $wait;
     &printScript;
+    &saveCoordinaten;
 }
 
 # Verbesserungen: mehrmals eine Taste druecken zu koennen -> mehrere Schritte auf einmal machen können
@@ -100,6 +101,7 @@ sub navigate{
         say "press i to move up\n";
     }
     &printScript;
+    &saveCoordinaten;
 }
 
 sub printScript{
@@ -114,6 +116,16 @@ RecenterCamera();       # recenters all three axes
 TextOut( 'End' );       # eigentlich: TextOut( 'End !mit Umbruch!' );";
     close $fh;
     print "done\n";
+}
+
+sub saveCoordinaten{
+    my $filename = 'coordinaten.txt';
+    open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
+    print $fh "$x";
+    print $fh "$y";
+    print $fh "$z";
+    close $fh;
+    print "saved coordinaten\n";
 }
 
 #TODO:
