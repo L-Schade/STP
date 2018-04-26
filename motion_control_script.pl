@@ -1,4 +1,4 @@
-use v5.22.1;
+use v5.18.1;
 use warnings;
 use strict;
 use Term::ReadKey;
@@ -9,6 +9,8 @@ my $y = 3;
 my $z = 0;
 my $wait = 3;
 my $mode;
+
+&readCoordinaten;
 
 say "choose the right mode:";
 say "press 1 for the automatically mode";
@@ -51,10 +53,12 @@ sub coordinaten{
     say $z;
     say $wait;
 
+    # delete line break
     chomp $x;
     chomp $y;
     chomp $z;
     chomp $wait;
+
     &printScript;
     &saveCoordinaten;
 }
@@ -109,6 +113,28 @@ sub navigate{
     &saveCoordinaten;
 }
 
+sub readCoordinaten{
+    my $filename = 'coordinaten.txt';
+    if (open(my $fh, '<:encoding(UTF-8)', $filename)) {
+        my $index = 1;
+        while (my $row = <$fh>) {
+            chomp $row;
+            #print "$row\n";
+            switch ($index){
+                case 1 {$x = $row;}
+                case 2 {$y = $row;}
+                case 3 {$z = $row;}
+            }
+            $index ++;
+        }
+    }
+    else {
+        warn "Could not open file '$filename' $!";
+    }
+    say "old coordinaten:";
+    print "$x,$y,$z\n\n";
+}
+
 sub printScript{
     # write .mcs script for controller
     my $filename = 'script.mcs';
@@ -126,9 +152,9 @@ TextOut( 'End' );       # eigentlich: TextOut( 'End !mit Umbruch!' );");
 sub saveCoordinaten{
     my $filename = 'coordinaten.txt';
     open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
-    print $fh "$x";
-    print $fh "$y";
-    print $fh "$z";
+    print $fh "$x\n";
+    print $fh "$y\n";
+    print $fh "$z\n";
     close $fh;
     print "saved coordinaten\n";
 }
