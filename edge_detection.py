@@ -1,10 +1,8 @@
-from scipy import misc
-import matplotlib.pyplot as plt
+from PIL import Image
+from PIL import ImageFilter
 
-print ('test')
+img = Image.open("Bilder_BSP/filter1.jpg")
+#img.show()
 
-img = misc.face()
-misc.imsave('.png,f')
-
-plt.imshow(img)
-plt.show 
+im = img.filter(ImageFilter.EDGE_ENHANCE)
+im.show()
