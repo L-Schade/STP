@@ -108,12 +108,12 @@ sub printScript{
     # write .mcs script for controller
     my $filename = 'script.mcs';
     open(my $fh, '>', $filename) or die "Could not open file '$filename' $!";
-    print $fh "UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n
-SetAngle( $x, $y, $z ); # sets pitch, roll, yaw, in degrees
-Wait( $wait );          # waits 3 seconds \n
+    print $fh ("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n
+SetAngle($x,$y,$z); # sets pitch, roll, yaw, in degrees
+Wait( '$wait' );          # waits 3 seconds \n
 DoCamera( 'Shutter' );  # ??? \n
 RecenterCamera();       # recenters all three axes
-TextOut( 'End' );       # eigentlich: TextOut( 'End !mit Umbruch!' );";
+TextOut( 'End' );       # eigentlich: TextOut( 'End !mit Umbruch!' );");
     close $fh;
     print "done\n";
 }
@@ -130,5 +130,6 @@ sub saveCoordinaten{
 
 #TODO:
 #alte Koordinaten aus script.mcs lesen und wieder verwenden
+#Zeilenumbrueche nach Variablen im .msc entfernen
 #Beschreinung fuer Tasten in navigation
 #umbrueche bei naviagte in script.mcs verbessern
