@@ -1,19 +1,19 @@
 from PIL import Image
 from PIL import ImageFilter
 from PIL import ImageColor
-import cv2
+#impot cv2 #installation auf rasppi laeuft nicht
 import numpy as np
 from matplotlib import pyplot as plt
 
-def opencvPython(image):
-    img = cv2.imread(image,0)
-    edges = cv2.Canny(img,100,200)
-
-    plt.subplot(121),plt.imshow(img,cmap = 'gray')
-    plt.title('Original Image'), plt.xticks([]), plt.yticks([])
-    plt.subplot(122),plt.imshow(edges,cmap = 'gray')
-    plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
-    plt.show()
+# def opencvPython(image):
+#     img = cv2.imread(image,0)
+#     edges = cv2.Canny(img,100,200)
+#
+#     plt.subplot(121),plt.imshow(img,cmap = 'gray')
+#     plt.title('Original Image'), plt.xticks([]), plt.yticks([])
+#     plt.subplot(122),plt.imshow(edges,cmap = 'gray')
+#     plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
+#     plt.show()
 
 
 def loadImage(titel):
@@ -53,4 +53,4 @@ contour(img)
 edgeColor = edge_inking()
 print (edgeColor)
 
-opencvPython(imageName)
+#opencvPython(imageName)
