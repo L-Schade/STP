@@ -1,9 +1,10 @@
+#python 3 Problem mit "pychairo" auf dem raspPi
 from PIL import Image
 from PIL import ImageFilter
 from PIL import ImageColor
 #impot cv2 #installation auf rasppi laeuft nicht
 import numpy as np
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 
 # def opencvPython(image):
 #     img = cv2.imread(image,0)
