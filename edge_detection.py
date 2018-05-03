@@ -13,6 +13,9 @@ def loadImage(titel):
     img = Image.open(titel)
     return img
 
+def imageSize(image):
+    width, height = image.size
+    return width,height
 
 def edges(image):
     #img = image.filter(ImageFilter.EDGE_ENHANCE)
@@ -26,8 +29,8 @@ def edges(image):
 def contour(image):
     img = image.filter(ImageFilter.CONTOUR)
     # img.show(title='contour',command='contour')
-    # plt.imshow(img)
-    # plt.show()
+    plt.imshow(img)
+    plt.show()
     return img
 
 
@@ -60,6 +63,7 @@ def onclick(event):
     global pointC
     pointC = [x,y]
     print(pointC)
+    plt.close()
 
 
 # ???
@@ -74,7 +78,7 @@ imageName = "Bilder_BSP/filter1.jpg"
 # function execute
 img = loadImage(imageName)
 edgesImg = edges(img)
-contourImg = contour(img)
+# contourImg = contour(img)
 
 # pixelColorSearch(img, (137,137,137))
 # pixelColorSearch(edgesImg,(255,255,255))

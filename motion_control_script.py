@@ -41,6 +41,8 @@ def saveCoordinaten(x,y,z):
 def automatic():
     print("class automatic")
 
+    printScript()
+    saveCoordinaten(x,y,z)
 
 def coordinate():
     print("class coordinate")
@@ -48,11 +50,16 @@ def coordinate():
     y = input("enter the y coordinate:")
     z = input("enter the z coordinate:")
     wait = input("enter the time to wait:")
+
+    printScript()
+    saveCoordinaten(x, y, z)
+
     return x,y,z,wait
 
 
-def navigate(x,y,z):
+def navigate():
     print("class navigate")
+    x,y,z = readCoordinaten()
     key = input("")
     if (key == 'j'):
         x = int(x)+1
@@ -67,28 +74,33 @@ def navigate(x,y,z):
         print("undefined key pressed")
         exit()
     wait = input("enter the time to wait:")
+
+    printScript()
+    saveCoordinaten(x, y, z)
+
     return x,y,z,wait
 
 
-x,y,z = readCoordinaten()
-print(x,y,z)
+# x,y,z = readCoordinaten()
+# print(x,y,z)
 
-print("choose the right mode:")
-print("press 1 for the automatically mode")
-print("press 2 for the coordinate mode")
-print("press 3 for the navigation mode")
+# without gui
+# print("choose the right mode:")
+# print("press 1 for the automatically mode")
+# print("press 2 for the coordinate mode")
+# print("press 3 for the navigation mode")
+#
+# key = input("choose your mode:")
+# print(key)
+# if(key == 1):   # python3 key == '1'
+#     automatic()
+# elif (key == 2):
+#     x,y,z,wait = coordinate()
+# elif(key == 3):
+#     x,y,z,wait = navigate()
+# else:
+#     print("undefined key pressed")
+#     exit()
 
-key = input("choose your mode:")
-print(key)
-if(key == '1'):
-    automatic()
-elif key == '2':
-    x,y,z,wait = coordinate()
-elif(key == '3'):
-    x,y,z,wait = navigate(x,y,z)
-else:
-    print("undefined key pressed")
-    exit()
-
-printScript()
-saveCoordinaten(x,y,z)
+# printScript()
+# saveCoordinaten(x,y,z)
