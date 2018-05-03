@@ -1,0 +1,4 @@
+sudo apt-get install python-gi-cairo
+sudo apt-get install python3-cairocffi 
+
+sudo apt-get install python3-pyqt5
