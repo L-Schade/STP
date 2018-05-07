@@ -65,28 +65,24 @@ def onclick(event):
     y = event.ydata
     global pointC
     pointC = [x,y]
-    print(pointC)
+    # print(pointC)
     plt.close()
 
 
-# ???
-fig, ax = plt.subplots()
-ax.plot(np.random.rand(10))
-cid = fig.canvas.mpl_connect('button_press_event', onclick)
+def execute(imageName):
+    # ???
+    fig, ax = plt.subplots()
+    ax.plot(np.random.rand(10))
+    cid = fig.canvas.mpl_connect('button_press_event', onclick)
 
+    # imageName = "../Bilder_BSP/filter1.jpg"
 
-imageName = "Bilder_BSP/filter1.jpg"
+    img = loadImage(imageName)
+    edgesImg = edges(img)
+    # contourImg = contour(img)
 
-
-# function execute
-img = loadImage(imageName)
-edgesImg = edges(img)
-# contourImg = contour(img)
-
-# pixelColorSearch(img, (137,137,137))
-# pixelColorSearch(edgesImg,(255,255,255))
-
-print(pointC)
-print(focus(img))
-distance = distance_calculator.distance(focus(img),pointC)
-print(distance)
+    # print(pointC)
+    # print(focus(img))
+    distance = distance_calculator.distance(focus(img),pointC)
+    # print (distance)
+    print('Abstand von {} zum Mittelpunkt: {}'.format(pointC,distance))

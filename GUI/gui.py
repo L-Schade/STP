@@ -5,6 +5,7 @@ import sys
 import os
 import motion_control_scriptG
 import functionsG
+import edge_detectionG
 
 # import edge_detection
 
@@ -13,6 +14,7 @@ fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 # event function
 def button1Click():
     motion_control_scriptG.automatic()
+    edge_detectionG.execute("../Bilder_BSP/filter1.jpg")
 
 
 def button3Click():

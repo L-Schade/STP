@@ -65,7 +65,7 @@ def onclick(event):
     y = event.ydata
     global pointC
     pointC = [x,y]
-    print(pointC)
+    # print(pointC)
     plt.close()
 
 def execute():
@@ -86,7 +86,8 @@ def execute():
     # pixelColorSearch(img, (137,137,137))
     # pixelColorSearch(edgesImg,(255,255,255))
 
-    print(pointC)
-    print(focus(img))
+    # print(pointC)
+    # print(focus(img))
     distance = distance_calculator.distance(focus(img),pointC)
     print(distance)
+    print('Abstand von {} zum Mittelpunkt: {}'. format(pointC,distance))
