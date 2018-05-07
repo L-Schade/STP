@@ -20,11 +20,11 @@ def readCoordinates():
     return x,y,z
 
 
-def printScript():
+def printScript(x,y,z,wait):
     file = open("script.mcs","w")
     file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
     file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
-               "Wait( {} );  # waits 3 seconds \n".format(x,y,z,wait))
+               "Wait( {} );  # waits {} seconds \n".format(x,y,z,wait,wait))
     file.write("DoCamera('Shutter');  # ??? \n"
                "RecenterCamera();  # recenters all three axes\n"
                "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
@@ -43,8 +43,8 @@ def automatic():
     print("class automatic")
     edge_detection.execute()
 
-    printScript()
-    saveCoordinates(x,y,z)
+    # printScript(x,y,z,wait)
+    # saveCoordinates(x,y,z)
 
 
 def coordinate():
@@ -54,7 +54,7 @@ def coordinate():
     z = input("enter the z coordinate:")
     wait = input("enter the time to wait:")
 
-    printScript()
+    printScript(x,y,z,wait)
     saveCoordinates(x, y, z)
 
     return x,y,z,wait
@@ -78,7 +78,7 @@ def navigate():
         exit()
     wait = input("enter the time to wait:")
 
-    printScript()
+    printScript(x,y,z,wait)
     saveCoordinates(x, y, z)
 
     return x,y,z,wait
