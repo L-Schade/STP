@@ -41,7 +41,7 @@ def saveCoordinates(x,y,z):
 
 def automatic():
     print("class automatic")
-    # edge_detection()
+    edge_detection.execute()
 
     printScript()
     saveCoordinates(x,y,z)
@@ -94,11 +94,11 @@ print("press 3 for the navigation mode")
 
 key = input("choose your mode:")
 print(key)
-if(key == 1):   # python3 key == '1'
+if(key == '1'):   # python3 key == '1'
     automatic()
-elif (key == 2):
+elif (key == '2'):
     x,y,z,wait = coordinate()
-elif(key == 3):
+elif(key == '3'):
     x,y,z,wait = navigate()
 else:
     print("undefined key pressed")

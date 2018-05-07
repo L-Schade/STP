@@ -68,25 +68,25 @@ def onclick(event):
     print(pointC)
     plt.close()
 
-
-# ???
-fig, ax = plt.subplots()
-ax.plot(np.random.rand(10))
-cid = fig.canvas.mpl_connect('button_press_event', onclick)
-
-
-imageName = "Bilder_BSP/filter1.jpg"
+def execute():
+    # ???
+    fig, ax = plt.subplots()
+    ax.plot(np.random.rand(10))
+    cid = fig.canvas.mpl_connect('button_press_event', onclick)
 
 
-# function execute
-img = loadImage(imageName)
-edgesImg = edges(img)
-# contourImg = contour(img)
+    imageName = "Bilder_BSP/filter1.jpg"
 
-# pixelColorSearch(img, (137,137,137))
-# pixelColorSearch(edgesImg,(255,255,255))
 
-print(pointC)
-print(focus(img))
-distance = distance_calculator.distance(focus(img),pointC)
-print(distance)
+    # function execute
+    img = loadImage(imageName)
+    edgesImg = edges(img)
+    # contourImg = contour(img)
+
+    # pixelColorSearch(img, (137,137,137))
+    # pixelColorSearch(edgesImg,(255,255,255))
+
+    print(pointC)
+    print(focus(img))
+    distance = distance_calculator.distance(focus(img),pointC)
+    print(distance)
