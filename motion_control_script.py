@@ -1,9 +1,9 @@
 import edge_detection
 
-x = None
-y = None
-z = None
-wait = None
+# x = None
+# y = None
+# z = None
+# wait = None
 
 
 def readCoordinates():
