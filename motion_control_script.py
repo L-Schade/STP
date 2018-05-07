@@ -1,3 +1,4 @@
+import edge_detection
 
 x = None
 y = None
@@ -5,7 +6,7 @@ z = None
 wait = None
 
 
-def readCoordinaten():
+def readCoordinates():
     file = open("coordinates.txt")
     index = 0
     for line in file:
@@ -30,7 +31,7 @@ def printScript():
     file.close()
 
 
-def saveCoordinaten(x,y,z):
+def saveCoordinates(x,y,z):
     file = open("coordinates.txt", "w")
     file.write(str(x)+'\n')
     file.write(str(y)+'\n')
@@ -40,9 +41,11 @@ def saveCoordinaten(x,y,z):
 
 def automatic():
     print("class automatic")
+    # edge_detection()
 
     printScript()
-    saveCoordinaten(x,y,z)
+    saveCoordinates(x,y,z)
+
 
 def coordinate():
     print("class coordinate")
@@ -52,14 +55,14 @@ def coordinate():
     wait = input("enter the time to wait:")
 
     printScript()
-    saveCoordinaten(x, y, z)
+    saveCoordinates(x, y, z)
 
     return x,y,z,wait
 
 
 def navigate():
     print("class navigate")
-    x,y,z = readCoordinaten()
+    x,y,z = readCoordinates()
     key = input("")
     if (key == 'j'):
         x = int(x)+1
@@ -76,7 +79,7 @@ def navigate():
     wait = input("enter the time to wait:")
 
     printScript()
-    saveCoordinaten(x, y, z)
+    saveCoordinates(x, y, z)
 
     return x,y,z,wait
 
@@ -84,23 +87,19 @@ def navigate():
 # x,y,z = readCoordinaten()
 # print(x,y,z)
 
-# without gui
-# print("choose the right mode:")
-# print("press 1 for the automatically mode")
-# print("press 2 for the coordinate mode")
-# print("press 3 for the navigation mode")
-#
-# key = input("choose your mode:")
-# print(key)
-# if(key == 1):   # python3 key == '1'
-#     automatic()
-# elif (key == 2):
-#     x,y,z,wait = coordinate()
-# elif(key == 3):
-#     x,y,z,wait = navigate()
-# else:
-#     print("undefined key pressed")
-#     exit()
+print("choose the right mode:")
+print("press 1 for the automatically mode")
+print("press 2 for the coordinate mode")
+print("press 3 for the navigation mode")
 
-# printScript()
-# saveCoordinaten(x,y,z)
+key = input("choose your mode:")
+print(key)
+if(key == 1):   # python3 key == '1'
+    automatic()
+elif (key == 2):
+    x,y,z,wait = coordinate()
+elif(key == 3):
+    x,y,z,wait = navigate()
+else:
+    print("undefined key pressed")
+    exit()
