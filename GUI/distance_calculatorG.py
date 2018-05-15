@@ -8,6 +8,11 @@ def distance(pointA,pointB):
    return dist
 
 
+def distance_image(dist):
+    distance = dist
+    return distance
+
+
 def calculate_line(pointA,pointB):
     #y = m * x + b
     m = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0])   #slope

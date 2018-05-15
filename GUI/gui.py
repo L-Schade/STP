@@ -11,30 +11,23 @@ fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 text = 'Ausgabe'
 
 # event function
+def buttonClick():
+    hide_navigate_buttons()
+    labelImg.place_forget()
+    # buttonModeTest.place_forget()
+    output()
+
+
 def button1Click():
+    hide_navigate_buttons()
+    labelImg.place_forget()
     motion_control_scriptG.automatic()
     edge_detectionG.execute("../Bilder_BSP/filter1.jpg")
 
 
-def button3Click():
-    # motion_control_scriptG.coordinate()
-    button1 = Button(master=frameGui, text='oben', command=motion_control_scriptG.up())
-    button1.place(x=500, y=130, width=100, height=20)
-    button2 = Button(master=frameGui, text='links', command=motion_control_scriptG.left())
-    button2.place(x=500, y=170, width=100, height=20)
-    button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.right())
-    button3.place(x=500, y=210, width=100, height=20)
-    button3 = Button(master=frameGui, text='unten', command=motion_control_scriptG.down())
-    button3.place(x=500, y=250, width=100, height=20)
-    button4 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wait(3))
-    button4.place(x=505, y=290, width=40, height=20)
-    button5 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait(5))
-    button5.place(x=555, y=290, width=40, height=20)
-    button6 = Button(master=frameGui, text='print script', command=motion_control_scriptG.printScript2())
-    button6.place(x=500, y=330, width=100, height=20)
-
-
 def button2Click():
+    hide_navigate_buttons()
+    labelImg.place_forget()
     # panel
     # buttonAction = Button(master=frameGui, text='ENTER', command=button_action)
     # buttonAction.place(x=625, y=200, width=100, height=20)
@@ -101,9 +94,37 @@ def button2Click():
         root.mainloop()
 
 
+def button3Click():
+    # motion_control_scriptG.coordinate()
+    button1.place(x=500, y=130, width=100, height=20)
+    button2.place(x=500, y=170, width=100, height=20)
+    button3.place(x=500, y=210, width=100, height=20)
+    button4.place(x=500, y=250, width=100, height=20)
+    button5.place(x=505, y=290, width=40, height=20)
+    button6.place(x=555, y=290, width=40, height=20)
+    button7.place(x=500, y=330, width=100, height=20)
+    output()
+    labelImg.place_forget()
+
+
 def output():
-    output_label = Label(master=frameGui, text=text, bg='#A19BA2')
-    output_label.place(x=50, y=360, width=350, height=30)
+    output_label = Message(master=frameGui, text=text)
+    output_label.config(bg='#A19BA2', anchor=N, font=('times', 24, 'italic'))
+    output_label.place(x=750, y=100, width=200, height=500)
+
+
+def print(data):
+    text = data
+
+
+def hide_navigate_buttons():
+    button1.place_forget()
+    button2.place_forget()
+    button3.place_forget()
+    button4.place_forget()
+    button5.place_forget()
+    button6.place_forget()
+    button7.place_forget()
 
 
 # create the window
@@ -113,32 +134,42 @@ tkFenster.geometry('1000x1000')
 
 
 # background
-frameGui = Frame(master=tkFenster, bg='#6699FF')
+frameGui = Frame(master=tkFenster, bg='#086A87')
 frameGui.place( width=1000, height=1000)    # x=5, y=5 border
 
 
 # Images
 image1 = ImageTk.PhotoImage(Image.open("../Bilder_BSP/filter1.jpg"))
 # Label for images
-labelImg = Label(master=frameGui, image=image1)
-labelImg.place(x=50, y=120, width=350, height=200)
+labelImg = Label(master=frameGui, image=image1, bg='#BDBDBD')
+labelImg.place(x=350, y=100, width=350, height=200)
 
 
 # Button
+buttonMode = Button(master=frameGui, text='start', command=buttonClick)
+buttonMode.place(x=50, y=100, width=100, height=20)
 buttonMode1 = Button(master=frameGui, text='automatic', command=button1Click)
-buttonMode1.place(x=50, y=80, width=100, height=20)
+buttonMode1.place(x=50, y=140, width=100, height=20)
 buttonMode2 = Button(master=frameGui, text='coordinate', command=button2Click)
-buttonMode2.place(x=175, y=80, width=100, height=20)
+buttonMode2.place(x=50, y=180, width=100, height=20)
 buttonMode3 = Button(master=frameGui, text='navigate', command=button3Click)
-buttonMode3.place(x=300, y=80, width=100, height=20)
-buttonModeTest = Button(master=frameGui, text='test', command=output)
-buttonModeTest.place(x=50, y=400, width=100, height=20)
-exit_button = Button(tkFenster, text="Beenden", command=tkFenster.quit)
+buttonMode3.place(x=50, y=220, width=100, height=20)
+button1 = Button(master=frameGui, text='oben', command=motion_control_scriptG.up())
+button2 = Button(master=frameGui, text='links', command=motion_control_scriptG.left())
+button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.right())
+button4 = Button(master=frameGui, text='unten', command=motion_control_scriptG.down())
+button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wait(3))
+button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait(5))
+button7 = Button(master=frameGui, text='print script', command=(motion_control_scriptG.printScript2(),
+                                                                    print('print script'),output))  # funktioniert nicht
+# buttonModeTest = Button(master=frameGui, text='test', command=output)
+# buttonModeTest.place(x=50, y=400, width=100, height=20)
+exit_button = Button(tkFenster, text="Beenden", command=tkFenster.quit, bg='#BDBDBD')
 exit_button.place(x=875, y=20, width=100, height=20)
 
 
 # label
-my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='#A19BA2')
+my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='#BDBDBD')
 my_label.place(x=325, y=20, width=350, height=30)
 
 # coordinate
