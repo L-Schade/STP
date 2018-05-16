@@ -8,13 +8,14 @@ import functionsG
 import edge_detectionG
 
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
-text = 'Ausgabe'
+text = "Ausgabe"
 
 # event function
 def buttonClick():
     hide_navigate_buttons()
     labelImg.place_forget()
     # buttonModeTest.place_forget()
+    read_coordinates('')
     output()
 
 
@@ -66,6 +67,8 @@ def button2Click():
                 index = 0
                 motion_control_scriptG.printScript1(x,y,z,wait)
                 motion_control_scriptG.saveCoordinates(x,y,z,wait)
+                read_coordinates('')
+                output()
 
 
     def makeform(root, fields):
@@ -96,6 +99,8 @@ def button2Click():
 
 def button3Click():
     # motion_control_scriptG.coordinate()
+    read_coordinates('old datas:')
+    output()
     button1.place(x=500, y=130, width=100, height=20)
     button2.place(x=500, y=170, width=100, height=20)
     button3.place(x=500, y=210, width=100, height=20)
@@ -109,11 +114,12 @@ def button3Click():
 
 def output():
     output_label = Message(master=frameGui, text=text)
-    output_label.config(bg='#A19BA2', anchor=N, font=('times', 24, 'italic'))
-    output_label.place(x=750, y=100, width=200, height=500)
+    output_label.config(bg='#E0ECF8', anchor=N, font=('times', 24, 'italic'))
+    output_label.place(x=200, y=450, width=650, height=250)
 
 
 def print(data):
+    global text
     text = data
 
 
@@ -125,6 +131,29 @@ def hide_navigate_buttons():
     button5.place_forget()
     button6.place_forget()
     button7.place_forget()
+
+
+def read_coordinates(data):
+    x,y,z,wait = motion_control_scriptG.read_coordinates()
+    global text
+    if(data == ''):
+        text = "x-coordinate: "+x+"\n"  \
+                                 "y-coordinate: "+y+"\n" \
+                                                     "z-coordinate: "+z+"\n" \
+                                                                       "time to wait: "+wait+""
+    else:
+        text = ""+data+"\n" \
+               "x-coordinate: " + x + "\n"  \
+                                          "y-coordinate: " + y + "\n" \
+                                                             "z-coordinate: " + z + "\n" \
+                                                                               "time to wait: " + wait+""
+
+
+def test():
+    motion_control_scriptG.printScript2(),
+    print('print script')
+    read_coordinates('new coordinates')
+    output()
 
 
 # create the window
@@ -153,9 +182,8 @@ image1 = ImageTk.PhotoImage(Image.open("../Bilder_BSP/filter1.jpg"))
 labelImg = Label(master=frameGui, image=image1, bg='#BDBDBD')
 labelImg.place(x=350, y=100, width=350, height=200)
 
-
 # Button
-buttonMode = Button(master=toolbarY, text='start', fg='grey', command=buttonClick)
+buttonMode = Button(master=toolbarY, text='start', command=buttonClick)
 buttonMode.place(x=25, y=100, width=100, height=20)
 buttonMode1 = Button(master=toolbarY, text='automatic', command=button1Click)
 buttonMode1.place(x=25, y=140, width=100, height=20)
@@ -163,14 +191,15 @@ buttonMode2 = Button(master=toolbarY, text='coordinate', command=button2Click)
 buttonMode2.place(x=25, y=180, width=100, height=20)
 buttonMode3 = Button(master=toolbarY, text='navigate', command=button3Click)
 buttonMode3.place(x=25, y=220, width=100, height=20)
-button1 = Button(master=frameGui, text='oben', command=motion_control_scriptG.up())
-button2 = Button(master=frameGui, text='links', command=motion_control_scriptG.left())
-button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.right())
-button4 = Button(master=frameGui, text='unten', command=motion_control_scriptG.down())
-button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wait(3))
+button1 = Button(master=frameGui, text='oben', command=motion_control_scriptG.up)
+button2 = Button(master=frameGui, text='links', command=motion_control_scriptG.left)
+button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.right)
+button4 = Button(master=frameGui, text='unten', command=motion_control_scriptG.down)
+button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wait(3)) # funktioniert nicht
 button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait(5))
-button7 = Button(master=frameGui, text='print script', command=(motion_control_scriptG.printScript2(),
-                                                                    print('print script'),output))  # funktioniert nicht
+# button7 = Button(master=frameGui, text='print script', command=(motion_control_scriptG.printScript2(),
+#                                                                     print('print script'))) # funktioniert nicht
+button7 = Button(master=frameGui, text='print script', command=test)
 # buttonModeTest = Button(master=frameGui, text='test', command=output)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tkFenster, text="Beenden", command=tkFenster.quit, bg='#BDBDBD')

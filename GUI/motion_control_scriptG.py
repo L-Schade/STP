@@ -4,7 +4,7 @@ z = None
 wait = None
 
 
-def readCoordinates():
+def read_coordinates():
     file = open("coordinates.txt")
     index = 0
     for line in file:
@@ -43,7 +43,7 @@ def printScript1(x,y,z,wait):
 
 
 def printScript2():
-    x,y,z,wait = readCoordinates()
+    x,y,z,wait = read_coordinates()
     file = open("script.mcs", "w")
     file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
     file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
@@ -75,27 +75,27 @@ def coordinate(x,y,z,wait):
 
 
 def up():
-    x,y,z,wait = readCoordinates()
+    x,y,z,wait = read_coordinates()
     x = int(x)+1
     # printScript()
     saveCoordinates(x,y,z,wait)
 
 def left():
-    x, y, z, wait = readCoordinates()
+    x, y, z, wait = read_coordinates()
     y = int(y) + 1
     # printScript()
     saveCoordinates(x, y, z, wait)
 
 
 def right():
-    x,y,z, wait = readCoordinates()
+    x,y,z, wait = read_coordinates()
     z = int(z)+1
     # printScript()
     saveCoordinates(x,y,z,wait)
 
 
 def down():
-    x,y,z, wait = readCoordinates()
+    x,y,z, wait = read_coordinates()
     x = int(x)+1
     y = int(y)+1
     # printScript()
@@ -105,6 +105,6 @@ def down():
 # werte muessen noch an globale Variablen uebergeben werden
 def wait(sec):
     # global wait
-    x, y, z, wait = readCoordinates()
+    x, y, z, wait = read_coordinates()
     wait = sec
     saveCoordinates(x,y,z,wait)
