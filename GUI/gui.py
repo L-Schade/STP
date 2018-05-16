@@ -134,8 +134,17 @@ tkFenster.geometry('1000x1000')
 
 
 # background
-frameGui = Frame(master=tkFenster, bg='#086A87')
+frameGui = Frame(master=tkFenster, bg='#A9BCF5')
 frameGui.place( width=1000, height=1000)    # x=5, y=5 border
+
+
+# toolbar
+toolbarY = Frame(tkFenster, bg='#084B8A')
+# toolbar.pack(side=TOP, fill=X, padx=10)
+toolbarY.place(x=0, y=0, width=150, height=1000)
+toolbarYY = Frame(tkFenster, bg='#084B8A')
+# toolbar.pack(side=TOP, fill=X, padx=10)
+toolbarYY.place(x=900, y=0, width=100, height=1000)
 
 
 # Images
@@ -146,14 +155,14 @@ labelImg.place(x=350, y=100, width=350, height=200)
 
 
 # Button
-buttonMode = Button(master=frameGui, text='start', command=buttonClick)
-buttonMode.place(x=50, y=100, width=100, height=20)
-buttonMode1 = Button(master=frameGui, text='automatic', command=button1Click)
-buttonMode1.place(x=50, y=140, width=100, height=20)
-buttonMode2 = Button(master=frameGui, text='coordinate', command=button2Click)
-buttonMode2.place(x=50, y=180, width=100, height=20)
-buttonMode3 = Button(master=frameGui, text='navigate', command=button3Click)
-buttonMode3.place(x=50, y=220, width=100, height=20)
+buttonMode = Button(master=toolbarY, text='start', fg='grey', command=buttonClick)
+buttonMode.place(x=25, y=100, width=100, height=20)
+buttonMode1 = Button(master=toolbarY, text='automatic', command=button1Click)
+buttonMode1.place(x=25, y=140, width=100, height=20)
+buttonMode2 = Button(master=toolbarY, text='coordinate', command=button2Click)
+buttonMode2.place(x=25, y=180, width=100, height=20)
+buttonMode3 = Button(master=toolbarY, text='navigate', command=button3Click)
+buttonMode3.place(x=25, y=220, width=100, height=20)
 button1 = Button(master=frameGui, text='oben', command=motion_control_scriptG.up())
 button2 = Button(master=frameGui, text='links', command=motion_control_scriptG.left())
 button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.right())
@@ -165,7 +174,7 @@ button7 = Button(master=frameGui, text='print script', command=(motion_control_s
 # buttonModeTest = Button(master=frameGui, text='test', command=output)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tkFenster, text="Beenden", command=tkFenster.quit, bg='#BDBDBD')
-exit_button.place(x=875, y=20, width=100, height=20)
+exit_button.place(x=920, y=20, width=60, height=20)
 
 
 # label
