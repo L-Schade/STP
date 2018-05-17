@@ -63,7 +63,7 @@ def onclick(event):
            event.x, event.y, event.xdata, event.ydata))
     x = event.xdata
     y = event.ydata
-    global pointC
+    global pointC, cid
     pointC = [x,y]
     plt.close()
     plt.disconnect(cid)

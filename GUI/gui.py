@@ -22,6 +22,7 @@ def buttonClick():
 def button1Click():
     hide_navigate_buttons()
     labelImg.place_forget()
+    labelImg.place(x=250, y=150, width=500, height=250)
     motion_control_scriptG.automatic()
     point, dist = edge_detectionG.execute("../Bilder_BSP/filter1.jpg")
     global text
@@ -164,6 +165,11 @@ def test():
     output_label()
 
 
+def load_image():
+    img = edge_detectionG.edges(edge_detectionG.loadImage("../Bilder_BSP/filter1.jpg"))
+    return img
+
+
 # create the window
 tkFenster = Tk()
 tkFenster.title('GUI')
@@ -194,6 +200,9 @@ image1 = ImageTk.PhotoImage(Image.open("../Bilder_BSP/filter1.jpg"))
 # Label for images
 labelImg = Label(master=frameGui, image=image1, bg='white')
 labelImg.place(x=325, y=100, width=350, height=200)
+# labelImg1 = Label(master=frameGui, image=edge_detectionG.edges(edge_detectionG.loadImage("../Bilder_BSP/filter1.jpg")
+#                                                                  , bg='white')
+# labelImg1 = Label(master=frameGui, image=load_image(), bg='white')
 
 # Button
 buttonMode = Button(master=toolbarY, text='start', command=buttonClick)
