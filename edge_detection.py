@@ -70,13 +70,12 @@ def onclick(event):
 
 def execute():
     # ???
-    fig, ax = plt.subplots()
-    ax.plot(np.random.rand(10))
-    cid = fig.canvas.mpl_connect('button_press_event', onclick)
-
+    # fig, ax = plt.subplots()
+    # ax.plot(np.random.rand(10))
+    # cid = fig.canvas.mpl_connect('button_press_event', onclick)
+    plt.connect('button_press_event', onclick)
 
     imageName = "Bilder_BSP/filter1.jpg"
-
 
     # function execute
     img = loadImage(imageName)

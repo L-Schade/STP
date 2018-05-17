@@ -7,14 +7,14 @@ from matplotlib import pyplot as plt
 import distance_calculator
 
 pointC = None
-
+cid = None
 
 def loadImage(titel):
     img = Image.open(titel)
     return img
 
 
-#wirklich noetig???
+# wirklich noetig???
 def imageSize(image):
     width, height = image.size
     return width,height
@@ -37,7 +37,7 @@ def contour(image):
     return img
 
 
-def pixelColorSearch(image, color):
+def pixel_color_search(image, color):
     index = 0
     x, y = image.size
     for px in range(0,x):
@@ -65,24 +65,19 @@ def onclick(event):
     y = event.ydata
     global pointC
     pointC = [x,y]
-    # print(pointC)
     plt.close()
+    plt.disconnect(cid)
 
 
 def execute(imageName):
-    # ???
-    fig, ax = plt.subplots()
-    ax.plot(np.random.rand(10))
-    cid = fig.canvas.mpl_connect('button_press_event', onclick)
+    global cid
+    cid = plt.connect('button_press_event', onclick)
 
-    # imageName = "../Bilder_BSP/filter1.jpg"
-
+    # bleibt hier haengen
     img = loadImage(imageName)
     edgesImg = edges(img)
-    # contourImg = contour(img)
 
-    # print(pointC)
-    # print(focus(img))
+    print("test")
     distance = distance_calculator.distance(focus(img),pointC)
-    # print (distance)
-    print('Abstand von {} zum Mittelpunkt: {}'.format(pointC,distance))
+    print(distance)
+    return pointC, distance

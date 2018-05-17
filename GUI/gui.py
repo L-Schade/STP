@@ -15,15 +15,18 @@ def buttonClick():
     hide_navigate_buttons()
     labelImg.place_forget()
     # buttonModeTest.place_forget()
-    read_coordinates('')
-    output()
+    read_coordinates('old position:')
+    output_label()
 
 
 def button1Click():
     hide_navigate_buttons()
     labelImg.place_forget()
     motion_control_scriptG.automatic()
-    edge_detectionG.execute("../Bilder_BSP/filter1.jpg")
+    point, dist = edge_detectionG.execute("../Bilder_BSP/filter1.jpg")
+    global text
+    text = "Abstand von {} zum Mittelpunkt: {}".format(point,dist)
+    output_label()
 
 
 def button2Click():
@@ -67,8 +70,8 @@ def button2Click():
                 index = 0
                 motion_control_scriptG.printScript1(x,y,z,wait)
                 motion_control_scriptG.saveCoordinates(x,y,z,wait)
-                read_coordinates('')
-                output()
+                read_coordinates('new coordinates:')
+                output_label()
 
 
     def makeform(root, fields):
@@ -100,7 +103,7 @@ def button2Click():
 def button3Click():
     # motion_control_scriptG.coordinate()
     read_coordinates('old datas:')
-    output()
+    output_label()
     button1.place(x=500, y=130, width=100, height=20)
     button2.place(x=500, y=170, width=100, height=20)
     button3.place(x=500, y=210, width=100, height=20)
@@ -108,19 +111,19 @@ def button3Click():
     button5.place(x=505, y=290, width=40, height=20)
     button6.place(x=555, y=290, width=40, height=20)
     button7.place(x=500, y=330, width=100, height=20)
-    output()
+    output_label()
     labelImg.place_forget()
 
 
-def output():
-    output_label = Message(master=frameGui, text=text)
-    output_label.config(bg='#E0ECF8', anchor=N, font=('times', 24, 'italic'))
-    output_label.place(x=200, y=450, width=650, height=250)
+def output_label():
+    output_lab = Message(master=frameGui, text=text)
+    output_lab.config(bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    output_lab.place(x=200, y=450, width=650, height=250)
 
 
-def print(data):
-    global text
-    text = data
+# def print(data):
+    # global text
+    # text = data
 
 
 def hide_navigate_buttons():
@@ -149,11 +152,16 @@ def read_coordinates(data):
                                                                                "time to wait: " + wait+""
 
 
+def automatic_output(data):
+    global text
+    text = data
+
+
 def test():
     motion_control_scriptG.printScript2(),
     print('print script')
     read_coordinates('new coordinates')
-    output()
+    output_label()
 
 
 # create the window
@@ -176,11 +184,16 @@ toolbarYY = Frame(tkFenster, bg='#084B8A')
 toolbarYY.place(x=900, y=0, width=100, height=1000)
 
 
+# label
+my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='white') # bg='#BDBDBD'
+my_label.place(x=325, y=20, width=350, height=30)
+
+
 # Images
 image1 = ImageTk.PhotoImage(Image.open("../Bilder_BSP/filter1.jpg"))
 # Label for images
-labelImg = Label(master=frameGui, image=image1, bg='#BDBDBD')
-labelImg.place(x=350, y=100, width=350, height=200)
+labelImg = Label(master=frameGui, image=image1, bg='white')
+labelImg.place(x=325, y=100, width=350, height=200)
 
 # Button
 buttonMode = Button(master=toolbarY, text='start', command=buttonClick)
@@ -200,15 +213,11 @@ button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wa
 # button7 = Button(master=frameGui, text='print script', command=(motion_control_scriptG.printScript2(),
 #                                                                     print('print script'))) # funktioniert nicht
 button7 = Button(master=frameGui, text='print script', command=test)
-# buttonModeTest = Button(master=frameGui, text='test', command=output)
+# buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tkFenster, text="Beenden", command=tkFenster.quit, bg='#BDBDBD')
 exit_button.place(x=920, y=20, width=60, height=20)
 
-
-# label
-my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='#BDBDBD')
-my_label.place(x=325, y=20, width=350, height=30)
 
 # coordinate
 eingabefeld = Entry(tkFenster, bd=5, width=45)

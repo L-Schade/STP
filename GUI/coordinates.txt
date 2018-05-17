@@ -1,4 +1,4 @@
-82
-43
-24
-5
+None
+None
+None
+<function wait at 0x7f1f0137b048>
