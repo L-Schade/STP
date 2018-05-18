@@ -3,8 +3,9 @@ from PIL import Image, ImageTk
 from random import randint
 import sys
 import os
+# import "/home/lisa/Dokumente/Uni/5_Semester/Automatische_Werkzeug-Kontakt_Detektion/STP/GUI/motion_control_scriptG""
 import motion_control_scriptG
-import functionsG
+# import functionsG
 import edge_detectionG
 
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
@@ -91,12 +92,11 @@ def button2Click():
     if __name__ == '__main__':
         root = Tk()
         root.title('Eingabe der Werte')
-        # tkFenster.title('Angabe der Werte')
         ents = makeform(root, fields)
         root.bind('<Return>', (lambda event, e=ents: fetch(e)))
         b1 = Button(root, text='print script',command=(lambda e=ents: fetch(e))) # command=motion_control_scriptG.printScript()
         b1.pack(side=LEFT, padx=5, pady=5)
-        b2 = Button(root, text='Quit', command=root.quit)
+        b2 = Button(root, text='quit', command=root.quit)
         b2.pack(side=LEFT, padx=5, pady=5)
         root.mainloop()
 

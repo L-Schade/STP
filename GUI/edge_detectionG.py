@@ -79,5 +79,7 @@ def execute(imageName):
 
     print("test")
     distance = distance_calculator.distance(focus(img),pointC)
+    dist = distance_calculator.dist(focus(img),pointC)
+    print(dist)
     print(distance)
     return pointC, distance
