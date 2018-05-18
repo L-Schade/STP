@@ -96,7 +96,7 @@ def button2Click():
         root.bind('<Return>', (lambda event, e=ents: fetch(e)))
         b1 = Button(root, text='print script',command=(lambda e=ents: fetch(e))) # command=motion_control_scriptG.printScript()
         b1.pack(side=LEFT, padx=5, pady=5)
-        b2 = Button(root, text='quit', command=root.quit)
+        b2 = Button(root, text='quit', command=root.destroy)
         b2.pack(side=LEFT, padx=5, pady=5)
         root.mainloop()
 
@@ -224,7 +224,7 @@ button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wa
 button7 = Button(master=frameGui, text='print script', command=test)
 # buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
-exit_button = Button(tkFenster, text="Beenden", command=tkFenster.quit, bg='#BDBDBD')
+exit_button = Button(tkFenster, text="Beenden", command=tkFenster.destroy, bg='#BDBDBD')
 exit_button.place(x=920, y=20, width=60, height=20)
 
 
