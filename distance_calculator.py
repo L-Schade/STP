@@ -8,11 +8,15 @@ def distance(pointA,pointB):
    return dist
 
 
+def distance_image(dist):
+    distance = dist
+    return distance
+
+
 def dist(pointA,pointB):
     distX = pointA[0]-pointB[0]
     distY = pointA[1]-pointB[1]
     return distX, distY
-
 
 
 def calculate_line(pointA,pointB):

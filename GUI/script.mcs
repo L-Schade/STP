@@ -1,6 +1,6 @@
 UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); 
-SetAngle( None,None,None );  # sets pitch, roll, yaw, in degrees 
-Wait( <function wait at 0x7fc35ffe80d0> );  # waits <function wait at 0x7fc35ffe80d0> seconds 
+SetAngle( 66,6,6 );  # sets pitch, roll, yaw, in degrees 
+Wait( 6 );  # waits 6 seconds 
 DoCamera('Shutter');  # ??? 
 RecenterCamera();  # recenters all three axes
 TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );

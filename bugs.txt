@@ -2,19 +2,22 @@ bugs
 
 gui:
 	home:
-		sofort schließen des Fensters bei beenden, nicht 2 mal klicken müssen
+	
 
 	start:	
 	
 
 	automatic:
-		Ausgabe nach Bild anklicken öffnen/ anzeigen
+		
 
 	coordinate:
-		quit nur kleines Fenster schließen, nicht alles
+		
 	
 	navigate:
-		time to wait richtig übergeben
+		
+	
+	*:
+		output_lab wieder entfernen
 
 matlab:
 	

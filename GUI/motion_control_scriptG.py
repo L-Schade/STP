@@ -102,9 +102,13 @@ def down():
     saveCoordinates(x,y,z,wait)
 
 
-# werte muessen noch an globale Variablen uebergeben werden
-def wait(sec):
-    # global wait
+def wait3():
     x, y, z, wait = read_coordinates()
-    wait = sec
+    wait = 3
+    saveCoordinates(x,y,z,wait)
+
+
+def wait5():
+    x, y, z, wait = read_coordinates()
+    wait = 5
     saveCoordinates(x,y,z,wait)

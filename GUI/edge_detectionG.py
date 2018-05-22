@@ -8,6 +8,7 @@ import distance_calculator
 
 pointC = None
 cid = None
+fig = None
 
 def loadImage(titel):
     img = Image.open(titel)
@@ -24,8 +25,9 @@ def edges(image):
     #img = image.filter(ImageFilter.EDGE_ENHANCE)
     img = image.filter(ImageFilter.FIND_EDGES)
     #img.show(title=edges,command=edges)
-    plt.imshow(img)
-    plt.show()
+    global fig
+    fig = plt.imshow(img)
+    plt.show(fig)
     return img
 
 
@@ -63,19 +65,24 @@ def onclick(event):
            event.x, event.y, event.xdata, event.ydata))
     x = event.xdata
     y = event.ydata
-    global pointC, cid
+    global pointC, cid, fig
     pointC = [x,y]
-    plt.close()
+    # Fehler, erkennt nicht das plot-Fenster geschlossen wurde, oder denkt das gui auch geschlossen werden muss
+    plt.close('all')
     plt.disconnect(cid)
+    print('test')
 
 
 def execute(imageName):
     global cid
     cid = plt.connect('button_press_event', onclick)
+    # cid = fig.canvas.mpl_connect('button_press_event', onclick)
 
-    # bleibt hier haengen
+    print('test')
     img = loadImage(imageName)
+    print('test')
     edgesImg = edges(img)
+    print('test')
 
     print("test")
     distance = distance_calculator.distance(focus(img),pointC)
