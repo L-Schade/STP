@@ -1,18 +1,13 @@
 from tkinter import *   # python 2.7 Tkinter
 from PIL import Image, ImageTk
-from random import randint
-import sys
-import os
-# import "/home/lisa/Dokumente/Uni/5_Semester/Automatische_Werkzeug-Kontakt_Detektion/STP/GUI/motion_control_scriptG""
 import motion_control_scriptG
-# import functionsG
-import edge_detectionG
 import distance_calculator
-
-
+# import functionsG
+# import edge_detectionG
 
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
+images = []
 text = "Ausgabe"
 x = None
 y = None
@@ -48,13 +43,14 @@ def buttonClick():
     hide_coordinate_buttons()
     labelImg.place_forget()
     # buttonModeTest.place_forget()
-    read_coordinates('old position:')
+    read_coordinates('alte Position:')
     output_label()
 
 
 def button1Click():
     hide_navigate_buttons()
     hide_coordinate_buttons()
+    output_lab.place_forget()
     labelImg.place_forget()
 
     # click_event
@@ -79,6 +75,7 @@ def button1Click():
 def button2Click():
     hide_navigate_buttons()
     hide_automatic_windows()
+    output_lab.place_forget()
     labelImg.place_forget()
     # output_lab.place_forget()
     # toolbar_yy.place(x=150, y=0, width=150, height=1000)
@@ -127,7 +124,7 @@ def button21click():
                 # noch Funktion zum "Umrechnen" einbauen
                 motion_control_scriptG.printScript1(x,y,z,wait)
                 motion_control_scriptG.saveCoordinates(x,y,z,wait)
-                read_coordinates('new coordinates:')
+                read_coordinates('neue Koordinaten:')
                 output_label()
 
 
@@ -179,7 +176,7 @@ def button22click():
                 index = 0
                 motion_control_scriptG.printScript1(x,y,z,wait)
                 motion_control_scriptG.saveCoordinates(x,y,z,wait)
-                read_coordinates('new angle position:')
+                read_coordinates('neue Position:')
                 output_label()
 
 
@@ -211,24 +208,64 @@ def button22click():
 def button3Click():
     hide_automatic_windows()
     hide_coordinate_buttons()
-    # motion_control_scriptG.coordinate()
-    read_coordinates('old datas:')
-    output_label()
-    button1.place(x=500, y=130, width=100, height=20)
-    button2.place(x=500, y=170, width=100, height=20)
-    button3.place(x=500, y=210, width=100, height=20)
-    button4.place(x=500, y=250, width=100, height=20)
-    button5.place(x=505, y=290, width=40, height=20)
-    button6.place(x=555, y=290, width=40, height=20)
-    button7.place(x=500, y=330, width=100, height=20)
-    output_label()
     labelImg.place_forget()
+    # motion_control_scriptG.coordinate()
+    read_coordinates('alte Daten:')
+    output_label()
+    button1.place(x=250, y=100, width=100, height=20)
+    button2.place(x=175, y=140, width=100, height=20)
+    button3.place(x=325, y=140, width=100, height=20)
+    button4.place(x=250, y=180, width=100, height=20)
+    button5.place(x=235, y=230, width=40, height=20)
+    button6.place(x=325, y=230, width=40, height=20)
+    button7.place(x=250, y=290, width=100, height=20)
+    labelImg2.place(x=500, y=110, width=350, height= 190)
+    output_label()
+
+
+def button4click():
+    labelImg.place_forget()
+    hide_automatic_windows()
+    hide_navigate_buttons()
+    hide_coordinate_buttons()
+    output_lab.place_forget()
+
+    print("lade Bilder")
+    output('lade Bilder...')
+    output_label()
+    buttonImg1.place(x=200, y=100, width=175, height=100)
 
 
 def output_label():
-    output_lab = Message(master=frameGui, text=text)
-    output_lab.config(bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    # output_lab = Message(master=frameGui)
+    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=200, y=450, width=650, height=250)
+
+
+def output(data):
+    global text
+    text = data
+
+def read_coordinates(data):
+    x,y,z,wait = motion_control_scriptG.read_coordinates()
+    global text
+    if(data == ''):
+        text = "x-Koordinate: "+x+"\n"  \
+                                 "y-Koordinate: "+y+"\n" \
+                                                     "z-Koordinate "+z+"\n" \
+                                                                       "time to wait: "+wait+""
+    elif (data == 'new angle position:'):
+        text = "pitch: " + x + "\n" \
+                                      "roll: " + y + "\n" \
+                                                             "yaw: " + z + "\n" \
+                                                                                    "time to wait: " + wait + ""
+    else:
+        text = ""+data+"\n" \
+               "x-Koordinate: " + x + "\n"  \
+                                          "y-Koordinate: " + y + "\n" \
+                                                             "z-Koordinate: " + z + "\n" \
+                                                                               "time to wait: " + wait+""
+
 
 
 # def print(data):
@@ -244,6 +281,7 @@ def hide_navigate_buttons():
     button5.place_forget()
     button6.place_forget()
     button7.place_forget()
+    labelImg2.place_forget()
 
 
 def hide_automatic_windows():
@@ -256,42 +294,27 @@ def hide_coordinate_buttons():
     buttonMode22.place_forget()
 
 
-def read_coordinates(data):
-    x,y,z,wait = motion_control_scriptG.read_coordinates()
-    global text
-    if(data == ''):
-        text = "x-coordinate: "+x+"\n"  \
-                                 "y-coordinate: "+y+"\n" \
-                                                     "z-coordinate: "+z+"\n" \
-                                                                       "time to wait: "+wait+""
-    elif (data == 'new angle position:'):
-        text = "pitch: " + x + "\n" \
-                                      "roll: " + y + "\n" \
-                                                             "yaw: " + z + "\n" \
-                                                                                    "time to wait: " + wait + ""
-    else:
-        text = ""+data+"\n" \
-               "x-coordinate: " + x + "\n"  \
-                                          "y-coordinate: " + y + "\n" \
-                                                             "z-coordinate: " + z + "\n" \
-                                                                               "time to wait: " + wait+""
-
-
 def automatic_output(data):
     global text
     text = data
 
 
-def test():
+def print_script():
     motion_control_scriptG.printScript2(),
     print('print script')
     read_coordinates('new coordinates')
     output_label()
 
 
-def load_image():
-    img = edge_detectionG.edges(edge_detectionG.loadImage("../Bilder_BSP/filter1.jpg"))
+def load_image(name):
+    img = ImageTk.PhotoImage(Image.open(name))
+    images.append(img)
     return img
+
+def resized_image(img,h,w):
+    resized = img.resize((h, w), Image.ANTIALIAS)
+    image = ImageTk.PhotoImage(resized)
+    return image
 
 
 # create the window
@@ -299,11 +322,9 @@ tkFenster = Tk()
 tkFenster.title('GUI')
 tkFenster.geometry('1000x1000')
 
-
 # background
-frameGui = Frame(master=tkFenster, bg='#A9BCF5')
+frameGui =Frame(master=tkFenster, bg='#A9BCF5')
 frameGui.place( width=1000, height=1000)    # x=5, y=5 border
-
 
 # toolbar
 toolbar_y = Frame(tkFenster, bg='#084B8A')
@@ -315,6 +336,10 @@ toolbar_yyy = Frame(tkFenster, bg='#084B8A')
 # toolbar.pack(side=TOP, fill=X, padx=10)
 toolbar_yyy.place(x=900, y=0, width=100, height=1000)
 
+#scrollbar
+# scrollbar = Scrollbar(toolbar_yyy)
+# scrollbar.pack(side = RIGHT, fill = Y)
+
 # label
 my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='white') # bg='#BDBDBD'
 my_label.place(x=325, y=20, width=350, height=30)
@@ -325,12 +350,20 @@ frame = Frame(master=frameGui, bg='white')
 # Images
 image1 = ImageTk.PhotoImage(Image.open("../Bilder_BSP/filter1.jpg"))
 image2 = ImageTk.PhotoImage(Image.open("../Matlab/bild3.png"))
+image3 = ImageTk.PhotoImage(Image.open("../Matlab/bild4.png"))
+image4 = ImageTk.PhotoImage(Image.open("../Matlab/Bilder/2018_05_24_14_47_27_669.jpg"))
+image5 = Image.open('../Matlab/Bilder/2018_05_24_14_47_27_669.png')
+img = resized_image(image5,300,150)
+load_image("../Matlab/Bilder/2018_05_24_14_43_25_647.png")
+
 # Label for images
-labelImg = Label(master=frameGui, image=image1, bg='white')
+labelImg = Label(master=frameGui, image=img, bg='white', state=NORMAL)
+labelImg.Image = image4
 labelImg.place(x=325, y=100, width=350, height=200)
 # labelImg1 = Label(master=frameGui, image=edge_detectionG.edges(edge_detectionG.loadImage("../Bilder_BSP/filter1.jpg")
 #                                                                  , bg='white')
 labelImg1 = Label(master=frame, image=image2, bg='white')
+labelImg2 = Label(master=frameGui, image=image3, bg='white')
 
 # Button
 buttonMode = Button(master=toolbar_y, text='start', command=buttonClick)
@@ -343,6 +376,8 @@ buttonMode21 = Button(master=frameGui, text='Koordinaten: x,y,z', command=button
 buttonMode22 = Button(master=frameGui, text='Winkel', command=button22click)
 buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3Click)
 buttonMode3.place(x=25, y=220, width=100, height=20)
+buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4click)
+buttonMode4.place(x=25, y=260, width=100, height=20)
 button1 = Button(master=frameGui, text='oben', command=motion_control_scriptG.up)
 button2 = Button(master=frameGui, text='links', command=motion_control_scriptG.left)
 button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.right)
@@ -351,7 +386,8 @@ button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wa
 button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait5)
 # button7 = Button(master=frameGui, text='print script', command=(motion_control_scriptG.printScript2(),
 #                                                                     print('print script'))) # funktioniert nicht
-button7 = Button(master=frameGui, text='print script', command=test)
+button7 = Button(master=frameGui, text='print script', command=print_script)
+buttonImg1 = Button(master=frameGui,image=images[0])
 # buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tkFenster, text="Beenden", command=tkFenster.destroy, bg='#BDBDBD')
@@ -362,7 +398,7 @@ eingabefeld = Entry(tkFenster, bd=5, width=45)
 text_label = Label(tkFenster)
 
 # output
-# output_lab = Message(master=frameGui, text=text)
+output_lab = Message(master=frameGui)
 
 # activation the window
 tkFenster.mainloop()

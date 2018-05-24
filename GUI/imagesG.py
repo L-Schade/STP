@@ -1,7 +1,7 @@
 #python 3 Problem mit "pychairo" auf dem raspPi
 from PIL import Image
 from PIL import ImageFilter
-from PIL import ImageColor
+from PIL import *
 import numpy as np
 from matplotlib import pyplot as plt
 import distance_calculator
@@ -59,34 +59,18 @@ def focus(image):
     return x
 
 
-def onclick(event):
-    print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
-          ('double' if event.dblclick else 'single', event.button,
-           event.x, event.y, event.xdata, event.ydata))
-    x = event.xdata
-    y = event.ydata
-    global pointC, cid, fig
-    pointC = [x,y]
-    # Fehler, erkennt nicht das plot-Fenster geschlossen wurde, oder denkt das gui auch geschlossen werden muss
-    plt.close('all')
-    plt.disconnect(cid)
-    print('test')
+def save_to_jpg(name):
+    im = Image.new("RGB", (128, 128))
+    im = Image.open('../Matlab/Bilder/'+name+'.png')
+    im.save('../Matlab/Bilder/'+name+'.jpg')
 
 
-def execute(imageName):
-    global cid
-    cid = plt.connect('button_press_event', onclick)
-    # cid = fig.canvas.mpl_connect('button_press_event', onclick)
+def new_size(name):
+    size = 128, 128
+    im = Image.open('../Matlab/Bilder/'+name+'.png')
+    im.thumbnail(size, Image.BICUBIC)
+    im.save('../Matlab/Bilder/'+name+'.', "JPEG")
 
-    print('test')
-    img = loadImage(imageName)
-    print('test')
-    edgesImg = edges(img)
-    print('test')
 
-    print("test")
-    distance = distance_calculator.distance(focus(img),pointC)
-    dist = distance_calculator.dist(focus(img),pointC)
-    print(dist)
-    print(distance)
-    return pointC, distance
+save_to_jpg('2018_05_24_14_47_27_669')
+new_size('2018_05_24_14_47_27_669')
