@@ -3,7 +3,7 @@ from PIL import Image, ImageTk
 import motion_control_scriptG
 import distance_calculator
 # import functionsG
-# import edge_detectionG
+import imagesG
 
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
@@ -38,9 +38,10 @@ def click(event):
 
 # event function
 def buttonClick():
-    hide_navigate_buttons()
     hide_automatic_windows()
     hide_coordinate_buttons()
+    hide_navigate_buttons()
+    hide_images_buttons()
     labelImg.place_forget()
     # buttonModeTest.place_forget()
     read_coordinates('alte Position:')
@@ -48,8 +49,9 @@ def buttonClick():
 
 
 def button1Click():
-    hide_navigate_buttons()
     hide_coordinate_buttons()
+    hide_navigate_buttons()
+    hide_images_buttons()
     output_lab.place_forget()
     labelImg.place_forget()
 
@@ -73,8 +75,9 @@ def button1Click():
 
 
 def button2Click():
-    hide_navigate_buttons()
     hide_automatic_windows()
+    hide_navigate_buttons()
+    hide_images_buttons()
     output_lab.place_forget()
     labelImg.place_forget()
     # output_lab.place_forget()
@@ -208,6 +211,7 @@ def button22click():
 def button3Click():
     hide_automatic_windows()
     hide_coordinate_buttons()
+    hide_images_buttons()
     labelImg.place_forget()
     # motion_control_scriptG.coordinate()
     read_coordinates('alte Daten:')
@@ -232,8 +236,21 @@ def button4click():
 
     print("lade Bilder")
     output('lade Bilder...')
-    output_label()
-    buttonImg1.place(x=200, y=100, width=175, height=100)
+    output_label_img()
+
+    # scrollbar.pack(side=RIGHT, fill=Y)
+    # buttonBox.place(x=150, y=275, width=750, height=6800)
+    # scrollbar.config(command=buttonBox.yview)
+
+    buttonImg1.place(x=200, y=300, width=175, height=100)
+    buttonImg2.place(x=437.5, y=300, width=175, height=100)
+    buttonImg3.place(x=675, y=300, width=175, height=100)
+    buttonImg4.place(x=200, y=425, width=175, height=100)
+    buttonImg5.place(x=437.5, y=425, width=175, height=100)
+    buttonImg6.place(x=675, y=425, width=175, height=100)
+    buttonImg7.place(x=200, y=550, width=175, height=100)
+    buttonImg8.place(x=437.5, y=550, width=175, height=100)
+    buttonImg9.place(x=675, y=550, width=175, height=100)
 
 
 def output_label():
@@ -242,9 +259,16 @@ def output_label():
     output_lab.place(x=200, y=450, width=650, height=250)
 
 
+def output_label_img():
+    # output_lab = Message(master=frameGui)
+    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    output_lab.place(x=200, y=100, width=650, height=150)
+
+
 def output(data):
     global text
     text = data
+
 
 def read_coordinates(data):
     x,y,z,wait = motion_control_scriptG.read_coordinates()
@@ -265,7 +289,6 @@ def read_coordinates(data):
                                           "y-Koordinate: " + y + "\n" \
                                                              "z-Koordinate: " + z + "\n" \
                                                                                "time to wait: " + wait+""
-
 
 
 # def print(data):
@@ -294,9 +317,10 @@ def hide_coordinate_buttons():
     buttonMode22.place_forget()
 
 
-def automatic_output(data):
-    global text
-    text = data
+def hide_images_buttons():
+    buttonImg1.place_forget()
+    buttonImg2.place_forget()
+    buttonImg3.place_forget()
 
 
 def print_script():
@@ -307,14 +331,31 @@ def print_script():
 
 
 def load_image(name):
-    img = ImageTk.PhotoImage(Image.open(name))
+    # img = ImageTk.PhotoImage(Image.open(name))
+    img =  Image.open("../Matlab/Bilder/"+name)
+    img = resized_image(img,175,100)
     images.append(img)
     return img
+
+
+def load_image_resized(name):
+    img = Image.open("../Matlab/Bilder/" + name)
+    img = resized_image(img, 175, 100)
+    images.append(img)
+    return img
+
 
 def resized_image(img,h,w):
     resized = img.resize((h, w), Image.ANTIALIAS)
     image = ImageTk.PhotoImage(resized)
     return image
+
+
+def list_images(max):
+    imageNames = imagesG.list_images(max)
+    print(imageNames)
+    for image in imageNames:
+        load_image(image)
 
 
 # create the window
@@ -337,8 +378,8 @@ toolbar_yyy = Frame(tkFenster, bg='#084B8A')
 toolbar_yyy.place(x=900, y=0, width=100, height=1000)
 
 #scrollbar
-# scrollbar = Scrollbar(toolbar_yyy)
-# scrollbar.pack(side = RIGHT, fill = Y)
+# scrollbar = Scrollbar(tkFenster)
+# buttonBox = Listbox(tkFenster, yscrollcommand = scrollbar.set )
 
 # label
 my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='white') # bg='#BDBDBD'
@@ -348,13 +389,14 @@ my_label.place(x=325, y=20, width=350, height=30)
 frame = Frame(master=frameGui, bg='white')
 
 # Images
+list_images(4)
 image1 = ImageTk.PhotoImage(Image.open("../Bilder_BSP/filter1.jpg"))
 image2 = ImageTk.PhotoImage(Image.open("../Matlab/bild3.png"))
 image3 = ImageTk.PhotoImage(Image.open("../Matlab/bild4.png"))
 image4 = ImageTk.PhotoImage(Image.open("../Matlab/Bilder/2018_05_24_14_47_27_669.jpg"))
 image5 = Image.open('../Matlab/Bilder/2018_05_24_14_47_27_669.png')
 img = resized_image(image5,300,150)
-load_image("../Matlab/Bilder/2018_05_24_14_43_25_647.png")
+#imgAk = resized_image(images[0],300,150)
 
 # Label for images
 labelImg = Label(master=frameGui, image=img, bg='white', state=NORMAL)
@@ -362,8 +404,8 @@ labelImg.Image = image4
 labelImg.place(x=325, y=100, width=350, height=200)
 # labelImg1 = Label(master=frameGui, image=edge_detectionG.edges(edge_detectionG.loadImage("../Bilder_BSP/filter1.jpg")
 #                                                                  , bg='white')
-labelImg1 = Label(master=frame, image=image2, bg='white')
-labelImg2 = Label(master=frameGui, image=image3, bg='white')
+labelImg1 = Label(master=frame, image=image2, bg='white')           # automatic
+labelImg2 = Label(master=frameGui, image=image3, bg='white')        # navigate
 
 # Button
 buttonMode = Button(master=toolbar_y, text='start', command=buttonClick)
@@ -384,10 +426,17 @@ button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.
 button4 = Button(master=frameGui, text='unten', command=motion_control_scriptG.down)
 button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wait3)
 button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait5)
-# button7 = Button(master=frameGui, text='print script', command=(motion_control_scriptG.printScript2(),
-#                                                                     print('print script'))) # funktioniert nicht
 button7 = Button(master=frameGui, text='print script', command=print_script)
+# vlt die Anzahl noch variierbar machen?
 buttonImg1 = Button(master=frameGui,image=images[0])
+buttonImg2 = Button(master=frameGui,image=images[1])
+buttonImg3 = Button(master=frameGui,image=images[2])
+buttonImg4 = Button(master=frameGui,image=images[3])
+buttonImg5 = Button(master=frameGui)#,image=images[4])
+buttonImg6 = Button(master=frameGui)#,image=images[5])
+buttonImg7 = Button(master=frameGui)#,image=images[6])
+buttonImg8 = Button(master=frameGui)#,image=images[7])
+buttonImg9 = Button(master=frameGui)#,image=images[8])
 # buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tkFenster, text="Beenden", command=tkFenster.destroy, bg='#BDBDBD')

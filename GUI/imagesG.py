@@ -1,6 +1,6 @@
-#python 3 Problem mit "pychairo" auf dem raspPi
 from PIL import Image
 from PIL import ImageFilter
+import os
 from PIL import *
 import numpy as np
 from matplotlib import pyplot as plt
@@ -60,7 +60,6 @@ def focus(image):
 
 
 def save_to_jpg(name):
-    im = Image.new("RGB", (128, 128))
     im = Image.open('../Matlab/Bilder/'+name+'.png')
     im.save('../Matlab/Bilder/'+name+'.jpg')
 
@@ -72,5 +71,23 @@ def new_size(name):
     im.save('../Matlab/Bilder/'+name+'.', "JPEG")
 
 
-save_to_jpg('2018_05_24_14_47_27_669')
-new_size('2018_05_24_14_47_27_669')
+def list_images(max):
+   fileList = os.listdir('../Matlab/Bilder')
+   fileList.sort(reverse=True)
+   index = 0
+   for file in fileList:
+       if file.find('.png') == -1:
+           fileList.remove(file)
+       elif index == max:
+           fileList.remove(file)
+       else:
+           print(file)
+           index+=1
+   return fileList
+
+
+list = list_images(4)
+# print(list)
+
+# save_to_jpg('2018_05_24_14_47_27_669')
+# new_size('2018_05_24_14_47_27_669')
