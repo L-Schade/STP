@@ -1,0 +1,10 @@
+to do Software:
+
+GUI:
+	Bilddatei einlesen, aktuellste -> eigentlich fertig 
+		vlt. Auswahlmöglichkeit anbieten für Bilder zum Auswählen -> mittels Buttons realisiert
+			jedoch wie viel Buttons, immer feste Anzahl oder auswählbar machen?
+			scrollbar mit einbauen?
+	
+Matlab:
+	Matlabdatei verbessern, tastenabfrage
