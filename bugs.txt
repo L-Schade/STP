@@ -16,6 +16,8 @@ gui:
 	navigate:
 		
 	
+	bilder:
+
 	*:
 		output_lab wieder entfernen
 

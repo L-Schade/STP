@@ -86,8 +86,17 @@ def list_images(max):
    return fileList
 
 
+def latest_image():
+    fileList = os.listdir('../Matlab/Bilder')
+    fileList.sort(reverse=True)
+    # print(fileList[0])
+    return fileList[0]
+
+
+
 list = list_images(4)
 # print(list)
 
+latest_image()
 # save_to_jpg('2018_05_24_14_47_27_669')
 # new_size('2018_05_24_14_47_27_669')

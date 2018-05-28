@@ -8,6 +8,11 @@ import imagesG
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
 images = []
+image = None
+imageStart = None
+imageAutomatic = None
+imageNavigate = None
+index = None
 text = "Ausgabe"
 x = None
 y = None
@@ -59,7 +64,9 @@ def button1Click():
     frame.place(x=200, y=75, width=600, height=350)
     # frame.bind("<Button-1>", click)
 
+    labelImg1.config(image=imageAutomatic)
     labelImg1.place(x=50, y=50, width=500, height=250)
+    labelImg1.Image = imageNavigate
     labelImg1.bind("<Button-1>", click)
 
     global center
@@ -223,6 +230,7 @@ def button3Click():
     button5.place(x=235, y=230, width=40, height=20)
     button6.place(x=325, y=230, width=40, height=20)
     button7.place(x=250, y=290, width=100, height=20)
+    labelImg2.config(image=imageNavigate)
     labelImg2.place(x=500, y=110, width=350, height= 190)
     output_label()
 
@@ -251,6 +259,13 @@ def button4click():
     buttonImg7.place(x=200, y=550, width=175, height=100)
     buttonImg8.place(x=437.5, y=550, width=175, height=100)
     buttonImg9.place(x=675, y=550, width=175, height=100)
+
+
+def button_click_image():
+    global image
+    imageNames = imagesG.list_images(12)
+    image = load_image(imageNames[3])
+    reload_images()
 
 
 def output_label():
@@ -321,6 +336,12 @@ def hide_images_buttons():
     buttonImg1.place_forget()
     buttonImg2.place_forget()
     buttonImg3.place_forget()
+    buttonImg4.place_forget()
+    buttonImg5.place_forget()
+    buttonImg6.place_forget()
+    buttonImg7.place_forget()
+    buttonImg8.place_forget()
+    buttonImg9.place_forget()
 
 
 def print_script():
@@ -332,14 +353,13 @@ def print_script():
 
 def load_image(name):
     # img = ImageTk.PhotoImage(Image.open(name))
-    img =  Image.open("../Matlab/Bilder/"+name)
-    img = resized_image(img,175,100)
-    images.append(img)
+    img = Image.open("../Matlab/Bilder/" + name)
     return img
 
 
-def load_image_resized(name):
-    img = Image.open("../Matlab/Bilder/" + name)
+def load_images(name):          # buttons
+    # img = ImageTk.PhotoImage(Image.open(name))
+    img = Image.open("../Matlab/Bilder/"+name)
     img = resized_image(img, 175, 100)
     images.append(img)
     return img
@@ -355,7 +375,14 @@ def list_images(max):
     imageNames = imagesG.list_images(max)
     print(imageNames)
     for image in imageNames:
-        load_image(image)
+        load_images(image)
+
+
+def reload_images():
+    global image, imageStart, imageAutomatic, imageNavigate
+    imageStart = resized_image(image, 300, 150)  # latest image
+    imageAutomatic = resized_image(image, 500, 250)
+    imageNavigate = resized_image(image, 350, 190)
 
 
 # create the window
@@ -365,7 +392,7 @@ tkFenster.geometry('1000x1000')
 
 # background
 frameGui =Frame(master=tkFenster, bg='#A9BCF5')
-frameGui.place( width=1000, height=1000)    # x=5, y=5 border
+frameGui.place(width=1000, height=1000)    # x=5, y=5 border
 
 # toolbar
 toolbar_y = Frame(tkFenster, bg='#084B8A')
@@ -390,22 +417,15 @@ frame = Frame(master=frameGui, bg='white')
 
 # Images
 list_images(4)
-image1 = ImageTk.PhotoImage(Image.open("../Bilder_BSP/filter1.jpg"))
-image2 = ImageTk.PhotoImage(Image.open("../Matlab/bild3.png"))
-image3 = ImageTk.PhotoImage(Image.open("../Matlab/bild4.png"))
-image4 = ImageTk.PhotoImage(Image.open("../Matlab/Bilder/2018_05_24_14_47_27_669.jpg"))
-image5 = Image.open('../Matlab/Bilder/2018_05_24_14_47_27_669.png')
-img = resized_image(image5,300,150)
-#imgAk = resized_image(images[0],300,150)
+image = load_image(imagesG.latest_image())
+reload_images()
+im = load_image(imagesG.latest_image())
 
 # Label for images
-labelImg = Label(master=frameGui, image=img, bg='white', state=NORMAL)
-labelImg.Image = image4
+labelImg = Label(master=frameGui, image=imageStart, bg='white', state=NORMAL)
 labelImg.place(x=325, y=100, width=350, height=200)
-# labelImg1 = Label(master=frameGui, image=edge_detectionG.edges(edge_detectionG.loadImage("../Bilder_BSP/filter1.jpg")
-#                                                                  , bg='white')
-labelImg1 = Label(master=frame, image=image2, bg='white')           # automatic
-labelImg2 = Label(master=frameGui, image=image3, bg='white')        # navigate
+labelImg1 = Label(master=frame, bg='white')           # automatic
+labelImg2 = Label(master=frameGui, bg='white')        # navigate
 
 # Button
 buttonMode = Button(master=toolbar_y, text='start', command=buttonClick)
@@ -428,10 +448,10 @@ button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wa
 button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait5)
 button7 = Button(master=frameGui, text='print script', command=print_script)
 # vlt die Anzahl noch variierbar machen?
-buttonImg1 = Button(master=frameGui,image=images[0])
-buttonImg2 = Button(master=frameGui,image=images[1])
-buttonImg3 = Button(master=frameGui,image=images[2])
-buttonImg4 = Button(master=frameGui,image=images[3])
+buttonImg1 = Button(master=frameGui, image=images[0], command=button_click_image)
+buttonImg2 = Button(master=frameGui, image=images[1])
+buttonImg3 = Button(master=frameGui, image=images[2])
+buttonImg4 = Button(master=frameGui, image=images[3], command=button_click_image)
 buttonImg5 = Button(master=frameGui)#,image=images[4])
 buttonImg6 = Button(master=frameGui)#,image=images[5])
 buttonImg7 = Button(master=frameGui)#,image=images[6])

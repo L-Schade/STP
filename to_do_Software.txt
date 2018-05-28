@@ -5,6 +5,10 @@ GUI:
 		vlt. Auswahlmöglichkeit anbieten für Bilder zum Auswählen -> mittels Buttons realisiert
 			jedoch wie viel Buttons, immer feste Anzahl oder auswählbar machen?
 			scrollbar mit einbauen?
+
+	Bildgröße veränder von tkinter Objekt -> fertig für normale Bilder, nicht für tKinterobjekte
+	Button geklickt mit Bild diese mal dann als image (globale Variable) setzen?!
+	Speichern der Position zu der entsprechenden Kameraposition 
 	
 Matlab:
 	Matlabdatei verbessern, tastenabfrage

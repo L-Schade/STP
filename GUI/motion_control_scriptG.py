@@ -1,3 +1,4 @@
+import datetime
 x = None
 y = None
 z = None
@@ -60,6 +61,7 @@ def saveCoordinates(x,y,z,wait):
     file.write(str(y)+'\n')
     file.write(str(z)+'\n')
     file.write(str(wait) + '\n')
+    file.write(str(datetime.datetime.now()))
     file.close()
 
 
