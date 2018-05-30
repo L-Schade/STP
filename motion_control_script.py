@@ -1,9 +1,8 @@
+import os
 import edge_detection
+# import datetime
 
-# x = None
-# y = None
-# z = None
-# wait = None
+name = None
 
 
 def readCoordinates():
@@ -36,12 +35,29 @@ def saveCoordinates(x,y,z):
     file.write(str(x)+'\n')
     file.write(str(y)+'\n')
     file.write(str(z)+'\n')
+    # file.write(str(datetime.datetime.now()))
     file.close()
 
 
+def list_images(max):
+    fileList = os.listdir('Matlab/Bilder')
+    fileList.sort(reverse=True)
+    index = 0
+    for file in fileList:
+        if file.find('.png') == -1:
+            fileList.remove(file)
+        elif index >= max:
+            fileList.remove(file)
+        else:
+            # print(file)
+            index += 1
+    return fileList
+
+
 def automatic():
+    global name
     print("class automatic")
-    edge_detection.execute()
+    edge_detection.execute(name)
 
     # printScript(x,y,z,wait)
     # saveCoordinates(x,y,z)
@@ -84,22 +100,54 @@ def navigate():
     return x,y,z,wait
 
 
+def latest_image():
+    global name
+    fileList = os.listdir('Matlab/Bilder')
+    fileList.sort(reverse=True)
+    # print(fileList[0])
+    name = fileList[0]
+    print(name)
+
+
+
+def images():
+    global name
+    images = list_images(9)
+    index = 1
+    for image in images:
+        print(str(index)+": "+image)
+        index +=1
+    key = input("please select a picture:\n")
+    name = images[(int(key)-1)]
+    print(name+"\n")
+
+    execute()
+
 # x,y,z = readCoordinaten()
 # print(x,y,z)
 
-print("choose the right mode:")
-print("press 1 for the automatically mode")
-print("press 2 for the coordinate mode")
-print("press 3 for the navigation mode")
 
-key = input("choose your mode:")
-print(key)
-if(key == '1'):   # python3 key == '1'
-    automatic()
-elif (key == '2'):
-    x,y,z,wait = coordinate()
-elif(key == '3'):
-    x,y,z,wait = navigate()
-else:
-    print("undefined key pressed")
-    exit()
+def execute():
+    print("choose the right mode:")
+    print("press 1 for the automatically mode")
+    print("press 2 for the coordinate mode")
+    print("press 3 for the navigation mode")
+    print("press 4 to choose an other image")
+
+    key = input("choose your mode:")
+    print(key)
+    if(key == '1'):   # python3 key == '1'
+        automatic()
+    elif (key == '2'):
+        x,y,z,wait = coordinate()
+    elif(key == '3'):
+        x,y,z,wait = navigate()
+    elif(key == '4'):
+       images()
+    else:
+        print("undefined key pressed")
+        exit()
+
+
+latest_image()
+execute()

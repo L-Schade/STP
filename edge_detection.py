@@ -1,29 +1,31 @@
 #python 3 Problem mit "pychairo" auf dem raspPi
 from PIL import Image
 from PIL import ImageFilter
-from PIL import ImageColor
-import numpy as np
+# from PIL import ImageColor
+# import numpy as np
 from matplotlib import pyplot as plt
 import distance_calculator
 
 pointC = None
 
 
-def loadImage(titel):
-    img = Image.open(titel)
+def load_image(titel):
+    img = Image.open("Matlab/Bilder/"+titel)
+    plt.imshow(img)
+    plt.show()
     return img
 
 
-#wirklich noetig???
-def imageSize(image):
+# wirklich noetig???
+def image_size(image):
     width, height = image.size
-    return width,height
+    return width, height
 
 
 def edges(image):
-    #img = image.filter(ImageFilter.EDGE_ENHANCE)
+    # img = image.filter(ImageFilter.EDGE_ENHANCE)
     img = image.filter(ImageFilter.FIND_EDGES)
-    #img.show(title=edges,command=edges)
+    # img.show(title=edges,command=edges)
     plt.imshow(img)
     plt.show()
     return img
@@ -37,23 +39,23 @@ def contour(image):
     return img
 
 
-def pixelColorSearch(image, color):
+def pixel_color_search(image, color):
     index = 0
     x, y = image.size
-    for px in range(0,x):
-        for py in range(0,y):
-            rgb = image.getpixel((px,py))
-            #r, g, b = image.convert('RGB').getpixel((x,y))
+    for px in range(0, x):
+        for py in range(0, y):
+            rgb = image.getpixel((px, py))
+            # r, g, b = image.convert('RGB').getpixel((x,y))
             if rgb == color:
                 w, h = index+1, index+1;
                 pixel = [[0 for x in range(w)] for y in range(h)]
-                pixel[index][index] = (px,py)
+                pixel[index][index] = (px, py)
                 print(pixel)
 
 
 def focus(image):
     width, height = image.size
-    x = distance_calculator.center(width,height)
+    x = distance_calculator.center(width, height)
     return x
 
 
@@ -64,31 +66,33 @@ def onclick(event):
     x = event.xdata
     y = event.ydata
     global pointC
-    pointC = [x,y]
+    pointC = [x, y]
     # print(pointC)
     plt.close()
 
-def execute():
+
+def execute(name):
     # ???
     # fig, ax = plt.subplots()
     # ax.plot(np.random.rand(10))
     # cid = fig.canvas.mpl_connect('button_press_event', onclick)
     plt.connect('button_press_event', onclick)
 
-    imageName = "Bilder_BSP/filter1.jpg"
+    # image_name = "Bilder_BSP/filter1.jpg"
 
-    # function execute
-    img = loadImage(imageName)
-    edgesImg = edges(img)
+
+    # img = load_image(image_name)
+    img = load_image(name)
+    # edges_img = edges(img)
     # contourImg = contour(img)
 
-    # pixelColorSearch(img, (137,137,137))
-    # pixelColorSearch(edgesImg,(255,255,255))
+    # pixel_color_search(img, (137,137,137))
+    # pixel_color_search(edgesImg,(255,255,255))
 
     # print(pointC)
     # print(focus(img))
-    distance = distance_calculator.distance(focus(img),pointC)
+    distance = distance_calculator.distance(focus(img), pointC)
     # print(distance)
     dist = distance_calculator.dist(focus(img), pointC)
-    print('Abstand von {} zum Mittelpunkt: {}'.format(pointC,distance))
-    print('Abstand von {} zum Mittelpunkt: in {}(x-Richtung){}(y-Richtung)'.format(pointC, dist[0],dist[1]))
+    print('Abstand von {} zum Mittelpunkt: {}'.format(pointC, distance))
+    print('Abstand von {} zum Mittelpunkt: in {}(x-Richtung){}(y-Richtung)'.format(pointC, dist[0], dist[1]))
