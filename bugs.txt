@@ -21,5 +21,8 @@ gui:
 	*:
 		output_lab wieder entfernen
 
+detektion:
+	Programm beenden bei Tasteneingabe	
+
 matlab:
 	

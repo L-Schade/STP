@@ -8,7 +8,15 @@ GUI:
 
 	Bildgröße veränder von tkinter Objekt -> fertig für normale Bilder, nicht für tKinterobjekte
 	Button geklickt mit Bild diese mal dann als image (globale Variable) setzen?!
-	Speichern der Position zu der entsprechenden Kameraposition 
+	Speichern der Position zu der entsprechenden Kameraposition
+
+	Buttonklasse angucken, vlt doch noch Attribut für Bildindex hinzufügen
+
+Konsole:
+	aktuellestes Bild laden
+	auswählen des Bildes, mehrer Bilder zur auswahl bereitstellen
 	
 Matlab:
 	Matlabdatei verbessern, tastenabfrage
+
+

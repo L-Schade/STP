@@ -42,7 +42,7 @@ def click(event):
 
 
 # event function
-def buttonClick():
+def button_click():
     hide_automatic_windows()
     hide_coordinate_buttons()
     hide_navigate_buttons()
@@ -53,7 +53,7 @@ def buttonClick():
     output_label()
 
 
-def button1Click():
+def button1_click():
     hide_coordinate_buttons()
     hide_navigate_buttons()
     hide_images_buttons()
@@ -81,7 +81,7 @@ def button1Click():
     # output_label()
 
 
-def button2Click():
+def button2_click():
     hide_automatic_windows()
     hide_navigate_buttons()
     hide_images_buttons()
@@ -93,7 +93,7 @@ def button2Click():
     buttonMode22.place(x=175, y=140, width=125, height=20)
 
 
-def button21click():
+def button21_click():
     hide_coordinate_buttons()
     # panel
     # buttonAction = Button(master=frameGui, text='ENTER', command=button_action)
@@ -156,14 +156,14 @@ def button21click():
         root.title('Eingabe der Werte')
         ents = makeform(root, fields)
         root.bind('<Return>', (lambda event, e=ents: fetch(e)))
-        b1 = Button(root, text='print script',command=(lambda e=ents: fetch(e))) # command=motion_control_scriptG.printScript()
+        b1 = Button(root, text='Daten verschicken',command=(lambda e=ents: fetch(e))) # command=motion_control_scriptG.printScript()
         b1.pack(side=LEFT, padx=5, pady=5)
         b2 = Button(root, text='quit', command=root.destroy)
         b2.pack(side=LEFT, padx=5, pady=5)
         root.mainloop()
 
 
-def button22click():
+def button22_click():
     hide_coordinate_buttons()
 
     def fetch(entries):
@@ -208,14 +208,14 @@ def button22click():
         root_angle.title('Eingabe der Werte')
         ents = makeform(root_angle, fields)
         root_angle.bind('<Return>', (lambda event, e=ents: fetch(e)))
-        b1 = Button(root_angle, text='print script',command=(lambda e=ents: fetch(e))) # command=motion_control_scriptG.printScript()
+        b1 = Button(root_angle, text='Daten verschicken',command=(lambda e=ents: fetch(e))) # command=motion_control_scriptG.printScript()
         b1.pack(side=LEFT, padx=5, pady=5)
         b2 = Button(root_angle, text='quit', command=root_angle.destroy)
         b2.pack(side=LEFT, padx=5, pady=5)
         root_angle.mainloop()
 
 
-def button3Click():
+def button3_click():
     hide_automatic_windows()
     hide_coordinate_buttons()
     hide_images_buttons()
@@ -229,13 +229,13 @@ def button3Click():
     button4.place(x=250, y=180, width=100, height=20)
     button5.place(x=235, y=230, width=40, height=20)
     button6.place(x=325, y=230, width=40, height=20)
-    button7.place(x=250, y=290, width=100, height=20)
+    button7.place(x=235, y=290, width=130, height=20)
     labelImg2.config(image=imageNavigate)
     labelImg2.place(x=500, y=110, width=350, height= 190)
     output_label()
 
 
-def button4click():
+def button4_click():
     labelImg.place_forget()
     hide_automatic_windows()
     hide_navigate_buttons()
@@ -266,6 +266,8 @@ def button_click_image():
     imageNames = imagesG.list_images(12)
     image = load_image(imageNames[3])
     reload_images()
+    # load_position(imageNames[3])
+    print("lade passende Position...")
 
 
 def output_label():
@@ -385,6 +387,14 @@ def reload_images():
     imageNavigate = resized_image(image, 350, 190)
 
 
+def load_position(name):
+    open("GUI/Positionen/"+name)
+    x, y, z = motion_control_scriptG.read_coordinates()
+
+    motion_control_scriptG.printScript1(x,y,z,3)
+    motion_control_scriptG.saveCoordinates(x,y,z,3)
+
+
 # create the window
 tkFenster = Tk()
 tkFenster.title('GUI')
@@ -428,17 +438,17 @@ labelImg1 = Label(master=frame, bg='white')           # automatic
 labelImg2 = Label(master=frameGui, bg='white')        # navigate
 
 # Button
-buttonMode = Button(master=toolbar_y, text='start', command=buttonClick)
+buttonMode = Button(master=toolbar_y, text='start', command=button_click)
 buttonMode.place(x=25, y=100, width=100, height=20)
-buttonMode1 = Button(master=toolbar_y, text='automatisch', command=button1Click)
+buttonMode1 = Button(master=toolbar_y, text='automatisch', command=button1_click)
 buttonMode1.place(x=25, y=140, width=100, height=20)
-buttonMode2 = Button(master=toolbar_y, text='Koordinaten', command=button2Click)
+buttonMode2 = Button(master=toolbar_y, text='Koordinaten', command=button2_click)
 buttonMode2.place(x=25, y=180, width=100, height=20)
-buttonMode21 = Button(master=frameGui, text='Koordinaten: x,y,z', command=button21click)
-buttonMode22 = Button(master=frameGui, text='Winkel', command=button22click)
-buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3Click)
+buttonMode21 = Button(master=frameGui, text='Koordinaten: x,y,z', command=button21_click)
+buttonMode22 = Button(master=frameGui, text='Winkel', command=button22_click)
+buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
 buttonMode3.place(x=25, y=220, width=100, height=20)
-buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4click)
+buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
 buttonMode4.place(x=25, y=260, width=100, height=20)
 button1 = Button(master=frameGui, text='oben', command=motion_control_scriptG.up)
 button2 = Button(master=frameGui, text='links', command=motion_control_scriptG.left)
@@ -446,7 +456,7 @@ button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.
 button4 = Button(master=frameGui, text='unten', command=motion_control_scriptG.down)
 button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wait3)
 button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait5)
-button7 = Button(master=frameGui, text='print script', command=print_script)
+button7 = Button(master=frameGui, text='Daten verschicken', command=print_script)
 # vlt die Anzahl noch variierbar machen?
 buttonImg1 = Button(master=frameGui, image=images[0], command=button_click_image)
 buttonImg2 = Button(master=frameGui, image=images[1])
