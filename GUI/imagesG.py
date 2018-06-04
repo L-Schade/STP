@@ -74,14 +74,14 @@ def new_size(name):
 def list_images(max):
    fileList = os.listdir('../Matlab/Bilder')
    fileList.sort(reverse=True)
-   index = 0
+   index = 1
    for file in fileList:
        if file.find('.png') == -1:
            fileList.remove(file)
        elif index == max:
            fileList.remove(file)
        else:
-           print(file)
+           # print(file)
            index+=1
    return fileList
 

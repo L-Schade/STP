@@ -73,9 +73,6 @@ def button1_click():
     center = distance_calculator.center(500,250)
     print(center)
 
-    # motion_control_scriptG.automatic()
-    # point, dist = edge_detectionG.execute("../Bilder_BSP/filter1.jpg")
-
     # global text
     # text = "Abstand von {} zum Mittelpunkt: {}".format(point,dist)
     # output_label()
@@ -261,13 +258,17 @@ def button4_click():
     buttonImg9.place(x=675, y=550, width=175, height=100)
 
 
-def button_click_image():
+def button_click_image(index):
     global image
     imageNames = imagesG.list_images(12)
-    image = load_image(imageNames[3])
+    image = load_image(imageNames[index])
     reload_images()
-    # load_position(imageNames[3])
+
     print("lade passende Position...")
+    image_name = imageNames[3]
+    name = image_name.split(".")
+    print(name[0])
+    load_position(name[0])
 
 
 def output_label():
@@ -388,11 +389,13 @@ def reload_images():
 
 
 def load_position(name):
-    open("GUI/Positionen/"+name)
-    x, y, z = motion_control_scriptG.read_coordinates()
+    # file_name = 'Positionen/'+name+'.txt'
+    # print(file_name)
+    x, y, z = motion_control_scriptG.read_old_coordinates(name)
+    print(x,y,z)
 
-    motion_control_scriptG.printScript1(x,y,z,3)
-    motion_control_scriptG.saveCoordinates(x,y,z,3)
+    # motion_control_scriptG.printScript1(x,y,z,3)
+    # motion_control_scriptG.saveCoordinates(x,y,z,3)
 
 
 # create the window
@@ -401,7 +404,7 @@ tkFenster.title('GUI')
 tkFenster.geometry('1000x1000')
 
 # background
-frameGui =Frame(master=tkFenster, bg='#A9BCF5')
+frameGui = Frame(master=tkFenster, bg='#A9BCF5')
 frameGui.place(width=1000, height=1000)    # x=5, y=5 border
 
 # toolbar
@@ -426,7 +429,7 @@ my_label.place(x=325, y=20, width=350, height=30)
 frame = Frame(master=frameGui, bg='white')
 
 # Images
-list_images(4)
+list_images(6)
 image = load_image(imagesG.latest_image())
 reload_images()
 im = load_image(imagesG.latest_image())
@@ -458,15 +461,15 @@ button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wa
 button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait5)
 button7 = Button(master=frameGui, text='Daten verschicken', command=print_script)
 # vlt die Anzahl noch variierbar machen?
-buttonImg1 = Button(master=frameGui, image=images[0], command=button_click_image)
-buttonImg2 = Button(master=frameGui, image=images[1])
-buttonImg3 = Button(master=frameGui, image=images[2])
-buttonImg4 = Button(master=frameGui, image=images[3], command=button_click_image)
-buttonImg5 = Button(master=frameGui)#,image=images[4])
-buttonImg6 = Button(master=frameGui)#,image=images[5])
-buttonImg7 = Button(master=frameGui)#,image=images[6])
-buttonImg8 = Button(master=frameGui)#,image=images[7])
-buttonImg9 = Button(master=frameGui)#,image=images[8])
+buttonImg1 = Button(master=frameGui, image=images[0], command=lambda: button_click_image(0))
+buttonImg2 = Button(master=frameGui, image=images[1], command=lambda: button_click_image(1))
+buttonImg3 = Button(master=frameGui, image=images[2], command=lambda: button_click_image(1))
+buttonImg4 = Button(master=frameGui, image=images[3], command=lambda: button_click_image(3))
+buttonImg5 = Button(master=frameGui, image=images[4], command=lambda: button_click_image(4))
+buttonImg6 = Button(master=frameGui)#,image=images[5], command=lambda: button_click_image(5))
+buttonImg7 = Button(master=frameGui)#,image=images[6], command=lambda: button_click_image(6))
+buttonImg8 = Button(master=frameGui)#,image=images[7], command=lambda: button_click_image(7))
+buttonImg9 = Button(master=frameGui)#,image=images[8], command=lambda: button_click_image(8))
 # buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tkFenster, text="Beenden", command=tkFenster.destroy, bg='#BDBDBD')

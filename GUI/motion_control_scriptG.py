@@ -21,6 +21,21 @@ def read_coordinates():
     return x,y,z,wait
 
 
+def read_old_coordinates(file_name):
+    print(file_name)
+    file = open('Positionen/'+file_name+'.txt','r')
+    index = 0
+    for line in file:
+        if (index == 0):
+            x = line.rstrip()
+        elif (index == 1):
+            y = line.rstrip()
+        elif(index == 2):
+            z = line.rstrip()
+        index = index+1;
+    return x,y,z
+
+
 def printScript():
     file = open("script.mcs","w")
     file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
