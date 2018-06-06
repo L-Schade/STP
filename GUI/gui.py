@@ -8,7 +8,8 @@ import imagesG
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
 images = []
-image = None
+image = None            # aktuelles Bild
+image_na= None       # name aktuelles Bild
 imageStart = None
 imageAutomatic = None
 imageNavigate = None
@@ -218,8 +219,10 @@ def button3_click():
     hide_images_buttons()
     labelImg.place_forget()
     # motion_control_scriptG.coordinate()
+
     read_coordinates('alte Daten:')
     output_label()
+
     button1.place(x=250, y=100, width=100, height=20)
     button2.place(x=175, y=140, width=100, height=20)
     button3.place(x=325, y=140, width=100, height=20)
@@ -229,7 +232,9 @@ def button3_click():
     button7.place(x=235, y=290, width=130, height=20)
     labelImg2.config(image=imageNavigate)
     labelImg2.place(x=500, y=110, width=350, height= 190)
-    output_label()
+
+    # read_coordinates('')
+    # output_label()
 
 
 def button4_click():
@@ -259,17 +264,18 @@ def button4_click():
 
 
 def button_click_image(index):
-    global image
+    global image, image_na
     image_names = imagesG.list_images(12)
     image = load_image(image_names[index])
     reload_images()
 
     print("lade passende Position...")
-    image_name = image_names[3]
-    name = image_name.split(".")
-    print(name[0])
-    load_position(name[0])
-    output("Daten zu Bild: " + name[0] + " geladen")
+    image_name = image_names[index]
+    image_name = image_name.split(".")
+    image_na = image_name[0]
+    print(image_na)
+    load_position(image_na)
+    output("Daten zu Bild: " + image_na + " geladen")
     output_label_img()
 
 
@@ -291,7 +297,11 @@ def output(data):
 
 
 def read_coordinates(data):
-    x, y, z, wait = motion_control_scriptG.read_coordinates()
+    global image_na
+    print(image_na)
+    # x, y, z, wait = motion_control_scriptG.read_coordinates()
+    x, y, z = load_position(image_na)
+    wait = str(3)
     global text
     if(data == ''):
         text = "x-Koordinate: " + x + "\n"  \
@@ -356,6 +366,11 @@ def print_script():
     output_label()
 
 
+def update_coordinates():
+    read_coordinates('new coordinates')
+    output_label()
+
+
 def load_image(name):
     # img = ImageTk.PhotoImage(Image.open(name))
     img = Image.open("../Matlab/Bilder/" + name)
@@ -374,6 +389,7 @@ def resized_image(img,h,w):
     resized = img.resize((h, w), Image.ANTIALIAS)
     image = ImageTk.PhotoImage(resized)
     return image
+
 
 def get_latest_images():
     global image
@@ -400,6 +416,7 @@ def load_position(name):
     # print(file_name)
     x, y, z = motion_control_scriptG.read_old_coordinates(name)
     print(x, y, z)
+    return x, y, z
 
     # motion_control_scriptG.printScript1(x,y,z,3)
     # motion_control_scriptG.saveCoordinates(x,y,z,3)
@@ -460,12 +477,12 @@ buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
 buttonMode3.place(x=25, y=220, width=100, height=20)
 buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
 buttonMode4.place(x=25, y=260, width=100, height=20)
-button1 = Button(master=frameGui, text='oben', command=motion_control_scriptG.up)
+button1 = Button(master=frameGui, text='oben', command=lambda: motion_control_scriptG.up)
 button2 = Button(master=frameGui, text='links', command=motion_control_scriptG.left)
 button3 = Button(master=frameGui, text='rechts', command=motion_control_scriptG.right)
 button4 = Button(master=frameGui, text='unten', command=motion_control_scriptG.down)
-button5 = Button(master=frameGui, text='3sec', command=motion_control_scriptG.wait3)
-button6 = Button(master=frameGui, text='5sec', command=motion_control_scriptG.wait5)
+button5 = Button(master=frameGui, text='3sec', command=lambda: motion_control_scriptG.wait(3))
+button6 = Button(master=frameGui, text='5sec', command=lambda: motion_control_scriptG.wait(5))
 button7 = Button(master=frameGui, text='Daten verschicken', command=print_script)
 # vlt die Anzahl noch variierbar machen?
 buttonImg1 = Button(master=frameGui, image=images[0], command=lambda: button_click_image(0))
