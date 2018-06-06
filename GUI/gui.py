@@ -9,11 +9,11 @@ fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
 images = []
 image = None            # aktuelles Bild
-image_na= None       # name aktuelles Bild
+image_na = None       # name aktuelles Bild
 imageStart = None
 imageAutomatic = None
 imageNavigate = None
-index = None
+index = None         # index des ausgewaehlten Bildes
 text = "Ausgabe"
 x = None
 y = None
@@ -454,7 +454,10 @@ frame = Frame(master=frameGui, bg='white')
 
 # Images
 list_images(6)
-image = load_image(imagesG.latest_image())
+image_na = imagesG.latest_image()
+image = load_image(image_na)
+image_na = image_na.split('.')
+image_na = image_na[0]
 reload_images()
 im = load_image(imagesG.latest_image())
 
