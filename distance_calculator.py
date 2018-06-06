@@ -1,35 +1,34 @@
-import numpy as np
+# import numpy as np
 import math
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
-def distance(pointA,pointB):
-   dist = math.sqrt(math.pow((pointA[0]-pointB[0]),2)+math.pow((pointA[1]-pointB[1]),2))
-   return dist
+def distance(point_a, point_b):
+    distance_a_b = math.sqrt(math.pow((point_a[0]-point_b[0]), 2) + math.pow((point_a[1]-point_b[1]), 2))
+    return distance_a_b
 
 
-def distance_image(dist):
-    distance = dist
-    return distance
+def distance_image(di):
+    return di
 
 
-def dist(pointA,pointB):
-    distX = pointA[0]-pointB[0]
-    distY = pointA[1]-pointB[1]
-    return distX, distY
+def dist(point_a, point_b):
+    dist_x = point_a[0]-point_b[0]
+    dist_y = point_a[1]-point_b[1]
+    return dist_x, dist_y
 
 
-def calculate_line(pointA,pointB):
-    #y = m * x + b
-    m = (pointB[1] - pointA[1]) / (pointB[0] - pointA[0])   #slope
+def calculate_line(point_a, point_b):
+    # y = m * x + b
+    m = (point_b[1] - point_a[1]) / (point_b[0] - point_a[0])   # slope
     return m
 
 
-def center(x,y):
-    xM = x/2
-    yM = y/2
-    return [xM,yM]
+def center(x, y):
+    x_m = x / 2
+    y_m = y / 2
+    return [x_m, y_m]
 
 
-print (distance([3,6],[3,2]))
-print (calculate_line([2,5],[3,4]))
+print(distance([3, 6], [3, 2]))
+print(calculate_line([2, 5], [3, 4]))

@@ -34,9 +34,9 @@ def click(event):
 
     # motion_control_scriptG.automatic()
 
-    distance = distance_calculator.distance(center, point)
-    dist = distance_calculator.dist(center, point)
+    # distance = distance_calculator.distance(center, point)
     # text = "Abstand von {} zum Mittelpunkt: {}".format(point, distance)
+    dist = distance_calculator.dist(center, point)
     text = "Abstand von {} zum Mittelpunkt: x-Abstand: {} y-Abstand: {}".format(point, dist[0], dist[1])
     output_label()
 
@@ -70,7 +70,7 @@ def button1_click():
     labelImg1.bind("<Button-1>", click)
 
     global center
-    center = distance_calculator.center(500,250)
+    center = distance_calculator.center(500, 250)
     print(center)
 
     # global text
@@ -181,8 +181,8 @@ def button22_click():
             elif(index == 3):
                 wait = entry[1].get()
                 index = 0
-                motion_control_scriptG.printScript1(x,y,z,wait)
-                motion_control_scriptG.saveCoordinates(x,y,z,wait)
+                motion_control_scriptG.printScript1(x, y, z, wait)
+                motion_control_scriptG.saveCoordinates(x, y, z, wait)
                 read_coordinates('neue Position:')
                 output_label()
 
@@ -260,15 +260,17 @@ def button4_click():
 
 def button_click_image(index):
     global image
-    imageNames = imagesG.list_images(12)
-    image = load_image(imageNames[index])
+    image_names = imagesG.list_images(12)
+    image = load_image(image_names[index])
     reload_images()
 
     print("lade passende Position...")
-    image_name = imageNames[3]
+    image_name = image_names[3]
     name = image_name.split(".")
     print(name[0])
     load_position(name[0])
+    output("Daten zu Bild: " + name[0] + " geladen")
+    output_label_img()
 
 
 def output_label():
@@ -289,13 +291,13 @@ def output(data):
 
 
 def read_coordinates(data):
-    x,y,z,wait = motion_control_scriptG.read_coordinates()
+    x, y, z, wait = motion_control_scriptG.read_coordinates()
     global text
     if(data == ''):
-        text = "x-Koordinate: "+x+"\n"  \
-                                 "y-Koordinate: "+y+"\n" \
-                                                     "z-Koordinate "+z+"\n" \
-                                                                       "time to wait: "+wait+""
+        text = "x-Koordinate: " + x + "\n"  \
+                                 "y-Koordinate: " + y + "\n" \
+                                                     "z-Koordinate " + z + "\n" \
+                                                                       "time to wait: " + wait + ""
     elif (data == 'new angle position:'):
         text = "pitch: " + x + "\n" \
                                       "roll: " + y + "\n" \
@@ -306,7 +308,7 @@ def read_coordinates(data):
                "x-Koordinate: " + x + "\n"  \
                                           "y-Koordinate: " + y + "\n" \
                                                              "z-Koordinate: " + z + "\n" \
-                                                                               "time to wait: " + wait+""
+                                                                               "time to wait: " + wait +""
 
 
 # def print(data):
@@ -373,9 +375,14 @@ def resized_image(img,h,w):
     image = ImageTk.PhotoImage(resized)
     return image
 
+def get_latest_images():
+    global image
+    list_images(6)
+    image = load_image(imagesG.latest_image())
 
-def list_images(max):
-    imageNames = imagesG.list_images(max)
+
+def list_images(maxi):
+    imageNames = imagesG.list_images(maxi)
     print(imageNames)
     for image in imageNames:
         load_images(image)
@@ -392,37 +399,37 @@ def load_position(name):
     # file_name = 'Positionen/'+name+'.txt'
     # print(file_name)
     x, y, z = motion_control_scriptG.read_old_coordinates(name)
-    print(x,y,z)
+    print(x, y, z)
 
     # motion_control_scriptG.printScript1(x,y,z,3)
     # motion_control_scriptG.saveCoordinates(x,y,z,3)
 
 
 # create the window
-tkFenster = Tk()
-tkFenster.title('GUI')
-tkFenster.geometry('1000x1000')
+tk_fenster = Tk()
+tk_fenster.title('GUI')
+tk_fenster.geometry('1000x1000')
 
 # background
-frameGui = Frame(master=tkFenster, bg='#A9BCF5')
+frameGui = Frame(master=tk_fenster, bg='#A9BCF5')
 frameGui.place(width=1000, height=1000)    # x=5, y=5 border
 
 # toolbar
-toolbar_y = Frame(tkFenster, bg='#084B8A')
+toolbar_y = Frame(tk_fenster, bg='#084B8A')
 # toolbar.pack(side=TOP, fill=X, padx=10)
 toolbar_y.place(x=0, y=0, width=150, height=1000)
-toolbar_yy = Frame(master=tkFenster, bg='#045FB4')
+toolbar_yy = Frame(master=tk_fenster, bg='#045FB4')
 # toolbar.pack(side=TOP, fill=X, padx=10)
-toolbar_yyy = Frame(tkFenster, bg='#084B8A')
+toolbar_yyy = Frame(tk_fenster, bg='#084B8A')
 # toolbar.pack(side=TOP, fill=X, padx=10)
 toolbar_yyy.place(x=900, y=0, width=100, height=1000)
 
-#scrollbar
-# scrollbar = Scrollbar(tkFenster)
-# buttonBox = Listbox(tkFenster, yscrollcommand = scrollbar.set )
+# scrollbar
+# scrollbar = Scrollbar(tk_fenster)
+# buttonBox = Listbox(tk_fenster, yscrollcommand = scrollbar.set )
 
 # label
-my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='white') # bg='#BDBDBD'
+my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='white')    # bg='#BDBDBD'
 my_label.place(x=325, y=20, width=350, height=30)
 
 # click_event
@@ -441,7 +448,7 @@ labelImg1 = Label(master=frame, bg='white')           # automatic
 labelImg2 = Label(master=frameGui, bg='white')        # navigate
 
 # Button
-buttonMode = Button(master=toolbar_y, text='start', command=button_click)
+buttonMode = Button(master=toolbar_y, text='letzte Position', command=button_click)
 buttonMode.place(x=25, y=100, width=100, height=20)
 buttonMode1 = Button(master=toolbar_y, text='automatisch', command=button1_click)
 buttonMode1.place(x=25, y=140, width=100, height=20)
@@ -466,21 +473,23 @@ buttonImg2 = Button(master=frameGui, image=images[1], command=lambda: button_cli
 buttonImg3 = Button(master=frameGui, image=images[2], command=lambda: button_click_image(1))
 buttonImg4 = Button(master=frameGui, image=images[3], command=lambda: button_click_image(3))
 buttonImg5 = Button(master=frameGui, image=images[4], command=lambda: button_click_image(4))
-buttonImg6 = Button(master=frameGui)#,image=images[5], command=lambda: button_click_image(5))
-buttonImg7 = Button(master=frameGui)#,image=images[6], command=lambda: button_click_image(6))
-buttonImg8 = Button(master=frameGui)#,image=images[7], command=lambda: button_click_image(7))
-buttonImg9 = Button(master=frameGui)#,image=images[8], command=lambda: button_click_image(8))
+buttonImg6 = Button(master=frameGui)    # ,image=images[5], command=lambda: button_click_image(5))
+buttonImg7 = Button(master=frameGui)    # ,image=images[6], command=lambda: button_click_image(6))
+buttonImg8 = Button(master=frameGui)    # ,image=images[7], command=lambda: button_click_image(7))
+buttonImg9 = Button(master=frameGui)    # ,image=images[8], command=lambda: button_click_image(8))
 # buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
-exit_button = Button(tkFenster, text="Beenden", command=tkFenster.destroy, bg='#BDBDBD')
-exit_button.place(x=920, y=20, width=60, height=20)
+exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg='#BDBDBD')
+exit_button.place(x=910, y=20, width=80, height=20)
+refresh_button = Button(tk_fenster, text="neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
+refresh_button.place(x=910, y=60, width=80, height=20)
 
 # coordinate
-eingabefeld = Entry(tkFenster, bd=5, width=45)
-text_label = Label(tkFenster)
+eingabefeld = Entry(tk_fenster, bd=5, width=45)
+text_label = Label(tk_fenster)
 
 # output
 output_lab = Message(master=frameGui)
 
 # activation the window
-tkFenster.mainloop()
+tk_fenster.mainloop()

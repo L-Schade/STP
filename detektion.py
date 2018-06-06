@@ -1,12 +1,6 @@
 import os
-import keyboard
+# import keyboard
 # import motion_control_script
-
-
-fileList = os.listdir('Matlab/Bilder')
-items = len(fileList)
-print(items)
-# key = input()
 
 
 def read_coordinates():
@@ -35,46 +29,61 @@ def save_coordinates(x, y, z, name):
     file.close()
 
 
+fileList = os.listdir('Matlab/Bilder')
+items = len(fileList)
+# print(items)
+
 print("1: Koordinaten aus der GUI")
 print("2: Koordinaten aus der Konsole")
 
-key = input("Wählen den Modus:")
+key = input()
 
-while(True):
-    fileList = os.listdir('Matlab/Bilder')
-    length = len(fileList)
+try:
+    while(True):
+        fileList = os.listdir('Matlab/Bilder')
+        length = len(fileList)
 
-    if(length>items):
-        print("speichern der aktuellen Position:")
-        items+=1
+        if(length > items):
+            print("speichern der aktuellen Position:")
+            items += 1
 
-        fileList.sort(reverse=True)
-        name = fileList[0]
-        print(name)
-
-        x, y, z = read_coordinates()
-
-        if (key == '1'):
-            name = "GUI/Positionen/"+name
+            fileList.sort(reverse=True)
+            name = fileList[0]
             print(name)
-            save_coordinates(x, y, z, name)
-        elif (key == '2'):
-            name = "Positionen/" + name
-            save_coordinates(x, y, z, name)
 
-        print("aktuelle Position gespeichert")
+            x, y, z = read_coordinates()
 
-        #continue               # noch wieder einkommentieren
-        exit()                  # dann wieder entfernen
+            if (key == '1'):
+                name = "GUI/Positionen/" + name
+                print(name)
+                save_coordinates(x, y, z, name)
+            elif (key == '2'):
+                name = "Positionen/" + name
+                save_coordinates(x, y, z, name)
 
-    elif(length == items):
-        print("warten ...")
-        continue
+            print("aktuelle Position gespeichert")
 
-    elif(keyboard.is_pressed('q')):         # funktioniert noch nicht so richtig
-        print("Programm wird beendet!")
-        exit()
+            key1 = input('1: Programm läuft weiter\n'
+                         '2: Programm wird beendet')
+            if(key1 == '1'):
+                continue
+            elif(key1 == '2'):
+                exit()
+            else:
+                print('falsche Taste gedrückt, Programm wird beendet')
+                exit()
 
-    else:
-        print("Es idt ein Fehler aufgetreten")
-        exit()
+        elif(length == items):
+            # print("warten ...")
+            continue
+
+        # #elif(input()=='q'):         # funktioniert noch nicht so richtig
+        # elif KeyboardInterrupt:
+        #     print("Programm wird beendet!")
+        #     exit()
+
+        else:
+            print("Es ist ein Fehler aufgetreten")
+            exit()
+except KeyboardInterrupt:
+    print('interrupted!')

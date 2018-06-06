@@ -1,13 +1,6 @@
 UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); 
-
-SetAngle(3434
-,343
-,343
-); # sets pitch, roll, yaw, in degrees
-Wait( '4
-' );          # waits 3 seconds 
-
-DoCamera( 'Shutter' );  # ??? 
-
-RecenterCamera();       # recenters all three axes
-TextOut( 'End' );       # eigentlich: TextOut( 'End !mit Umbruch!' );
+SetAngle( 2,2,2 );  # sets pitch, roll, yaw, in degrees 
+Wait( 2 );  # waits 2 seconds 
+DoCamera('Shutter');  # ??? 
+RecenterCamera();  # recenters all three axes
+TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );

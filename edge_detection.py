@@ -1,4 +1,3 @@
-#python 3 Problem mit "pychairo" auf dem raspPi
 from PIL import Image
 from PIL import ImageFilter
 # from PIL import ImageColor
@@ -9,8 +8,8 @@ import distance_calculator
 pointC = None
 
 
-def load_image(titel):
-    img = Image.open("Matlab/Bilder/"+titel)
+def load_image(image_name):
+    img = Image.open("Matlab/Bilder/"+image_name)
     plt.imshow(img)
     plt.show()
     return img
@@ -20,6 +19,12 @@ def load_image(titel):
 def image_size(image):
     width, height = image.size
     return width, height
+
+
+def focus(image):
+    width, height = image.size
+    x = distance_calculator.center(width, height)
+    return x
 
 
 def edges(image):
@@ -37,26 +42,6 @@ def contour(image):
     plt.imshow(img)
     plt.show()
     return img
-
-
-def pixel_color_search(image, color):
-    index = 0
-    x, y = image.size
-    for px in range(0, x):
-        for py in range(0, y):
-            rgb = image.getpixel((px, py))
-            # r, g, b = image.convert('RGB').getpixel((x,y))
-            if rgb == color:
-                w, h = index+1, index+1;
-                pixel = [[0 for x in range(w)] for y in range(h)]
-                pixel[index][index] = (px, py)
-                print(pixel)
-
-
-def focus(image):
-    width, height = image.size
-    x = distance_calculator.center(width, height)
-    return x
 
 
 def onclick(event):
@@ -80,7 +65,6 @@ def execute(name):
 
     # image_name = "Bilder_BSP/filter1.jpg"
 
-
     # img = load_image(image_name)
     img = load_image(name)
     # edges_img = edges(img)
@@ -95,4 +79,18 @@ def execute(name):
     # print(distance)
     dist = distance_calculator.dist(focus(img), pointC)
     print('Abstand von {} zum Mittelpunkt: {}'.format(pointC, distance))
-    print('Abstand von {} zum Mittelpunkt: in {}(x-Richtung){}(y-Richtung)'.format(pointC, dist[0], dist[1]))
+    print('Abstand von {} zum Mittelpunkt: in {} (x-Richtung), {} (y-Richtung)'.format(pointC, dist[0], dist[1]))
+
+
+# def pixel_color_search(image, color):
+#     index = 0
+#     x, y = image.size
+#     for px in range(0, x):
+#         for py in range(0, y):
+#             rgb = image.getpixel((px, py))
+#             # r, g, b = image.convert('RGB').getpixel((x,y))
+#             if rgb == color:
+#                 w, h = index+1, index+1;
+#                 pixel = [[0 for x in range(w)] for y in range(h)]
+#                 pixel[index][index] = (px, py)
+#                 print(pixel)

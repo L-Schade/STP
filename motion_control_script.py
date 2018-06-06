@@ -3,9 +3,12 @@ import edge_detection
 # import datetime
 
 name = None
+x = None
+y = None
+z = None
 
 
-def readCoordinates():
+def read_coordinates():
     file = open("coordinates.txt")
     index = 0
     for line in file:
@@ -16,21 +19,10 @@ def readCoordinates():
         elif(index == 2):
             z = line.rstrip()
         index = index+1;
-    return x,y,z
+    return x, y, z
 
 
-def printScript(x,y,z,wait):
-    file = open("script.mcs","w")
-    file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
-    file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
-               "Wait( {} );  # waits {} seconds \n".format(x,y,z,wait,wait))
-    file.write("DoCamera('Shutter');  # ??? \n"
-               "RecenterCamera();  # recenters all three axes\n"
-               "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
-    file.close()
-
-
-def saveCoordinates(x,y,z):
+def save_coordinates(x, y, z):
     file = open("coordinates.txt", "w")
     file.write(str(x)+'\n')
     file.write(str(y)+'\n')
@@ -39,19 +31,19 @@ def saveCoordinates(x,y,z):
     file.close()
 
 
-def list_images(max):
-    fileList = os.listdir('Matlab/Bilder')
-    fileList.sort(reverse=True)
+def list_images(maxi):
+    file_list = os.listdir('Matlab/Bilder')
+    file_list.sort(reverse=True)
     index = 0
-    for file in fileList:
+    for file in file_list:
         if file.find('.png') == -1:
-            fileList.remove(file)
-        elif index >= max:
-            fileList.remove(file)
+            file_list.remove(file)
+        elif index >= maxi:
+            file_list.remove(file)
         else:
             # print(file)
             index += 1
-    return fileList
+    return file_list
 
 
 def automatic():
@@ -60,7 +52,7 @@ def automatic():
     edge_detection.execute(name)
 
     # printScript(x,y,z,wait)
-    # saveCoordinates(x,y,z)
+    # save_coordinates(x,y,z)
 
 
 def coordinate():
@@ -70,44 +62,86 @@ def coordinate():
     z = input("enter the z coordinate:")
     wait = input("enter the time to wait:")
 
-    printScript(x,y,z,wait)
-    saveCoordinates(x, y, z)
+    # printScript(x,y,z,wait)
+    save_coordinates(x, y, z)
 
-    return x,y,z,wait
+    return x, y, z, wait
 
 
 def navigate():
-    print("class navigate")
-    x,y,z = readCoordinates()
-    key = input("")
+    print("class navigate:")
+    x, y, z = read_coordinates()
+    key = input("\n"
+                "j: left \n"
+                "k: down \n"
+                "l: right \n"
+                "i: up \n"
+                "input:")
     if (key == 'j'):
-        x = int(x)+1
+        x, y, z = left(x, y, z)
     elif (key == 'k'):
-        y = int(y)+1
+        x, y, z = down(x, y, z)
     elif (key == 'l'):
-        z = int(z)+1
+        x, y, z = right(x, y, z)
     elif (key == 'i'):
-        x = int(x)+1
-        y = int(y)+1
+        x, y, z = up(x, y, z)
     else:
         print("undefined key pressed")
         exit()
     wait = input("enter the time to wait:")
 
-    printScript(x,y,z,wait)
-    saveCoordinates(x, y, z)
+    # printScript(x, y, z, wait)
+    save_coordinates(x, y, z)
 
-    return x,y,z,wait
+    key_in = (input("\n"
+                    "m: Menu \n"
+                    "n: navigate \n"
+                    "q: exit"))
+    if(key_in == 'm'):
+        execute()
+    elif(key_in == 'n'):
+        navigate()
+    elif(key_in == 'q'):
+        exit()
+    else:
+        print("undefined key pressed")
+        exit()
+
+    return x, y, z, wait
+
+
+def left(x, y, z):
+    x = int(x) + 1
+    print("moved to the left")
+    return x, y, z
+
+
+def down(x, y, z):
+    y = int(y) + 1
+    print("moved down")
+    return x, y, z
+
+
+def right(x, y, z):
+    z = int(z) + 1
+    print("moved to the right")
+    return x, y, z
+
+
+def up(x, y, z):
+    x = int(x) + 1
+    y = int(y) + 1
+    print("moved up")
+    return x, y, z
 
 
 def latest_image():
     global name
-    fileList = os.listdir('Matlab/Bilder')
-    fileList.sort(reverse=True)
+    file_list = os.listdir('Matlab/Bilder')
+    file_list.sort(reverse=True)
     # print(fileList[0])
-    name = fileList[0]
+    name = file_list[0]
     print(name)
-
 
 
 def images():
@@ -120,11 +154,33 @@ def images():
     key = input("please select a picture:\n")
     name = images[(int(key)-1)]
     print(name+"\n")
+    name = name.split('.')
+    print(name[0])
+    x, y, z = load_old_coordinates(name[0])
+    save_coordinates(x, y, z)
+    print(x, y, z)
 
     execute()
 
-# x,y,z = readCoordinaten()
-# print(x,y,z)
+
+def load_old_coordinates(filename):
+    global x, y, z
+    #  print(filename)
+    file = open('Positionen/' + filename + '.txt', 'r')
+    index = 0
+    for line in file:
+        if (index == 0):
+            x = line.rstrip()
+        elif (index == 1):
+            y = line.rstrip()
+        elif (index == 2):
+            z = line.rstrip()
+        index += 1
+    return x, y, z
+
+
+# x,y,z = read_coordinates()
+# print(x, y, z)
 
 
 def execute():
@@ -136,12 +192,12 @@ def execute():
 
     key = input("choose your mode:")
     print(key)
-    if(key == '1'):   # python3 key == '1'
+    if(key == '1'):
         automatic()
     elif (key == '2'):
-        x,y,z,wait = coordinate()
+        x, y, z, wait = coordinate()
     elif(key == '3'):
-        x,y,z,wait = navigate()
+        x, y, z, wait = navigate()
     elif(key == '4'):
        images()
     else:
@@ -151,3 +207,13 @@ def execute():
 
 latest_image()
 execute()
+
+# def printScript(x,y,z,wait):
+#     file = open("script.mcs","w")
+#     file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
+#     file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
+#                "Wait( {} );  # waits {} seconds \n".format(x,y,z,wait,wait))
+#     file.write("DoCamera('Shutter');  # ??? \n"
+#                "RecenterCamera();  # recenters all three axes\n"
+#                "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
+#     file.close()

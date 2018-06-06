@@ -1,4 +1,5 @@
 import edge_detection
+import motor
 
 # x = None
 # y = None

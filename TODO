@@ -1,11 +1,20 @@
-TO DO bis 18.05.:
+TO DO:
+board (storm32):
+	Stromversorgung
 
-- Netzteil besorgen, anschließen, testen 07.05.
-- Timo fragen - Teststand bauen? 07.05.
-- Bild verschicken aus MatLab 07.05.
-- Python Kante verfolgen
-- Scripte testen
-
+Motoren:
+	Stromversorgung - Netzgerät
 
 Matlab:
-- Bild speichern per Tastenkombi 
+	Datenübertragung
+	
+Octave:
+	Kanten-Erkennung
+	
+Perl:
+	Storm32 ansteuern
+
+
+Links:
+	Mikrocontroller.net
+		Brushless-Controller für Modellbaumotoren

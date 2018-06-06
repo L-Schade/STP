@@ -78,36 +78,14 @@ sub navigate{
 
     # read entry
     switch ($key){
-        case "l" {
-            say "moved to the right side\n";
-            $x++
-        }
+        case "l" {say "moved to the right side\n";$x++}
         case "k" {say "moved down\n"}
         case "j" {say "moved to the left side\n"}
         case "i" {say "moved up\n"}
-        else { print "undefinded key pressed\n"; exit;}
+        else {print "undefinded key pressed\n"; say "press l to move to the right side"; say "press k to move down";
+                say "press j to move to the left side";
+                say "press i to move up\n";exit;}
         # press l to move to the right side\npress k to move down\npress i to move up\n\n
-    }
-
-    if ($key eq 'l') {
-        say "moved to the right side\n";
-        $x++;                           # nur als Bsp
-    }
-    elsif ($key eq 'j') {
-        say "moved to the left side\n";
-    }
-    elsif ($key eq 'k') {
-        say "moved down\n";
-    }
-    elsif ($key eq 'i') {
-        say "moved up\n";
-    }
-    else {
-        say "undefinded key pressed!";
-        say "press l to move to the right side";
-        say "press k to move down";
-        say "press j to move to the left side";
-        say "press i to move up\n";
     }
     &printScript;
     &saveCoordinaten;
