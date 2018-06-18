@@ -1,4 +1,4 @@
-% wichtig
+%wichtig
 vid = videoinput('gentl', 1, 'Mono8');  %Mono8(default), Mono12Packed, Mono16
 src = getselectedsource(vid);
 vid.FramesPerTrigger = 1;
@@ -6,20 +6,21 @@ vid.FramesPerTrigger = 1;
 
 % Abfrage
 while true
+    f = figure;  % testen !!!     figure;
     preview(vid);   % wichtig
     
     w = waitforbuttonpress;
-	  key = get(gcf,'CurrentCharacter'); % noch abhaengig vom Bild/ Video machen, nicht vom extra Fenster
+	key = get(gcf,'CurrentCharacter'); % noch abhaengig vom Bild/ Video machen, nicht vom extra Fenster
     % key = get(groot,'CurrentCharacter');
     % key = get(vid,'CurrentCharacter');
-    
+
     if (strcmp(key,'s'))
-        % wichtig
+        %wichtig
         start(vid);    
         stoppreview(vid);   
         %
         
-        close; % schliesst figur
+        close; % schlieﬂt figur, Tastenabfrage h‰ngt davon ab!
         
         % char date = 'datetime('today')';
         date = datestr(now,'yyyy_mm_dd_HH_MM_SS_FFF');
@@ -35,9 +36,13 @@ while true
         % preview(vid);   %neues Bild/ Video starten
         % break;
     elseif key == 'q'   
-        close;
+        close;    % um extra Fenster zu schlieﬂen???
+        % close(gcf)            alternativ mal testen !!!
+        
         stoppreview(vid); 
-        % close(vid);
+        closepreview(vid); %noch testen!!!
+        % close(vid);       funktioniert so nicht
+        
         fprintf('beendet\n');
         break;
     end;
