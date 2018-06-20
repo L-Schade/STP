@@ -8,6 +8,7 @@ import distance_calculator
 pointC = None
 
 
+# load an image
 def load_image(image_name):
     img = Image.open("Matlab/Bilder/"+image_name)
     plt.imshow(img)
@@ -44,6 +45,7 @@ def contour(image):
     return img
 
 
+# event, get point of the image
 def onclick(event):
     print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
           ('double' if event.dblclick else 'single', event.button,

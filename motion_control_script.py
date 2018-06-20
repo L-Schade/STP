@@ -8,6 +8,7 @@ y = None
 z = None
 
 
+# read old coordinates
 def read_coordinates():
     file = open("coordinates.txt")
     index = 0
@@ -22,6 +23,7 @@ def read_coordinates():
     return x, y, z
 
 
+# save the current position
 def save_coordinates(x, y, z):
     file = open("coordinates.txt", "w")
     file.write(str(x)+'\n')
@@ -31,6 +33,7 @@ def save_coordinates(x, y, z):
     file.close()
 
 
+# list of images (number depent on maxi)
 def list_images(maxi):
     file_list = os.listdir('Matlab/Bilder')
     file_list.sort(reverse=True)
@@ -45,7 +48,7 @@ def list_images(maxi):
             index += 1
     return file_list
 
-
+# automatic modus
 def automatic():
     global name
     print("class automatic")
@@ -55,6 +58,7 @@ def automatic():
     # save_coordinates(x,y,z)
 
 
+# coordinate modus
 def coordinate():
     print("class coordinate")
     x = input("enter the x coordinate:")
@@ -68,6 +72,7 @@ def coordinate():
     return x, y, z, wait
 
 
+# navigate modus
 def navigate():
     print("class navigate:")
     x, y, z = read_coordinates()
@@ -110,24 +115,28 @@ def navigate():
     return x, y, z, wait
 
 
+# camera move to the left
 def left(x, y, z):
     x = int(x) + 1
     print("moved to the left")
     return x, y, z
 
 
+# camera move down
 def down(x, y, z):
     y = int(y) + 1
     print("moved down")
     return x, y, z
 
 
+# camera move to the right
 def right(x, y, z):
     z = int(z) + 1
     print("moved to the right")
     return x, y, z
 
 
+# camera move up
 def up(x, y, z):
     x = int(x) + 1
     y = int(y) + 1
@@ -135,6 +144,7 @@ def up(x, y, z):
     return x, y, z
 
 
+# get the latest images
 def latest_image():
     global name
     file_list = os.listdir('Matlab/Bilder')
@@ -144,6 +154,7 @@ def latest_image():
     print(name)
 
 
+# set an image from the latest
 def images():
     global name
     images = list_images(9)
@@ -163,6 +174,7 @@ def images():
     execute()
 
 
+# get the position to an image
 def load_old_coordinates(filename):
     global x, y, z
     #  print(filename)

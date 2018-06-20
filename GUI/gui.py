@@ -109,7 +109,6 @@ def button21_click():
     #         text = functionsG.input(entry_text)
     #         text_label.config(text=text)
 
-
     # coordinates, extra window
     def fetch(entries):
         index = 0
@@ -263,6 +262,7 @@ def button4_click():
     buttonImg9.place(x=675, y=550, width=175, height=100)
 
 
+# load another image
 def button_click_image(index):
     global image, image_na
     image_names = imagesG.list_images(12)
@@ -279,23 +279,27 @@ def button_click_image(index):
     output_label_img()
 
 
+# output for navigate, coordinate, automatic & letzte Position
 def output_label():
     # output_lab = Message(master=frameGui)
     output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=200, y=450, width=650, height=250)
 
 
+# output for the side image
 def output_label_img():
     # output_lab = Message(master=frameGui)
     output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=200, y=100, width=650, height=150)
 
 
+# set new output text
 def output(data):
     global text
     text = data
 
 
+# load position addicted to image
 def read_coordinates(data):
     global image_na
     print(image_na)
@@ -359,6 +363,7 @@ def hide_images_buttons():
     buttonImg9.place_forget()
 
 
+# für board wichtig gewesen
 def print_script():
     motion_control_scriptG.printScript2(),
     print('print script')
@@ -366,17 +371,20 @@ def print_script():
     output_label()
 
 
+# reload position
 def update_coordinates():
     read_coordinates('new coordinates')
     output_label()
 
 
+# load image from file
 def load_image(name):
     # img = ImageTk.PhotoImage(Image.open(name))
     img = Image.open("../Matlab/Bilder/" + name)
     return img
 
 
+# load image from file and add to list
 def load_images(name):          # buttons
     # img = ImageTk.PhotoImage(Image.open(name))
     img = Image.open("../Matlab/Bilder/"+name)
@@ -385,10 +393,12 @@ def load_images(name):          # buttons
     return img
 
 
-def resized_image(img,h,w):
+# adapt imgae size
+def resized_image(img, h, w):
     resized = img.resize((h, w), Image.ANTIALIAS)
     image = ImageTk.PhotoImage(resized)
     return image
+
 
 
 def get_latest_images():
@@ -397,13 +407,15 @@ def get_latest_images():
     image = load_image(imagesG.latest_image())
 
 
+# load the latest images, the number depend on maxi
 def list_images(maxi):
-    imageNames = imagesG.list_images(maxi)
-    print(imageNames)
-    for image in imageNames:
+    image_names = imagesG.list_images(maxi)
+    print(image_names)
+    for image in image_names:
         load_images(image)
 
 
+# load new image for gui
 def reload_images():
     global image, imageStart, imageAutomatic, imageNavigate
     imageStart = resized_image(image, 300, 150)  # latest image
@@ -411,6 +423,7 @@ def reload_images():
     imageNavigate = resized_image(image, 350, 190)
 
 
+# load position for
 def load_position(name):
     # file_name = 'Positionen/'+name+'.txt'
     # print(file_name)
@@ -453,7 +466,7 @@ my_label.place(x=325, y=20, width=350, height=30)
 frame = Frame(master=frameGui, bg='white')
 
 # Images
-list_images(6)
+list_images(9)
 image_na = imagesG.latest_image()
 image = load_image(image_na)
 image_na = image_na.split('.')
@@ -490,13 +503,13 @@ button7 = Button(master=frameGui, text='Daten verschicken', command=print_script
 # vlt die Anzahl noch variierbar machen?
 buttonImg1 = Button(master=frameGui, image=images[0], command=lambda: button_click_image(0))
 buttonImg2 = Button(master=frameGui, image=images[1], command=lambda: button_click_image(1))
-buttonImg3 = Button(master=frameGui, image=images[2], command=lambda: button_click_image(1))
+buttonImg3 = Button(master=frameGui, image=images[2], command=lambda: button_click_image(2))
 buttonImg4 = Button(master=frameGui, image=images[3], command=lambda: button_click_image(3))
 buttonImg5 = Button(master=frameGui, image=images[4], command=lambda: button_click_image(4))
-buttonImg6 = Button(master=frameGui)    # ,image=images[5], command=lambda: button_click_image(5))
-buttonImg7 = Button(master=frameGui)    # ,image=images[6], command=lambda: button_click_image(6))
-buttonImg8 = Button(master=frameGui)    # ,image=images[7], command=lambda: button_click_image(7))
-buttonImg9 = Button(master=frameGui)    # ,image=images[8], command=lambda: button_click_image(8))
+buttonImg6 = Button(master=frameGui, image=images[5], command=lambda: button_click_image(5))
+buttonImg7 = Button(master=frameGui, image=images[6], command=lambda: button_click_image(6))
+buttonImg8 = Button(master=frameGui, image=images[7], command=lambda: button_click_image(7))
+buttonImg9 = Button(master=frameGui, image=images[8], command=lambda: button_click_image(8))
 # buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg='#BDBDBD')

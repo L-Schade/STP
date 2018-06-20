@@ -119,9 +119,9 @@ def down():
     saveCoordinates(x,y,z,wait)
 
 
-def wait3():
+def wait(time):
     x, y, z, wait = read_coordinates()
-    wait = 3
+    wait = int(time)
     saveCoordinates(x,y,z,wait)
 
 

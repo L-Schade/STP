@@ -1,18 +1,22 @@
 TO DO:
 board (storm32):
 	Stromversorgung
+	erstmal auf Eis gelegt
 
 Motoren:
 	Stromversorgung - Netzgerät
+	ansteuern
 
 Matlab:
-	Datenübertragung
+    Bilder speichern                                            -> fertig
+	Datenübertragung (Laptop -> RaspPi)
 	
 Octave:
-	Kanten-Erkennung
+	Kanten-Erkennung -> in Python
 	
 Perl:
 	Storm32 ansteuern
+	Board erstmal rausgenommen
 
 
 Links:
