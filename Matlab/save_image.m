@@ -6,13 +6,14 @@ vid.FramesPerTrigger = 1;
 
 % Abfrage
 while true
-    f = figure;  % testen !!!     figure;
+    figure;  %    figure;
     preview(vid);   % wichtig
     
     w = waitforbuttonpress;
 	key = get(gcf,'CurrentCharacter'); % noch abhaengig vom Bild/ Video machen, nicht vom extra Fenster
-    % key = get(groot,'CurrentCharacter');
-    % key = get(vid,'CurrentCharacter');
+    % key = get(groot,'CurrentCharacter');      % funlktioniert nicht
+    % key = get(vid,'CurrentCharacter');        % funktioniert auf jeden
+    % fall nicht
 
     if (strcmp(key,'s'))
         %wichtig
@@ -40,8 +41,7 @@ while true
         % close(gcf)            alternativ mal testen !!!
         
         stoppreview(vid); 
-        closepreview(vid); %noch testen!!!
-        % close(vid);       funktioniert so nicht
+        closepreview(vid); 
         
         fprintf('beendet\n');
         break;

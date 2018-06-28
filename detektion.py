@@ -3,6 +3,7 @@ import os
 # import motion_control_script
 
 
+# read current position
 def read_coordinates():
     if (key == '1'):
         file = open("GUI/coordinates.txt")
@@ -21,6 +22,7 @@ def read_coordinates():
     return x, y, z
 
 
+# save coordinates
 def save_coordinates(x, y, z, name):
     file = open(name+".txt", "w")
     file.write(str(x)+'\n')
@@ -28,11 +30,12 @@ def save_coordinates(x, y, z, name):
     file.write(str(z)+'\n')
     file.close()
 
-
+# list of all images
 fileList = os.listdir('Matlab/Bilder')
 items = len(fileList)
 # print(items)
 
+# modus
 print("1: Koordinaten aus der GUI")
 print("2: Koordinaten aus der Konsole")
 
