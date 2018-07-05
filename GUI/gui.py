@@ -1,4 +1,4 @@
-from tkinter import *   # python 2.7 Tkinter
+from Tkinter import *   # python 2.7 Tkinter 3.5 tkinter
 from PIL import Image, ImageTk
 import motion_control_scriptG
 import distance_calculator
@@ -363,7 +363,7 @@ def hide_images_buttons():
     buttonImg9.place_forget()
 
 
-# für board wichtig gewesen
+# fuer board wichtig gewesen
 def print_script():
     motion_control_scriptG.printScript2(),
     print('print script')
