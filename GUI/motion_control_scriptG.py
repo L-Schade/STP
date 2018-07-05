@@ -129,3 +129,6 @@ def wait5():
     x, y, z, wait = read_coordinates()
     wait = 5
     saveCoordinates(x,y,z,wait)
+
+def opposite():
+    print("test")

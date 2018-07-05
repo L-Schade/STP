@@ -229,6 +229,7 @@ def button3_click():
     button5.place(x=235, y=230, width=40, height=20)
     button6.place(x=325, y=230, width=40, height=20)
     button7.place(x=235, y=290, width=130, height=20)
+    button8.place(x=585, y=325, width=180, height=20)
     labelImg2.config(image=imageNavigate)
     labelImg2.place(x=500, y=110, width=350, height= 190)
 
@@ -338,6 +339,7 @@ def hide_navigate_buttons():
     button5.place_forget()
     button6.place_forget()
     button7.place_forget()
+    button8.place_forget()
     labelImg2.place_forget()
 
 
@@ -361,6 +363,19 @@ def hide_images_buttons():
     buttonImg7.place_forget()
     buttonImg8.place_forget()
     buttonImg9.place_forget()
+
+def warning():
+    if __name__ == '__main__':
+        root_angle = Tk()
+        root_angle.title('Eingabe der Werte')
+        # ents = makeform(root_angle, fields)
+        # root_angle.bind('<Return>', (lambda event, e=ents: fetch(e)))
+        Label(root_angle, text="Red Sun", bg="red", fg="white").pack()
+        b1 = Button(root_angle, text='Daten verschicken',command= motion_control_scriptG.opposite()) # command=motion_control_scriptG.printScript()
+        b1.pack(side=LEFT, padx=5, pady=5)
+        b2 = Button(root_angle, text='quit', command=root_angle.destroy)
+        b2.pack(side=LEFT, padx=5, pady=5)
+        root_angle.mainloop()
 
 
 # fuer board wichtig gewesen
@@ -500,6 +515,7 @@ button4 = Button(master=frameGui, text='unten', command=motion_control_scriptG.d
 button5 = Button(master=frameGui, text='3sec', command=lambda: motion_control_scriptG.wait(3))
 button6 = Button(master=frameGui, text='5sec', command=lambda: motion_control_scriptG.wait(5))
 button7 = Button(master=frameGui, text='Daten verschicken', command=print_script)
+button8 = Button(master=frameGui, text='zur anderen Seite fahren', command= warning)
 # vlt die Anzahl noch variierbar machen?
 buttonImg1 = Button(master=frameGui, image=images[0], command=lambda: button_click_image(0))
 buttonImg2 = Button(master=frameGui, image=images[1], command=lambda: button_click_image(1))
@@ -515,7 +531,7 @@ buttonImg9 = Button(master=frameGui, image=images[8], command=lambda: button_cli
 exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg='#BDBDBD')
 exit_button.place(x=910, y=20, width=80, height=20)
 refresh_button = Button(tk_fenster, text=" Bilder neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
-refresh_button.place(x=910, y=60, width=80, height=40)
+refresh_button.place(x=910, y=60, width=80, height=60)
 
 # coordinate
 eingabefeld = Entry(tk_fenster, bd=5, width=45)
