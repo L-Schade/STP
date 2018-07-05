@@ -366,22 +366,6 @@ def hide_images_buttons():
     buttonImg8.place_forget()
     buttonImg9.place_forget()
 
-def warning():
-    if __name__ == '__main__':
-        root_angle = Tk()
-        root_angle.title('Eingabe der Werte')
-        # tkMessageBox.showwarning("Warning", "Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?")
-        text = Label(root_angle, text="Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
-        text.pack(fill=X, pady=5)
-        b1 = Button(root_angle, text='auf die andere Seite fahren',command= motion_control_scriptG.opposite(image_na+'.txt')) # command=motion_control_scriptG.printScript()
-        # b1 = Button(tkMessageBox, text='auf die andere Seite fahren', command=motion_control_scriptG.opposite())
-        # b1.place(x=10, y=30, width=20, heigth=20)
-        b1.pack(fill=X, pady=5)
-        b2 = Button(root_angle, text='Abbrechen', command=root_angle.destroy)
-        # b2.place(x=40, y=30, width=20, heigth=20)
-        b2.pack(fill=X, pady=5)
-        root_angle.mainloop()
-
 
 # fuer board wichtig gewesen
 def print_script():
@@ -454,6 +438,29 @@ def load_position(name):
 
     # motion_control_scriptG.printScript1(x, y, z, 3)
     # motion_control_scriptG.save_coordinates(x, y, z, 3)
+
+
+def warning():
+    if __name__ == '__main__':
+        root_angle = Tk()
+        root_angle.title('Eingabe der Werte')
+
+        # i = Image.open("warning1.jpg")
+        # photo = ImageTk.PhotoImage(i)
+        # img = Label(master=root_angle, image=photo)         # funktioniert nur mit master=frameGui
+        # img.pack(fill=X, pady=5)
+
+        # tkMessageBox.showwarning("Warning", "Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?")
+        text = Label(root_angle, text="Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
+        text.pack(fill=X, pady=5)
+        b1 = Button(root_angle, text='auf die andere Seite fahren',command= motion_control_scriptG.opposite(image_na+'.txt')) # command=motion_control_scriptG.printScript()
+        # b1 = Button(tkMessageBox, text='auf die andere Seite fahren', command=motion_control_scriptG.opposite())
+        # b1.place(x=10, y=30, width=20, heigth=20)
+        b1.pack(fill=X, pady=5)
+        b2 = Button(root_angle, text='Abbrechen', command=root_angle.destroy)
+        # b2.place(x=40, y=30, width=20, heigth=20)
+        b2.pack(fill=X, pady=5)
+        root_angle.mainloop()
 
 
 # create the window
