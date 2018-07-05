@@ -76,7 +76,7 @@ def coordinate():
 def navigate():
     print("class navigate:")
     x, y, z = read_coordinates()
-    key = input("\n"
+    key = raw_input("\n"
                 "j: left \n"
                 "k: down \n"
                 "l: right \n"
