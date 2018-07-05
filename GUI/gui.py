@@ -1,4 +1,6 @@
-from Tkinter import *   # python 2.7 Tkinter 3.5 tkinter
+from Tkinter import *   # python 2.7
+# from  tkinter import *  # 3.5
+import tkMessageBox
 from PIL import Image, ImageTk
 import motion_control_scriptG
 import distance_calculator
@@ -9,7 +11,7 @@ fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
 images = []
 image = None            # aktuelles Bild
-image_na = None       # name aktuelles Bild
+image_na = None       # name aktuelles Bild (ohne Dateiformat)
 imageStart = None
 imageAutomatic = None
 imageNavigate = None
@@ -368,19 +370,22 @@ def warning():
     if __name__ == '__main__':
         root_angle = Tk()
         root_angle.title('Eingabe der Werte')
-        # ents = makeform(root_angle, fields)
-        # root_angle.bind('<Return>', (lambda event, e=ents: fetch(e)))
-        Label(root_angle, text="Red Sun", bg="red", fg="white").pack()
-        b1 = Button(root_angle, text='Daten verschicken',command= motion_control_scriptG.opposite()) # command=motion_control_scriptG.printScript()
-        b1.pack(side=LEFT, padx=5, pady=5)
-        b2 = Button(root_angle, text='quit', command=root_angle.destroy)
-        b2.pack(side=LEFT, padx=5, pady=5)
+        # tkMessageBox.showwarning("Warning", "Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?")
+        text = Label(root_angle, text="Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
+        text.pack(fill=X, pady=5)
+        b1 = Button(root_angle, text='auf die andere Seite fahren',command= motion_control_scriptG.opposite(image_na+'.txt')) # command=motion_control_scriptG.printScript()
+        # b1 = Button(tkMessageBox, text='auf die andere Seite fahren', command=motion_control_scriptG.opposite())
+        # b1.place(x=10, y=30, width=20, heigth=20)
+        b1.pack(fill=X, pady=5)
+        b2 = Button(root_angle, text='Abbrechen', command=root_angle.destroy)
+        # b2.place(x=40, y=30, width=20, heigth=20)
+        b2.pack(fill=X, pady=5)
         root_angle.mainloop()
 
 
 # fuer board wichtig gewesen
 def print_script():
-    motion_control_scriptG.printScript2(),
+    motion_control_scriptG.printScript2()
     print('print script')
     read_coordinates('new coordinates')
     output_label()
@@ -443,11 +448,12 @@ def load_position(name):
     # file_name = 'Positionen/'+name+'.txt'
     # print(file_name)
     x, y, z = motion_control_scriptG.read_old_coordinates(name)
+    # motion_control_scriptG.save_coordinates_without_wait(x, y, z)        Bildposition auf aktuelle Koordinaten setzen
     print(x, y, z)
     return x, y, z
 
-    # motion_control_scriptG.printScript1(x,y,z,3)
-    # motion_control_scriptG.saveCoordinates(x,y,z,3)
+    # motion_control_scriptG.printScript1(x, y, z, 3)
+    # motion_control_scriptG.save_coordinates(x, y, z, 3)
 
 
 # create the window

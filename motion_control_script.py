@@ -82,7 +82,7 @@ def navigate():
                 "l: right \n"
                 "i: up \n"
                 "input:")
-    if (key == 'j'):
+    if (key == "j"):
         x, y, z = left(x, y, z)
     elif (key == 'k'):
         x, y, z = down(x, y, z)
@@ -204,13 +204,13 @@ def execute():
 
     key = input("choose your mode:")
     print(key)
-    if(key == '1'):
+    if(key == 1):
         automatic()
-    elif (key == '2'):
+    elif (key == 2):
         x, y, z, wait = coordinate()
-    elif(key == '3'):
+    elif(key == 3):
         x, y, z, wait = navigate()
-    elif(key == '4'):
+    elif(key == 4):
        images()
     else:
         print("undefined key pressed")
