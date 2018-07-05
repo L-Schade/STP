@@ -514,8 +514,8 @@ buttonImg9 = Button(master=frameGui, image=images[8], command=lambda: button_cli
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg='#BDBDBD')
 exit_button.place(x=910, y=20, width=80, height=20)
-refresh_button = Button(tk_fenster, text="neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
-refresh_button.place(x=910, y=60, width=80, height=20)
+refresh_button = Button(tk_fenster, text=" Bilder neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
+refresh_button.place(x=910, y=60, width=80, height=40)
 
 # coordinate
 eingabefeld = Entry(tk_fenster, bd=5, width=45)
