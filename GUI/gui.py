@@ -445,22 +445,35 @@ def warning():
         root_angle = Tk()
         root_angle.title('Eingabe der Werte')
 
-        # i = Image.open("warning1.jpg")
-        # photo = ImageTk.PhotoImage(i)
-        # img = Label(master=root_angle, image=photo)         # funktioniert nur mit master=frameGui
+        i = Image.open("warning1.jpg")
+        photo = ImageTk.PhotoImage(i)
+        img = Label(master=frameGui, image=photo)     # funktioniert nur mit master=frameGui
+        img.place(x=450, y=400)
         # img.pack(fill=X, pady=5)
 
         # tkMessageBox.showwarning("Warning", "Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?")
         text = Label(root_angle, text="Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
         text.pack(fill=X, pady=5)
-        b1 = Button(root_angle, text='auf die andere Seite fahren',command= motion_control_scriptG.opposite(image_na+'.txt')) # command=motion_control_scriptG.printScript()
+        b1 = Button(root_angle, text='auf die andere Seite fahren',command=lambda: opposite(root_angle, img)) # command=motion_control_scriptG.printScript()
         # b1 = Button(tkMessageBox, text='auf die andere Seite fahren', command=motion_control_scriptG.opposite())
         # b1.place(x=10, y=30, width=20, heigth=20)
         b1.pack(fill=X, pady=5)
-        b2 = Button(root_angle, text='Abbrechen', command=root_angle.destroy)
+        # b2 = Button(root_angle, text='Abbrechen', command=root_angle.destroy)
+        b2 = Button(root_angle, text='Abbrechen', command=lambda: close_warning(root_angle, img))
         # b2.place(x=40, y=30, width=20, heigth=20)
         b2.pack(fill=X, pady=5)
         root_angle.mainloop()
+
+def opposite(root_angle, img):
+    motion_control_scriptG.opposite(image_na + '.txt')
+    root_angle.destroy()
+    img.place_forget()
+
+
+def close_warning(root_angle, img):
+    root_angle.destroy()
+    img.place_forget()
+
 
 
 # create the window
@@ -543,8 +556,8 @@ buttonImg9 = Button(master=frameGui, image=images[8], command=lambda: button_cli
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
 exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg='#BDBDBD')
 exit_button.place(x=910, y=20, width=80, height=20)
-refresh_button = Button(tk_fenster, text=" Bilder neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
-refresh_button.place(x=910, y=60, width=80, height=60)
+refresh_button = Button(tk_fenster, text=" Bilder \n neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
+refresh_button.place(x=910, y=60, width=80, height=40)
 
 # coordinate
 eingabefeld = Entry(tk_fenster, bd=5, width=45)
