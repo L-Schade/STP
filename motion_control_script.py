@@ -10,9 +10,9 @@ z = None
 
 # read old coordinates
 def read_coordinates():
-    file = open("coordinates.txt")
+    filename = open("coordinates.txt")
     index = 0
-    for line in file:
+    for line in filename:
         if (index == 0):
             x = line.rstrip()
         elif (index == 1):
@@ -25,12 +25,12 @@ def read_coordinates():
 
 # save the current position
 def save_coordinates(x, y, z):
-    file = open("coordinates.txt", "w")
-    file.write(str(x)+'\n')
-    file.write(str(y)+'\n')
-    file.write(str(z)+'\n')
-    # file.write(str(datetime.datetime.now()))
-    file.close()
+    filename = open("coordinates.txt", "w")
+    filename.write(str(x)+'\n')
+    filename.write(str(y)+'\n')
+    filename.write(str(z)+'\n')
+    # filename.write(str(datetime.datetime.now()))
+    filename.close()
 
 
 # list of images (number depent on maxi)
@@ -47,6 +47,7 @@ def list_images(maxi):
             # print(file)
             index += 1
     return file_list
+
 
 # automatic modus
 def automatic():
@@ -117,31 +118,31 @@ def navigate():
 
 # camera move to the left
 def left(x, y, z):
-    x = int(x) + 1
+    new_x = int(x) + 1
     print("moved to the left")
-    return x, y, z
+    return new_x, y, z
 
 
 # camera move down
 def down(x, y, z):
-    y = int(y) + 1
+    new_y = int(y) + 1
     print("moved down")
-    return x, y, z
+    return x, new_y, z
 
 
 # camera move to the right
 def right(x, y, z):
-    z = int(z) + 1
+    new_z = int(z) + 1
     print("moved to the right")
-    return x, y, z
+    return x, y, new_z
 
 
 # camera move up
 def up(x, y, z):
-    x = int(x) + 1
-    y = int(y) + 1
+    new_x = int(x) + 1
+    new_y = int(y) + 1
     print("moved up")
-    return x, y, z
+    return new_x, new_y, z
 
 
 # get the latest images
@@ -178,9 +179,9 @@ def images():
 def load_old_coordinates(filename):
     global x, y, z
     #  print(filename)
-    file = open('Positionen/' + filename + '.txt', 'r')
+    filename = open('Positionen/' + filename + '.txt', 'r')
     index = 0
-    for line in file:
+    for line in filename:
         if (index == 0):
             x = line.rstrip()
         elif (index == 1):
