@@ -21,6 +21,9 @@ x = None
 y = None
 center = None
 
+bu1_index = False # fuer Buttonfarbe
+bu2_index = False
+
 
 # click_event
 def click(event):
@@ -448,11 +451,11 @@ def warning():
         i = Image.open("warning1.jpg")
         photo = ImageTk.PhotoImage(i)
         img = Label(master=frameGui, image=photo)     # funktioniert nur mit master=frameGui
-        img.place(x=450, y=400)
+        img.place(x=150, y=325, width=750, height=100)
         # img.pack(fill=X, pady=5)
 
         # tkMessageBox.showwarning("Warning", "Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?")
-        text = Label(root_angle, text="Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
+        text = Label(root_angle, text="Sind sie sich sicher das nichts im Weg ist \n & sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
         text.pack(fill=X, pady=5)
         b1 = Button(root_angle, text='auf die andere Seite fahren',command=lambda: opposite(root_angle, img)) # command=motion_control_scriptG.printScript()
         # b1 = Button(tkMessageBox, text='auf die andere Seite fahren', command=motion_control_scriptG.opposite())
@@ -475,6 +478,34 @@ def close_warning(root_angle, img):
     img.place_forget()
 
 
+def bu1_onclick():
+    global bu1_index
+    if(bu1_index == False):
+        bu1['bg'] = '#B40431'
+        bu1['fg'] = 'white'
+        bu1['text'] = 'Position \nwird gehalten'
+        bu1_index = True
+    elif(bu1_index == True):
+        bu1['bg'] = '#BDBDBD'
+        bu1['fg'] = 'black'
+        bu1['text'] = 'Motoren \nhalten'
+        bu1_index = False
+
+
+def bu2_onclick():
+    global bu2_index
+    if (bu2_index == False):
+        bu2['bg'] = '#B40431'
+        bu2_index = True
+        bu2['fg'] = 'white'
+        bu2['text'] = 'Motoren \ngesperrt'
+    elif (bu2_index == True):
+        bu2['bg'] = '#BDBDBD'
+        bu2['fg'] = 'black'
+        bu2['text'] = 'Motoren \nsperren'
+        bu2_index = False
+
+
 
 # create the window
 tk_fenster = Tk()
@@ -483,7 +514,7 @@ tk_fenster.geometry('1000x1000')
 
 # background
 frameGui = Frame(master=tk_fenster, bg='#A9BCF5')
-frameGui.place(width=1000, height=1000)    # x=5, y=5 border
+frameGui.place(width=1000, height=950)    # x=5, y=5 border
 
 # toolbar
 toolbar_y = Frame(tk_fenster, bg='#084B8A')
@@ -558,6 +589,10 @@ exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg=
 exit_button.place(x=910, y=20, width=80, height=20)
 refresh_button = Button(tk_fenster, text=" Bilder \n neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
 refresh_button.place(x=910, y=60, width=80, height=40)
+bu1 = Button(tk_fenster, text="Motoren \n halten", command=lambda: bu1_onclick(), bg='#BDBDBD')
+bu1.place(x=905, y=600, width=90, height=40)
+bu2 = Button(tk_fenster, text="Motoren \n sperren", command=lambda: bu2_onclick(), bg='#BDBDBD')
+bu2.place(x=905, y=660, width=90, height=40)
 
 # coordinate
 eingabefeld = Entry(tk_fenster, bd=5, width=45)
