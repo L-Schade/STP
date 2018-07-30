@@ -400,10 +400,15 @@ def hide_images_buttons():
 
 # fuer board wichtig gewesen
 def print_script():
-    motion_control_scriptG.printScript2()
-    print('print script')
-    read_coordinates('new coordinates')
-    output_label()
+    global bu2_blocked
+    if(bu2_blocked == False):
+        motion_control_scriptG.printScript2()
+        print('print script')
+        read_coordinates('new coordinates')
+        output_label()
+    else:
+        output("Motoren sind gesperrt!")
+        output_label()
 
 
 # reload position
@@ -543,15 +548,28 @@ def bu2_onclick():
         bu2_blocked = False
         print(bu2_blocked)
 
+        # TODO
+        output("Motoren sind wieder freigegeben!")
+        output_label()
+        # geht so nur bei navigate, coordinate, automatic & letzte Position
 
-# noch nicht fertig
-def get_blocked(index):
+
+def get_blocked(ind):
     global bu2_blocked
     if(bu2_blocked == False):
-        motion_control_scriptG.left(bu2_blocked)
+        if(ind == 0):
+            motion_control_scriptG.up(bu2_blocked)
+        elif(ind == 1):
+            motion_control_scriptG.left(bu2_blocked)
+        elif (ind == 2):
+            motion_control_scriptG.right(bu2_blocked)
+        elif (ind == 3):
+            motion_control_scriptG.down(bu2_blocked)
+        # print(bu2_blocked)
     else:
+        print(index)
         output("Motoren sind gesperrt!")
-        output_lab()
+        output_label()
 
 
 # create the window
@@ -612,10 +630,14 @@ buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
 buttonMode3.place(x=25, y=220, width=100, height=20)
 buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
 buttonMode4.place(x=25, y=260, width=100, height=20)
-button1 = Button(master=frameGui, text='oben', command=lambda: motion_control_scriptG.up(bu2_blocked))
-button2 = Button(master=frameGui, text='links', command=lambda: motion_control_scriptG.left(bu2_blocked))
-button3 = Button(master=frameGui, text='rechts', command=lambda: motion_control_scriptG.right(bu2_blocked))
-button4 = Button(master=frameGui, text='unten', command=lambda: motion_control_scriptG.down(bu2_blocked))
+# button1 = Button(master=frameGui, text='oben', command=lambda: motion_control_scriptG.up(bu2_blocked))
+button1 = Button(master=frameGui, text='links', command=lambda: get_blocked(0))
+# button2 = Button(master=frameGui, text='links', command=lambda: motion_control_scriptG.left(bu2_blocked))
+button2 = Button(master=frameGui, text='links', command=lambda: get_blocked(1))
+# button3 = Button(master=frameGui, text='rechts', command=lambda: motion_control_scriptG.right(bu2_blocked))
+button3 = Button(master=frameGui, text='links', command=lambda: get_blocked(2))
+#button4 = Button(master=frameGui, text='unten', command=lambda: motion_control_scriptG.down(bu2_blocked))
+button4 = Button(master=frameGui, text='links', command=lambda: get_blocked(3))
 button5 = Button(master=frameGui, text='3sec', command=lambda: motion_control_scriptG.wait(3))
 button6 = Button(master=frameGui, text='5sec', command=lambda: motion_control_scriptG.wait(5))
 button7 = Button(master=frameGui, text='Daten verschicken', command=print_script)
