@@ -117,45 +117,35 @@ def coordinate(x, y, z, wait):
     print('test')
 
 
-def up(blocked):
-    if (blocked == False):
-        x, y, z = read_coordinates()
-        x = int(x)+1
-        # printScript()
-        save_coordinates(x, y, z)
-    else:
-        print("Motoren sind gesperrt!")
+# TODO
+# Abfrage ob Motoren gesperrt sind wird schon in der Gui-Klasse abgefragt
+def up():
+    x, y, z = read_coordinates()
+    x = int(x)+1
+    # printScript()
+    save_coordinates(x, y, z)
 
 
-def left(blocked):
-    if (blocked == False):
-        x, y, z = read_coordinates()
-        y = int(y) + 1
-        # printScript()
-        save_coordinates(x, y, z)
-    else:
-        print("Motoren sind gesperrt!")
+def left():
+    x, y, z = read_coordinates()
+    y = int(y) + 1
+    # printScript()
+    save_coordinates(x, y, z)
 
 
-def right(blocked):
-    if(blocked == False):
-        x, y, z = read_coordinates()
-        z = int(z)+1
-        # printScript()
-        save_coordinates(x, y, z)
-    else:
-        print("Motoren sind gesperrt!")
+def right():
+    x, y, z = read_coordinates()
+    z = int(z)+1
+    # printScript()
+    save_coordinates(x, y, z)
 
 
-def down(blocked):
-    if (blocked == False):
-        x, y, z = read_coordinates()
-        x = int(x)+1
-        y = int(y)+1
-        # printScript()
-        save_coordinates(x, y, z)
-    else:
-        print("Motoren sind gesperrt!")
+def down():
+    x, y, z = read_coordinates()
+    x = int(x)+1
+    y = int(y)+1
+    # printScript()
+    save_coordinates(x, y, z)
 
 
 def wait(time):

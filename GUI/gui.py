@@ -27,27 +27,32 @@ bu2_blocked = False       # Motoren koennen bewegt werden
 
 # click_event
 def click(event):
-    global x, y, text, center
+    global x, y, text, center, bu2_blocked
+    if(bu2_blocked == False):
+        # print("left")
+        print("clicked at", event.x, event.y)
 
-    print("left")
-    print("clicked at", event.x, event.y)
+        x = event.x
+        y = event.y
+        point = [x, y]
+        # text = "Punkt: ({},{})".format(x,y)
+        # output_label()
 
-    x = event.x
-    y = event.y
-    point = [x, y]
-    # text = "Punkt: ({},{})".format(x,y)
-    # output_label()
+        # motion_control_scriptG.automatic()
 
-    # motion_control_scriptG.automatic()
+        # distance = distance_calculator.distance(center, point)
+        # text = "Abstand von {} zum Mittelpunkt: {}".format(point, distance)
+        dist = distance_calculator.dist(center, point)
+        text = "Abstand von {} zum Mittelpunkt: x-Abstand: {} y-Abstand: {}".format(point, dist[0], dist[1])
+        output_label()
 
-    # distance = distance_calculator.distance(center, point)
-    # text = "Abstand von {} zum Mittelpunkt: {}".format(point, distance)
-    dist = distance_calculator.dist(center, point)
-    text = "Abstand von {} zum Mittelpunkt: x-Abstand: {} y-Abstand: {}".format(point, dist[0], dist[1])
-    output_label()
+    else:
+        output("Motoren sind gesperrt!")
+        output_label()
 
 
 # event function
+# latest position
 def button_click():
     hide_automatic_windows()
     hide_coordinate_buttons()
@@ -63,12 +68,16 @@ def button_click():
     print(x, y, z)
     if(bu2_blocked == False):
         print("test")
+        #TODO
         # nur noch an diese Position fahren
 
     else:
         print("Motoren sind gesperrt")
+        output("Motoren sind gesperrt")
+        output_label()
 
 
+# automatic
 def button1_click():
     hide_coordinate_buttons()
     hide_navigate_buttons()
@@ -93,9 +102,11 @@ def button1_click():
     # text = "Abstand von {} zum Mittelpunkt: {}".format(point,dist)
     # output_label()
 
+    # TODO
     # Funktion zum Umrechnen noch ein bauen
 
 
+# coordinate
 def button2_click():
     hide_automatic_windows()
     hide_navigate_buttons()
@@ -245,6 +256,7 @@ def button22_click():
         root_angle.mainloop()
 
 
+# navigate
 def button3_click():
     hide_automatic_windows()
     hide_coordinate_buttons()
@@ -270,6 +282,7 @@ def button3_click():
     # output_label()
 
 
+# images
 def button4_click():
     labelImg.place_forget()
     hide_automatic_windows()
@@ -532,6 +545,10 @@ def bu1_onclick():
         print(bu1_blocked)
 
 
+# TODO
+# Funktion zum Position halten einbauen
+
+
 # blocked motor
 def bu2_onclick():
     global bu2_blocked
@@ -558,14 +575,13 @@ def get_blocked(ind):
     global bu2_blocked
     if(bu2_blocked == False):
         if(ind == 0):
-            motion_control_scriptG.up(bu2_blocked)
+            motion_control_scriptG.up()
         elif(ind == 1):
-            motion_control_scriptG.left(bu2_blocked)
+            motion_control_scriptG.left()
         elif (ind == 2):
-            motion_control_scriptG.right(bu2_blocked)
+            motion_control_scriptG.right()
         elif (ind == 3):
-            motion_control_scriptG.down(bu2_blocked)
-        # print(bu2_blocked)
+            motion_control_scriptG.down()
     else:
         print(index)
         output("Motoren sind gesperrt!")
