@@ -1,11 +1,47 @@
 import os
 import edge_detection
+from termcolor import colored
 # import datetime
 
 name = None
 x = None
 y = None
 z = None
+block = False
+hold = False
+
+
+# TODO
+# Motoren sperren einbauen
+def blocked():
+    global block
+    if(block == True):
+        block = False
+        print colored("Motoren wurden freigegeben!", 'green')
+    elif(block == False):
+        block = True
+        print colored("Motoren sind gesperrt!", 'red')
+        # print("Motoren wurden gesperrt!\n")
+
+    execute()
+
+
+def motor_blocked():
+    global block
+    if(block == True):
+        print colored("Motoren sind gesperrt", 'red')
+        print("Motoren muessen erst noch freigegeben werden")
+        # print("Um die Motoren freizugeben muss die Taste 0 gedrueckt werden\n")
+        execute()
+
+        return True
+    elif(block == False):
+        print colored("Motoren sind freigegeben\n", 'green')
+        return False
+        # execute()
+
+
+# Motoren halten einbauen
 
 
 # read old coordinates
@@ -52,8 +88,9 @@ def list_images(maxi):
 # automatic modus
 def automatic():
     global name
-    print("class automatic")
-    edge_detection.execute(name)
+    if(motor_blocked() == False):
+        print("class automatic")
+        edge_detection.execute(name)
 
     # printScript(x,y,z,wait)
     # save_coordinates(x,y,z)
@@ -62,58 +99,60 @@ def automatic():
 # coordinate modus
 def coordinate():
     print("class coordinate")
-    x = input("enter the x coordinate:")
-    y = input("enter the y coordinate:")
-    z = input("enter the z coordinate:")
-    wait = input("enter the time to wait:")
+    if (motor_blocked() == False):
+        x = input("enter the x coordinate:")
+        y = input("enter the y coordinate:")
+        z = input("enter the z coordinate:")
+        wait = input("enter the time to wait:")
 
-    # printScript(x,y,z,wait)
-    save_coordinates(x, y, z)
+        # printScript(x,y,z,wait)
+        save_coordinates(x, y, z)
 
-    return x, y, z, wait
+        return x, y, z, wait
 
 
 # navigate modus
 def navigate():
     print("class navigate:")
-    x, y, z = read_coordinates()
-    key = raw_input("\n"
-                "j: left \n"
-                "k: down \n"
-                "l: right \n"
-                "i: up \n"
-                "input:")
-    if (key == "j"):
-        x, y, z = left(x, y, z)
-    elif (key == 'k'):
-        x, y, z = down(x, y, z)
-    elif (key == 'l'):
-        x, y, z = right(x, y, z)
-    elif (key == 'i'):
-        x, y, z = up(x, y, z)
-    else:
-        print("undefined key pressed")
-        exit()
-    wait = input("enter the time to wait:")
+    if (motor_blocked() == False):
+        x, y, z = read_coordinates()
+        key = raw_input("\n"
+                    "j: left \n"
+                    "k: down \n"
+                    "l: right \n"
+                    "i: up \n"
+                    "input:")
+        if (key == "j"):
+            x, y, z = left(x, y, z)
+        elif (key == 'k'):
+            x, y, z = down(x, y, z)
+        elif (key == 'l'):
+            x, y, z = right(x, y, z)
+        elif (key == 'i'):
+            x, y, z = up(x, y, z)
+        else:
+            print("undefined key pressed")
+            exit()
+        wait = input("enter the time to wait:")
 
-    # printScript(x, y, z, wait)
-    save_coordinates(x, y, z)
+        # printScript(x, y, z, wait)
+        save_coordinates(x, y, z)
 
-    key_in = (input("\n"
-                    "m: Menu \n"
-                    "n: navigate \n"
-                    "q: exit"))
-    if(key_in == 'm'):
-        execute()
-    elif(key_in == 'n'):
-        navigate()
-    elif(key_in == 'q'):
-        exit()
-    else:
-        print("undefined key pressed")
-        exit()
+        key_in = raw_input("\n"
+                        "m: Menu \n"
+                        "n: navigate \n"
+                        "q: exit\n")
+        if(key_in == 'm'):
+            execute()
+        elif(key_in == 'n'):
+            navigate()
+        elif(key_in == "q"):
+            exit()
+        else:
+            print("undefined key pressed")
+            exit()
 
-    return x, y, z, wait
+        return x, y, z, wait
 
 
 # camera move to the left
@@ -198,6 +237,7 @@ def load_old_coordinates(filename):
 
 def execute():
     print("choose the right mode:")
+    print("press 0 to block the motors")
     print("press 1 for the automatically mode")
     print("press 2 for the coordinate mode")
     print("press 3 for the navigation mode")
@@ -213,6 +253,8 @@ def execute():
         x, y, z, wait = navigate()
     elif(key == 4):
        images()
+    elif(key == 0):
+        blocked()
     else:
         print("undefined key pressed")
         exit()

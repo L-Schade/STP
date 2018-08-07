@@ -10,6 +10,8 @@ pointC = None
 
 # load an image
 def load_image(image_name):
+    # image = image_name[0]+"."+image_name[1]
+    # print(image)
     img = Image.open("Matlab/Bilder/"+image_name)
     plt.imshow(img)
     plt.show()
@@ -68,6 +70,7 @@ def execute(name):
     # image_name = "Bilder_BSP/filter1.jpg"
 
     # img = load_image(image_name)
+
     img = load_image(name)
     # edges_img = edges(img)
     # contourImg = contour(img)
