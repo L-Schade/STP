@@ -46,6 +46,10 @@ def click(event):
         text = "Abstand von {} zum Mittelpunkt: x-Abstand: {} y-Abstand: {}".format(point, dist[0], dist[1])
         output_label()
 
+        # TODO
+        # gewuenschte Position berechnen
+        # Motoren ansteuern
+
     else:
         output("Motoren sind gesperrt!")
         output_label()
@@ -68,8 +72,9 @@ def button_click():
     print(x, y, z)
     if(bu2_blocked == False):
         print("test")
-        #TODO
+        # TODO
         # nur noch an diese Position fahren
+        # Motoren ansteuern
 
     else:
         print("Motoren sind gesperrt")
@@ -102,9 +107,6 @@ def button1_click():
     # text = "Abstand von {} zum Mittelpunkt: {}".format(point,dist)
     # output_label()
 
-    # TODO
-    # Funktion zum Umrechnen noch ein bauen
-
 
 # coordinate
 def button2_click():
@@ -115,12 +117,19 @@ def button2_click():
     labelImg.place_forget()
     # output_lab.place_forget()
     # toolbar_yy.place(x=150, y=0, width=150, height=1000)
-    buttonMode21.place(x=175, y=100, width=125, height=20)
-    buttonMode22.place(x=175, y=140, width=125, height=20)
+    buttonMode21.place(x=175, y=100, width=140, height=30)
+    buttonMode22.place(x=175, y=180, width=140, height=30)
 
 
 def button21_click():
     hide_coordinate_buttons()
+    # TODO
+    # Textfeld anpassen an moegliche Werte
+    # Textfeld richtig ausnutzen
+    output('Geben Sie die gewuenschten Koordinaten ein\n'
+           'der Wert darf zwischen ??? liegen')
+    output_label_coor()
+
     # panel
     # buttonAction = Button(master=frameGui, text='ENTER', command=button_action)
     # buttonAction.place(x=625, y=200, width=100, height=20)
@@ -159,11 +168,13 @@ def button21_click():
                 index = 0
 
                 if(bu2_blocked == False):
-                    # noch Funktion zum "Umrechnen" einbauen
-                    motion_control_scriptG.printScript1(x, y, z, wait)
                     motion_control_scriptG.save_coordinates_wait(x, y, z, wait)
+                    # TODO
+                    # Motoren ansteuern
+                    # noch Funktion zum "Umrechnen" einbauen
 
-                    read_coordinates('neue Koordinaten:')
+                    # read_coordinates('neue Koordinaten:')
+                    read('')
                     output_label()
 
                 else:
@@ -198,6 +209,11 @@ def button21_click():
 
 def button22_click():
     hide_coordinate_buttons()
+    # TODO
+    # Textfeld richtig ausnutzen
+    output('Geben Sie die gewuenschte Winkel Position der einzelnen Motoren ein\n'
+           'der Wert darf zwischen 0 - 180 Grad liegen')
+    output_label_coor()
 
     def fetch(entries):
         index = 0
@@ -219,11 +235,15 @@ def button22_click():
                 index = 0
 
                 if (bu2_blocked == False):
-                    # noch Funktion zum "Umrechnen" einbauen
-                    motion_control_scriptG.printScript1(x, y, z, wait)
+                    # TODO
+                    # Winkel der Motoren noch in Koordinaten umrechnen um einheitliches Format der "coordinaten.txt" zu haben
                     motion_control_scriptG.save_coordinates_wait(x, y, z, wait)
+                    # TODO
+                    # Motoren ansteuern
+                    # noch Funktion zum "Umrechnen" einbauen
 
-                    read_coordinates('neue Koordinaten:')
+                    # read_coordinates('neue Koordinaten:')
+                    read('new angle position:')
                     output_label()
 
                 else:
@@ -291,6 +311,8 @@ def button4_click():
     output_lab.place_forget()
 
     print("lade Bilder")
+    # TODO
+    # Textfeld richtig ausnutzen
     output('lade Bilder...')
     output_label_img()
 
@@ -333,10 +355,17 @@ def output_label():
     output_lab.place(x=200, y=450, width=650, height=250)
 
 
+# output for the side coordinates
+def output_label_coor():
+    # output_lab = Message(master=frameGui)
+    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    output_lab.place(x=200, y=100, width=650, height=200)
+
+
 # output for the side image
 def output_label_img():
     # output_lab = Message(master=frameGui)
-    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    output_lab.config(text=text, bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'))
     output_lab.place(x=200, y=100, width=650, height=150)
 
 
@@ -359,6 +388,8 @@ def read_coordinates(data):
                                  "y-Koordinate: " + y + "\n" \
                                                      "z-Koordinate " + z + "\n" \
                                                                        "time to wait: " + wait + ""
+    # TODO
+    # wird daas wirklich benoetigt ???
     elif (data == 'new angle position:'):
         text = "pitch: " + x + "\n" \
                                       "roll: " + y + "\n" \
@@ -370,6 +401,29 @@ def read_coordinates(data):
                                           "y-Koordinate: " + y + "\n" \
                                                              "z-Koordinate: " + z + "\n" \
                                                                                "time to wait: " + wait +""
+
+
+# read old coordinates, independent of the image
+def read(data):
+    x, y, z = motion_control_scriptG.read_coordinates()
+    wait = str(3)
+    global text
+    if (data == ''):
+        text = "x-Koordinate: " + x + "\n" \
+                                      "y-Koordinate: " + y + "\n" \
+                                                             "z-Koordinate " + z + "\n" \
+                                                                                   "time to wait: " + wait + ""
+    elif (data == 'new angle position:'):
+        text = "pitch: " + x + "\n" \
+                               "roll: " + y + "\n" \
+                                              "yaw: " + z + "\n" \
+                                                            "time to wait: " + wait + ""
+    else:
+        text = "" + data + "\n" \
+                           "x-Koordinate: " + x + "\n" \
+                                                  "y-Koordinate: " + y + "\n" \
+                                                                         "z-Koordinate: " + z + "\n" \
+                                                                                                "time to wait: " + wait + ""
 
 
 # def print(data):
@@ -415,9 +469,13 @@ def hide_images_buttons():
 def print_script():
     global bu2_blocked
     if(bu2_blocked == False):
-        motion_control_scriptG.printScript2()
-        print('print script')
-        read_coordinates('new coordinates')
+        # TODO
+        # Motoren ansteuern
+
+        # motion_control_scriptG.printScript2()
+        # print('print script')
+
+        read('new coordinates:')
         output_label()
     else:
         output("Motoren sind gesperrt!")
@@ -640,20 +698,20 @@ buttonMode1 = Button(master=toolbar_y, text='automatisch', command=button1_click
 buttonMode1.place(x=25, y=140, width=100, height=20)
 buttonMode2 = Button(master=toolbar_y, text='Koordinaten', command=button2_click)
 buttonMode2.place(x=25, y=180, width=100, height=20)
-buttonMode21 = Button(master=frameGui, text='Koordinaten: x,y,z', command=button21_click)
+buttonMode21 = Button(master=frameGui, text='Koordinaten: x, y, z', command=button21_click)
 buttonMode22 = Button(master=frameGui, text='Winkel', command=button22_click)
 buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
 buttonMode3.place(x=25, y=220, width=100, height=20)
 buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
 buttonMode4.place(x=25, y=260, width=100, height=20)
 # button1 = Button(master=frameGui, text='oben', command=lambda: motion_control_scriptG.up(bu2_blocked))
-button1 = Button(master=frameGui, text='links', command=lambda: get_blocked(0))
+button1 = Button(master=frameGui, text='oben', command=lambda: get_blocked(0))
 # button2 = Button(master=frameGui, text='links', command=lambda: motion_control_scriptG.left(bu2_blocked))
 button2 = Button(master=frameGui, text='links', command=lambda: get_blocked(1))
 # button3 = Button(master=frameGui, text='rechts', command=lambda: motion_control_scriptG.right(bu2_blocked))
-button3 = Button(master=frameGui, text='links', command=lambda: get_blocked(2))
+button3 = Button(master=frameGui, text='rechts', command=lambda: get_blocked(2))
 #button4 = Button(master=frameGui, text='unten', command=lambda: motion_control_scriptG.down(bu2_blocked))
-button4 = Button(master=frameGui, text='links', command=lambda: get_blocked(3))
+button4 = Button(master=frameGui, text='unten', command=lambda: get_blocked(3))
 button5 = Button(master=frameGui, text='3sec', command=lambda: motion_control_scriptG.wait(3))
 button6 = Button(master=frameGui, text='5sec', command=lambda: motion_control_scriptG.wait(5))
 button7 = Button(master=frameGui, text='Daten verschicken', command=print_script)
@@ -670,10 +728,13 @@ buttonImg8 = Button(master=frameGui, image=images[7], command=lambda: button_cli
 buttonImg9 = Button(master=frameGui, image=images[8], command=lambda: button_click_image(8))
 # buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
+
+#
 exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg='#BDBDBD')
 exit_button.place(x=910, y=20, width=80, height=20)
 refresh_button = Button(tk_fenster, text=" Bilder \n neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
 refresh_button.place(x=910, y=60, width=80, height=40)
+#
 bu1 = Button(tk_fenster, text="Motoren \n halten", command=lambda: bu1_onclick(), bg='#BDBDBD')
 bu1.place(x=905, y=600, width=90, height=40)
 bu2 = Button(tk_fenster, text="Motoren \n sperren", command=lambda: bu2_onclick(), bg='#BDBDBD')

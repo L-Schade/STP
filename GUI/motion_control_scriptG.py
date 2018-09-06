@@ -35,6 +35,7 @@ def read_coordinates():
     return x, y, z
 
 
+# coordinates fits to image
 def read_old_coordinates(file_name):
     print(file_name)
     filename = open('Positionen/'+file_name+'.txt','r')
@@ -51,40 +52,6 @@ def read_old_coordinates(file_name):
     return x, y, z
 
 
-def printScript():
-    file = open("script.mcs","w")
-    file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
-    file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
-               "Wait( {} );  # waits {} seconds \n".format(x, y, z, wait, wait))
-    file.write("DoCamera('Shutter');  # ??? \n"
-               "RecenterCamera();  # recenters all three axes\n"
-               "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
-    file.close()
-
-
-def printScript1(x, y, z, wait):
-    file = open("script.mcs","w")
-    file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
-    file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
-               "Wait( {} );  # waits {} seconds \n".format(x, y, z, wait, wait))
-    file.write("DoCamera('Shutter');  # ??? \n"
-               "RecenterCamera();  # recenters all three axes\n"
-               "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
-    file.close()
-
-
-def printScript2():
-    x, y, z, wait = read_coordinates_wait()
-    file = open("script.mcs", "w")
-    file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
-    file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
-               "Wait( {} );  # waits {} seconds \n".format(x, y, z, wait, wait))
-    file.write("DoCamera('Shutter');  # ??? \n"
-               "RecenterCamera();  # recenters all three axes\n"
-               "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
-    file.close()
-
-
 def save_coordinates_wait(x, y, z, wait):
     filename= open("coordinates.txt", "w")
     filename.write(str(x)+'\n')
@@ -93,9 +60,11 @@ def save_coordinates_wait(x, y, z, wait):
     filename.write(str(wait) + '\n')
     filename.write(str(datetime.datetime.now()))
     filename.close()
+    print("save to file")
 
 
 def save_coordinates(x, y, z,):
+    print(y)
     filename = open("coordinates.txt", "w")
     filename.write(str(x)+'\n')
     filename.write(str(y)+'\n')
@@ -108,7 +77,7 @@ def save_coordinates(x, y, z,):
 def automatic():
     print("class automatic")
 
-    printScript()
+    # printScript()
     # save_coordinates_wait(x,y,z,wait)
     save_coordinates(x, y, z)
 
@@ -128,9 +97,10 @@ def up():
 
 def left():
     x, y, z = read_coordinates()
-    y = int(y) + 1
+    new_y = int(y) + 1
+    print(new_y)
     # printScript()
-    save_coordinates(x, y, z)
+    save_coordinates(x, new_y, z)
 
 
 def right():
@@ -169,3 +139,35 @@ def opposite(image_name):
     # print("illegal type")
 
 
+# def printScript():
+#     file = open("script.mcs","w")
+#     file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
+#     file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
+#                "Wait( {} );  # waits {} seconds \n".format(x, y, z, wait, wait))
+#     file.write("DoCamera('Shutter');  # ??? \n"
+#                "RecenterCamera();  # recenters all three axes\n"
+#                "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
+#     file.close()
+#
+#
+# def printScript1(x, y, z, wait):
+#     file = open("script.mcs","w")
+#     file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
+#     file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
+#                "Wait( {} );  # waits {} seconds \n".format(x, y, z, wait, wait))
+#     file.write("DoCamera('Shutter');  # ??? \n"
+#                "RecenterCamera();  # recenters all three axes\n"
+#                "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
+#     file.close()
+#
+#
+# def printScript2():
+#     x, y, z, wait = read_coordinates_wait()
+#     file = open("script.mcs", "w")
+#     file.write("UseMavlinkEmbedding( 57600, 82, 67, 71, 67 ); \n")
+#     file.write("SetAngle( {},{},{} );  # sets pitch, roll, yaw, in degrees \n"
+#                "Wait( {} );  # waits {} seconds \n".format(x, y, z, wait, wait))
+#     file.write("DoCamera('Shutter');  # ??? \n"
+#                "RecenterCamera();  # recenters all three axes\n"
+#                "TextOut('End');  # eigentlich: TextOut( 'End !mit Umbruch!' );")
+#     file.close()
