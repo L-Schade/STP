@@ -63,6 +63,8 @@ def button_click():
     hide_navigate_buttons()
     hide_images_buttons()
     labelImg.place_forget()
+    label_img_coord1.place_forget()
+    label_img_coord2.place_forget()
 
     # buttonModeTest.place_forget()
     read_coordinates('alte Position:')
@@ -80,6 +82,7 @@ def button_click():
         print("Motoren sind gesperrt")
         output("Motoren sind gesperrt")
         output_label()
+        stop()
 
 
 # automatic
@@ -89,6 +92,8 @@ def button1_click():
     hide_images_buttons()
     output_lab.place_forget()
     labelImg.place_forget()
+    label_img_coord1.place_forget()
+    label_img_coord2.place_forget()
 
     # click_event
     frame.place(x=200, y=75, width=600, height=350)
@@ -98,6 +103,9 @@ def button1_click():
     labelImg1.place(x=50, y=50, width=500, height=250)
     labelImg1.Image = imageNavigate
     labelImg1.bind("<Button-1>", click)
+
+    # TODO
+    # ueberpruefen ob Motoren gesperrt sind
 
     global center
     center = distance_calculator.center(500, 250)
@@ -115,6 +123,8 @@ def button2_click():
     hide_images_buttons()
     output_lab.place_forget()
     labelImg.place_forget()
+    label_img_coord1.place_forget()
+    label_img_coord2.place_forget()
     # output_lab.place_forget()
     # toolbar_yy.place(x=150, y=0, width=150, height=1000)
     buttonMode21.place(x=175, y=100, width=140, height=30)
@@ -129,6 +139,13 @@ def button21_click():
     output('Geben Sie die gewuenschten Koordinaten ein\n'
            'der Wert darf zwischen ??? liegen')
     output_label_coor()
+
+    i = Image.open("angle.jpeg")
+    photo = ImageTk.PhotoImage(i)
+    # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
+    # img.place(x=150, y=325, width=750, height=100)
+    label_img_coord1.config(image=photo)
+    label_img_coord1.place(x=325, y=400, width=350, height=190)
 
     # panel
     # buttonAction = Button(master=frameGui, text='ENTER', command=button_action)
@@ -178,9 +195,12 @@ def button21_click():
                     output_label()
 
                 else:
+                    label_img_coord1.place_forget()
+
                     print("Motoren sind gesperrt")
                     output("Motoren sind gesperrt!")
                     output_label()
+                    stop()
 
 
     def makeform(root, fields):
@@ -215,6 +235,13 @@ def button22_click():
            'der Wert darf zwischen 0 - 180 Grad liegen')
     output_label_coor()
 
+    i = Image.open("angle.jpeg")
+    photo = ImageTk.PhotoImage(i)
+    # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
+    # img.place(x=150, y=325, width=750, height=100)
+    label_img_coord2.config(image=photo)
+    label_img_coord2.place(x=325, y=400, width=350, height=190)
+
     def fetch(entries):
         index = 0
         for entry in entries:
@@ -247,9 +274,12 @@ def button22_click():
                     output_label()
 
                 else:
+                    label_img_coord2.place_forget()
+
                     print("Motoren sind gesperrt")
                     output("Motoren sind gesperrt!")
                     output_label()
+                    stop()
 
 
     def makeform(root, fields):
@@ -282,6 +312,8 @@ def button3_click():
     hide_coordinate_buttons()
     hide_images_buttons()
     labelImg.place_forget()
+    label_img_coord1.place_forget()
+    label_img_coord2.place_forget()
     # motion_control_scriptG.coordinate()
 
     read_coordinates('alte Daten:')
@@ -305,6 +337,8 @@ def button3_click():
 # images
 def button4_click():
     labelImg.place_forget()
+    label_img_coord1.place_forget()
+    label_img_coord2.place_forget()
     hide_automatic_windows()
     hide_navigate_buttons()
     hide_coordinate_buttons()
@@ -547,7 +581,7 @@ def load_position(name):
     # motion_control_scriptG.save_coordinates(x, y, z, 3)
 
 
-#
+# place warning-label
 def warning():
     if __name__ == '__main__':
         root_angle = Tk()
@@ -580,17 +614,27 @@ def opposite(root_angle, img):
     img.place_forget()
 
 
-#
+# close warning-label
 def close_warning(root_angle, img):
     root_angle.destroy()
     img.place_forget()
 
 
+# place stop-label
+def stop():
+    print("stop")
+    img_stop.place(x=150, y=100, width=750, height=250)
+    img_stop.lift()
+
+# close stop-label
+def close_stop():
+    img_stop.place_forget()
+
 # hold position
 def bu1_onclick():
     global bu1_blocked
     if(bu1_blocked == False):
-        bu1['bg'] = '#B40431'
+        bu1['bg'] = '#FE9A2E'
         bu1['fg'] = 'white'
         bu1['text'] = 'Position \nwird gehalten'
         bu1_blocked = True
@@ -623,6 +667,8 @@ def bu2_onclick():
         bu2_blocked = False
         print(bu2_blocked)
 
+        img_stop.place_forget()
+
         # TODO
         output("Motoren sind wieder freigegeben!")
         output_label()
@@ -644,6 +690,7 @@ def get_blocked(ind):
         print(index)
         output("Motoren sind gesperrt!")
         output_label()
+        stop()
 
 
 # create the window
@@ -690,6 +737,14 @@ labelImg = Label(master=frameGui, image=imageStart, bg='white', state=NORMAL)
 labelImg.place(x=325, y=100, width=350, height=200)
 labelImg1 = Label(master=frame, bg='white')           # automatic
 labelImg2 = Label(master=frameGui, bg='white')        # navigate
+
+label_img_coord1 = Label(master=frameGui, bg='white')
+label_img_coord2 = Label(master=frameGui, bg='white')
+
+# stop image
+i = Image.open("stop.png")
+photo = ImageTk.PhotoImage(i)
+img_stop = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
 
 # Button
 buttonMode = Button(master=toolbar_y, text='letzte Position', command=button_click)
