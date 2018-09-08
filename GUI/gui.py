@@ -2,10 +2,13 @@ from Tkinter import *   # python 2.7
 # from  tkinter import *  # 3.5
 import tkMessageBox
 from PIL import Image, ImageTk
+import time
 import motion_control_scriptG
 import distance_calculator
 # import functionsG
 import imagesG
+
+
 
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
@@ -67,6 +70,16 @@ def button_click():
     label_img_coord2.place_forget()
 
     # buttonModeTest.place_forget()
+
+    # Image appropriate to the latest Position
+    frame.place(x=225, y=75, width=600, height=350)
+    labelImg1.config(image=imageAutomatic)
+    labelImg1.place(x=50, y=50, width=500, height=250)
+    labelImg1.Image = imageNavigate
+
+    # output("Motoren fahren an die zuletzt aufgenommene Position")
+    # output_lab = output_label_img()
+
     read_coordinates('alte Position:')
     output_label()
 
@@ -96,16 +109,13 @@ def button1_click():
     label_img_coord2.place_forget()
 
     # click_event
-    frame.place(x=200, y=75, width=600, height=350)
+    frame.place(x=225, y=75, width=600, height=350)
     # frame.bind("<Button-1>", click)
 
     labelImg1.config(image=imageAutomatic)
     labelImg1.place(x=50, y=50, width=500, height=250)
     labelImg1.Image = imageNavigate
     labelImg1.bind("<Button-1>", click)
-
-    # TODO
-    # ueberpruefen ob Motoren gesperrt sind
 
     global center
     center = distance_calculator.center(500, 250)
@@ -145,7 +155,7 @@ def button21_click():
     # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
     # img.place(x=150, y=325, width=750, height=100)
     label_img_coord1.config(image=photo)
-    label_img_coord1.place(x=325, y=400, width=350, height=190)
+    label_img_coord1.place(x=350, y=400, width=350, height=190)
 
     # panel
     # buttonAction = Button(master=frameGui, text='ENTER', command=button_action)
@@ -193,6 +203,7 @@ def button21_click():
                     # read_coordinates('neue Koordinaten:')
                     read('')
                     output_label()
+                    label_img_coord1.place_forget()
 
                 else:
                     label_img_coord1.place_forget()
@@ -240,7 +251,7 @@ def button22_click():
     # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
     # img.place(x=150, y=325, width=750, height=100)
     label_img_coord2.config(image=photo)
-    label_img_coord2.place(x=325, y=400, width=350, height=190)
+    label_img_coord2.place(x=350, y=400, width=350, height=190)
 
     def fetch(entries):
         index = 0
@@ -272,6 +283,8 @@ def button22_click():
                     # read_coordinates('neue Koordinaten:')
                     read('new angle position:')
                     output_label()
+                    label_img_coord2.place_forget()
+
 
                 else:
                     label_img_coord2.place_forget()
@@ -343,11 +356,12 @@ def button4_click():
     hide_navigate_buttons()
     hide_coordinate_buttons()
     output_lab.place_forget()
+    close_stop()
 
     print("lade Bilder")
     # TODO
     # Textfeld richtig ausnutzen
-    output('lade Bilder...')
+    output('Die letzten/ aktuellsten neun Bilder wurden geladen, Stand: ' + time.strftime("%d.%m.%Y %H:%M:%S"))
     output_label_img()
 
     # scrollbar.pack(side=RIGHT, fill=Y)
@@ -385,21 +399,22 @@ def button_click_image(index):
 # output for navigate, coordinate, automatic & letzte Position
 def output_label():
     # output_lab = Message(master=frameGui)
-    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-    output_lab.place(x=200, y=450, width=650, height=250)
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    output_lab.place(x=225, y=450, width=600, height=250)
+    return output_lab
 
 
 # output for the side coordinates
 def output_label_coor():
     # output_lab = Message(master=frameGui)
-    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=200, y=100, width=650, height=200)
 
 
 # output for the side image
 def output_label_img():
     # output_lab = Message(master=frameGui)
-    output_lab.config(text=text, bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'))
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=W, font=('times', 20, 'italic'))
     output_lab.place(x=200, y=100, width=650, height=150)
 
 
@@ -407,6 +422,47 @@ def output_label_img():
 def output(data):
     global text
     text = data
+
+
+def comment(data):
+    if(data == 'Motoren sind gesperrt!'):
+        comment_label['fg'] = 'red'
+        if(bu1_blocked == True):
+            data = "Motoren Posi-\n" \
+                   "tionen werden gehalten\n" + data
+    elif(data == 'Motoren Positionen werden gehalten'):
+        comment_label['fg'] = 'red'
+        if (bu2_blocked == True):
+            data = 'Motoren sind\n' \
+                   'gesperrt\nMotoren Posi-\n' \
+                   'tionen werden gehalten'
+    elif(data == 'Motoren sind wieder frei/ halten nicht mehr'):
+        if(bu2_blocked == True):
+            data = 'Motoren sind\n' \
+                   'gesperrt\nMotoren sind\n' \
+                   'wieder frei/ \n' \
+                   'halten nicht\n' \
+                   'mehr'
+    elif(data == 'Motoren sind freigegeben!'):
+        if(bu1_blocked == True):
+            data =  'Motoren Posi-\n' \
+                    'tionen werden gehalten\n' + data
+    elif(data == 'Bilder wurden neu geladen'):
+        if (bu1_blocked == True):
+            data = 'Motoren Positionen werden gehalten ' + data
+        elif (bu2_blocked == True):
+            data = "Motoren sind gesperrt\n" + data
+        elif (bu2_blocked == True & bu1_blocked == True):
+            data = 'Motoren Posi-\n' \
+                   'tionen werden gehalten  ' \
+                   'Motoren sind gesperrt' + data
+            # TODO
+            # 2. String wird verschluckt
+    # else:
+    #     comment_label['fg'] = 'white
+    comment_label.config(text=str(data),anchor=NW ,font=('times', 14, 'italic'))
+
+    comment_label.place(x=10, y=320, width=130, height=360)
 
 
 # load position addicted to image
@@ -550,6 +606,7 @@ def get_latest_images():
     global image
     list_images(6)
     image = load_image(imagesG.latest_image())
+    comment('Bilder wurden neu geladen')
 
 
 # load the latest images, the number depend on maxi
@@ -626,9 +683,11 @@ def stop():
     img_stop.place(x=150, y=100, width=750, height=250)
     img_stop.lift()
 
+
 # close stop-label
 def close_stop():
     img_stop.place_forget()
+
 
 # hold position
 def bu1_onclick():
@@ -636,15 +695,17 @@ def bu1_onclick():
     if(bu1_blocked == False):
         bu1['bg'] = '#FE9A2E'
         bu1['fg'] = 'white'
-        bu1['text'] = 'Position \nwird gehalten'
+        bu1['text'] = 'Positionen \nwerden gehalten'
         bu1_blocked = True
         print(bu1_blocked)
+        comment('Motoren Positionen werden gehalten')
     elif(bu1_blocked == True):
         bu1['bg'] = '#BDBDBD'
         bu1['fg'] = 'black'
-        bu1['text'] = 'Motoren \nhalten'
+        bu1['text'] = 'Motoren \nPosition halten'
         bu1_blocked = False
         print(bu1_blocked)
+        comment('Motoren sind wieder frei/ halten nicht mehr')
 
 
 # TODO
@@ -660,12 +721,14 @@ def bu2_onclick():
         bu2['fg'] = 'white'
         bu2['text'] = 'Motoren \ngesperrt'
         print(bu2_blocked)
+        comment('Motoren sind gesperrt!')
     elif(bu2_blocked == True):
         bu2['bg'] = '#BDBDBD'
         bu2['fg'] = 'black'
         bu2['text'] = 'Motoren \nsperren'
         bu2_blocked = False
         print(bu2_blocked)
+        comment('Motoren sind freigegeben!')
 
         img_stop.place_forget()
 
@@ -690,27 +753,33 @@ def get_blocked(ind):
         print(index)
         output("Motoren sind gesperrt!")
         output_label()
+        # comment("Motoren sind gesperrt!")
         stop()
 
 
 # create the window
 tk_fenster = Tk()
 tk_fenster.title('GUI')
-tk_fenster.geometry('1000x1000')
+tk_fenster.geometry('1000x720')
 
 # background
 frameGui = Frame(master=tk_fenster, bg='#A9BCF5')
-frameGui.place(width=1000, height=950)    # x=5, y=5 border
+frameGui.place(width=1000, height=720)    # x=5, y=5 border
 
 # toolbar
 toolbar_y = Frame(tk_fenster, bg='#084B8A')
 # toolbar.pack(side=TOP, fill=X, padx=10)
-toolbar_y.place(x=0, y=0, width=150, height=1000)
+toolbar_y.place(x=0, y=0, width=150, height=720)
 toolbar_yy = Frame(master=tk_fenster, bg='#045FB4')
 # toolbar.pack(side=TOP, fill=X, padx=10)
 toolbar_yyy = Frame(tk_fenster, bg='#084B8A')
 # toolbar.pack(side=TOP, fill=X, padx=10)
-toolbar_yyy.place(x=900, y=0, width=100, height=1000)
+toolbar_yyy.place(x=900, y=0, width=100, height=720)
+
+# comment
+# txt = "Whatever you do will be insignificant, but it is very important that you do it.\n(Mahatma Gandhi)"
+comment_label = Message(master=toolbar_y, bg='#E6E6E6', anchor=N, text="Infos", font=('times', 10, 'italic'))      # ,text="Kommentarfenster"
+comment_label.place(x=10, y=320, width=130, height=380)
 
 # scrollbar
 # scrollbar = Scrollbar(tk_fenster)
@@ -718,7 +787,7 @@ toolbar_yyy.place(x=900, y=0, width=100, height=1000)
 
 # label
 my_label = Label(master=frameGui, text="Automatische Werkzeug-Kontakt Detektion", bg='white')    # bg='#BDBDBD'
-my_label.place(x=325, y=20, width=350, height=30)
+my_label.place(x=350, y=20, width=350, height=30)
 
 # click_event
 frame = Frame(master=frameGui, bg='white')
@@ -734,7 +803,7 @@ im = load_image(imagesG.latest_image())
 
 # Label for images
 labelImg = Label(master=frameGui, image=imageStart, bg='white', state=NORMAL)
-labelImg.place(x=325, y=100, width=350, height=200)
+labelImg.place(x=350, y=100, width=350, height=200)
 labelImg1 = Label(master=frame, bg='white')           # automatic
 labelImg2 = Label(master=frameGui, bg='white')        # navigate
 
@@ -800,7 +869,9 @@ eingabefeld = Entry(tk_fenster, bd=5, width=45)
 text_label = Label(tk_fenster)
 
 # output
-output_lab = Message(master=frameGui)
+output_lab = Message(master=frameGui)       # vorgeschriebene Breite
+# output_lab = Text(master=frameGui)          # hat kein Attribut text (bei config)
+# output_lab = Label(master=frameGui)       # text laeuft aus dem Label hinaus
 
 # activation the window
 tk_fenster.mainloop()
