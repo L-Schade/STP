@@ -39,15 +39,20 @@ def click(event):
         y = event.y
         point = [x, y]
         # text = "Punkt: ({},{})".format(x,y)
-        # output_label()
 
         # motion_control_scriptG.automatic()
 
         # distance = distance_calculator.distance(center, point)
         # text = "Abstand von {} zum Mittelpunkt: {}".format(point, distance)
         dist = distance_calculator.dist(center, point)
-        text = "Abstand von {} zum Mittelpunkt: x-Abstand: {} y-Abstand: {}".format(point, dist[0], dist[1])
-        output_label()
+        text = "Abstand von {} zum Mittelpunkt:\n" \
+               "x-Abstand: {} \n" \
+               "y-Abstand: {}".format(point, dist[0], dist[1])
+
+        # TODO
+        # schoeneres Textfeld
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)    #
+        output_lab.place(x=225, y=475, width=600)
 
         # TODO
         # gewuenschte Position berechnen
@@ -55,7 +60,9 @@ def click(event):
 
     else:
         output("Motoren sind gesperrt!")
-        output_label()
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+        output_lab.place(x=225, y=450, width=600)
+        stop()
 
 
 # event function
@@ -81,7 +88,8 @@ def button_click():
     # output_lab = output_label_img()
 
     read_coordinates('alte Position:')
-    output_label()
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    output_lab.place(x=225, y=450, width=600, height=200)
 
     x, y, z = motion_control_scriptG.read_old_coordinates(image_na)
     print(x, y, z)
@@ -94,7 +102,8 @@ def button_click():
     else:
         print("Motoren sind gesperrt")
         output("Motoren sind gesperrt")
-        output_label()
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+        output_lab.place(x=225, y=450, width=600, height=200)
         stop()
 
 
@@ -123,7 +132,6 @@ def button1_click():
 
     # global text
     # text = "Abstand von {} zum Mittelpunkt: {}".format(point,dist)
-    # output_label()
 
 
 # coordinate
@@ -146,7 +154,7 @@ def button21_click():
     # TODO
     # Textfeld anpassen an moegliche Werte
     # Textfeld richtig ausnutzen
-    output('Geben Sie die gewuenschten Koordinaten ein\n'
+    output('Geben Sie die gewuenschten Koordinaten ein, '
            'der Wert darf zwischen ??? liegen')
     output_label_coor()
 
@@ -175,7 +183,7 @@ def button21_click():
 
     # coordinates, extra window
     def fetch(entries):
-        global bu2_blocked
+        global bu2_blocked, text
         index = 0
         for entry in entries:
             field = entry[0]
@@ -193,6 +201,8 @@ def button21_click():
             elif(index == 3):
                 wait = entry[1].get()
                 index = 0
+                # TODO
+                # wait wird falsch uebertragen
 
                 if(bu2_blocked == False):
                     motion_control_scriptG.save_coordinates_wait(x, y, z, wait)
@@ -202,7 +212,8 @@ def button21_click():
 
                     # read_coordinates('neue Koordinaten:')
                     read('')
-                    output_label()
+                    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+                    # output_lab.place(x=225, y=450, width=600, height=200)
                     label_img_coord1.place_forget()
 
                 else:
@@ -210,7 +221,8 @@ def button21_click():
 
                     print("Motoren sind gesperrt")
                     output("Motoren sind gesperrt!")
-                    output_label()
+                    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+                    output_lab.place(x=225, y=450, width=600, height=200)
                     stop()
 
 
@@ -242,7 +254,7 @@ def button22_click():
     hide_coordinate_buttons()
     # TODO
     # Textfeld richtig ausnutzen
-    output('Geben Sie die gewuenschte Winkel Position der einzelnen Motoren ein\n'
+    output('Geben Sie die gewuenschte Winkel Position der einzelnen Motoren ein, '
            'der Wert darf zwischen 0 - 180 Grad liegen')
     output_label_coor()
 
@@ -254,6 +266,7 @@ def button22_click():
     label_img_coord2.place(x=350, y=400, width=350, height=190)
 
     def fetch(entries):
+        global bu2_blocked, text
         index = 0
         for entry in entries:
             field = entry[0]
@@ -270,7 +283,10 @@ def button22_click():
                 index = index + 1
             elif(index == 3):
                 wait = entry[1].get()
+                print(wait)
                 index = 0
+                # TODO
+                # wait wird falsch uebertragen
 
                 if (bu2_blocked == False):
                     # TODO
@@ -282,7 +298,7 @@ def button22_click():
 
                     # read_coordinates('neue Koordinaten:')
                     read('new angle position:')
-                    output_label()
+                    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
                     label_img_coord2.place_forget()
 
 
@@ -291,7 +307,9 @@ def button22_click():
 
                     print("Motoren sind gesperrt")
                     output("Motoren sind gesperrt!")
-                    output_label()
+                    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+                    print(text)
+                    output_lab.place(x=225, y=450, width=600, height=200)
                     stop()
 
 
@@ -330,7 +348,8 @@ def button3_click():
     # motion_control_scriptG.coordinate()
 
     read_coordinates('alte Daten:')
-    output_label()
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    output_lab.place(x=225, y=425, width=600, height=200)
 
     button1.place(x=250, y=100, width=100, height=20)
     button2.place(x=175, y=140, width=100, height=20)
@@ -344,7 +363,7 @@ def button3_click():
     labelImg2.place(x=500, y=110, width=350, height= 190)
 
     # read_coordinates('')
-    # output_label()
+    # output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
 
 
 # images
@@ -396,26 +415,18 @@ def button_click_image(index):
     output_label_img()
 
 
-# output for navigate, coordinate, automatic & letzte Position
-def output_label():
-    # output_lab = Message(master=frameGui)
-    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-    output_lab.place(x=225, y=450, width=600, height=250)
-    return output_lab
-
-
 # output for the side coordinates
 def output_label_coor():
     # output_lab = Message(master=frameGui)
-    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-    output_lab.place(x=200, y=100, width=650, height=200)
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'))
+    output_lab.place(x=300, y=100, width=450, height=200)
 
 
 # output for the side image
 def output_label_img():
     # output_lab = Message(master=frameGui)
-    output_lab.config(text=str(text), bg='#E0ECF8', anchor=W, font=('times', 20, 'italic'))
-    output_lab.place(x=200, y=100, width=650, height=150)
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'), aspect=200)
+    output_lab.place(x=300, y=100, width=450)      # x= 200,
 
 
 # set new output text
@@ -448,21 +459,23 @@ def comment(data):
             data =  'Motoren Posi-\n' \
                     'tionen werden gehalten\n' + data
     elif(data == 'Bilder wurden neu geladen'):
-        if (bu1_blocked == True):
-            data = 'Motoren Positionen werden gehalten ' + data
-        elif (bu2_blocked == True):
-            data = "Motoren sind gesperrt\n" + data
-        elif (bu2_blocked == True & bu1_blocked == True):
-            data = 'Motoren Posi-\n' \
-                   'tionen werden gehalten  ' \
-                   'Motoren sind gesperrt' + data
+        # if (bu1_blocked == True):
+        #     data = 'Motoren Positionen werden gehalten ' + data
+        # elif (bu2_blocked == True):
+        #     data = "Motoren sind gesperrt\n" + data
+        # elif (bu2_blocked == True & bu1_blocked == True):
+        #     data = 'Motoren Posi-\n' \
+        #            'tionen werden gehalten  ' \
+        #            'Motoren sind gesperrt' + data
+        date = 'Bilder wurden neu geladen'
+        comment_label['fg'] = 'black'
             # TODO
-            # 2. String wird verschluckt
+            # 2. String wird verschluckt, Messagebox zu klein?
     # else:
     #     comment_label['fg'] = 'white
     comment_label.config(text=str(data),anchor=NW ,font=('times', 14, 'italic'))
 
-    comment_label.place(x=10, y=320, width=130, height=360)
+    comment_label.place(x=10, y=320, width=130)     # , height=360
 
 
 # load position addicted to image
@@ -555,7 +568,7 @@ def hide_images_buttons():
     buttonImg9.place_forget()
 
 
-# fuer board wichtig gewesen
+# print script, navigate
 def print_script():
     global bu2_blocked
     if(bu2_blocked == False):
@@ -565,17 +578,18 @@ def print_script():
         # motion_control_scriptG.printScript2()
         # print('print script')
 
-        read('new coordinates:')
-        output_label()
+        read('neue Koordinaten:')
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     else:
         output("Motoren sind gesperrt!")
-        output_label()
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+        stop()
 
 
 # reload position
 def update_coordinates():
     read_coordinates('new coordinates')
-    output_label()
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
 
 
 # load image from file
@@ -651,7 +665,7 @@ def warning():
         # img.pack(fill=X, pady=5)
 
         # tkMessageBox.showwarning("Warning", "Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?")
-        text = Label(root_angle, text="Sind sie sich sicher das nichts im Weg ist \n & sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
+        text = Label(root_angle, text="Sind Sie sich sicher das nichts im Weg ist \n & Sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
         text.pack(fill=X, pady=5)
         b1 = Button(root_angle, text='auf die andere Seite fahren',command=lambda: opposite(root_angle, img)) # command=motion_control_scriptG.printScript()
         # b1 = Button(tkMessageBox, text='auf die andere Seite fahren', command=motion_control_scriptG.opposite())
@@ -734,7 +748,7 @@ def bu2_onclick():
 
         # TODO
         output("Motoren sind wieder freigegeben!")
-        output_label()
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
         # geht so nur bei navigate, coordinate, automatic & letzte Position
 
 
@@ -752,7 +766,7 @@ def get_blocked(ind):
     else:
         print(index)
         output("Motoren sind gesperrt!")
-        output_label()
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
         # comment("Motoren sind gesperrt!")
         stop()
 
@@ -779,7 +793,7 @@ toolbar_yyy.place(x=900, y=0, width=100, height=720)
 # comment
 # txt = "Whatever you do will be insignificant, but it is very important that you do it.\n(Mahatma Gandhi)"
 comment_label = Message(master=toolbar_y, bg='#E6E6E6', anchor=N, text="Infos", font=('times', 10, 'italic'))      # ,text="Kommentarfenster"
-comment_label.place(x=10, y=320, width=130, height=380)
+comment_label.place(x=10, y=320, width=130)         # , height=380
 
 # scrollbar
 # scrollbar = Scrollbar(tk_fenster)
