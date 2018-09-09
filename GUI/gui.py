@@ -31,7 +31,7 @@ bu2_blocked = False       # Motoren koennen bewegt werden
 # click_event
 def click(event):
     global x, y, text, center, bu2_blocked
-    if(bu2_blocked == False):
+    if not bu2_blocked:         # False
         # print("left")
         print("clicked at", event.x, event.y)
 
@@ -91,7 +91,7 @@ def button_click():
 
     x, y, z = motion_control_scriptG.read_old_coordinates(image_na)
     print(x, y, z)
-    if(bu2_blocked == False):
+    if not bu2_blocked:     # False
         print("test")
         # TODO
         # nur noch an diese Position fahren
@@ -175,7 +175,7 @@ def button21_click():
 
     # def button_action():
     #     entry_text = eingabefeld.get()
-    #     if (entry_text == ""):
+    #     if  entry_text == "":
     #         text_label.config(text="undefined key")
     #     else:
     #         text = functionsG.input(entry_text)
@@ -184,27 +184,27 @@ def button21_click():
     # coordinates, extra window
     def fetch(entries):
         global bu2_blocked, text
-        index = 0
+        ind = 0
         for entry in entries:
             field = entry[0]
             text = entry[1].get()
             print('%s: "%s"' % (field, text))
-            if(index == 0):
+            if ind == 0:
                 x = entry[1].get()
-                index = index+1
-            elif (index == 1):
+                ind = ind+1
+            elif ind == 1 :
                 y = entry[1].get()
-                index = index + 1
-            elif(index == 2):
+                ind = ind + 1
+            elif ind == 2:
                 z = entry[1].get()
-                index = index+1
-            elif(index == 3):
+                ind = ind+1
+            elif ind == 3:
                 wait = entry[1].get()
-                index = 0
+                ind = 0
                 # TODO
                 # wait wird falsch uebertragen
 
-                if(bu2_blocked == False):
+                if not bu2_blocked:         # False
                     motion_control_scriptG.save_coordinates_wait(x, y, z, wait)
                     # TODO
                     # Motoren ansteuern
@@ -265,28 +265,28 @@ def button22_click():
 
     def fetch(entries):
         global bu2_blocked, text
-        index = 0
+        ind = 0
         for entry in entries:
             field = entry[0]
             text = entry[1].get()
             print('%s: "%s"' % (field, text))
-            if(index == 0):
+            if ind == 0:
                 x = entry[1].get()
-                index = index+1
-            elif (index == 1):
+                ind = ind+1
+            elif ind == 1:
                 y = entry[1].get()
-                index = index + 1
-            elif (index == 2):
+                ind = ind + 1
+            elif ind == 2:
                 z = entry[1].get()
-                index = index + 1
-            elif(index == 3):
+                ind = ind + 1
+            elif ind == 3:
                 wait = entry[1].get()
                 print(wait)
-                index = 0
+                ind = 0
                 # TODO
                 # wait wird falsch uebertragen
 
-                if (bu2_blocked == False):
+                if not bu2_blocked:         # False
                     # TODO
                     # Winkel der Motoren noch in Koordinaten umrechnen um einheitliches Format der "coordinaten.txt" zu haben
                     motion_control_scriptG.save_coordinates_wait(x, y, z, wait)
@@ -404,6 +404,10 @@ def button_click_image(index):
 
     print("lade passende Position...")
     image_name = image_names[index]
+
+    txt = 'aktuelles Bild:\n' + image_name
+    image_label.config(text=txt)
+
     image_name = image_name.split(".")
     image_na = image_name[0]
     print(image_na)
@@ -433,36 +437,36 @@ def output(data):
 
 
 def comment(data):
-    if(data == 'Motoren sind gesperrt!'):
+    if data == 'Motoren sind gesperrt!':
         comment_label['fg'] = 'red'
-        if(bu1_blocked == True):
+        if bu1_blocked:          # True
             data = "Motoren Posi-\n" \
                    "tionen werden gehalten\n" + data
-    elif(data == 'Motoren Positionen werden gehalten'):
+    elif data == 'Motoren Positionen werden gehalten':
         comment_label['fg'] = 'red'
-        if (bu2_blocked == True):
+        if bu2_blocked:          # True
             data = 'Motoren sind\n' \
                    'gesperrt\nMotoren Posi-\n' \
                    'tionen werden gehalten'
-    elif(data == 'Motoren sind wieder frei/ halten nicht mehr'):
-        if(bu2_blocked == True):
+    elif data == 'Motoren sind wieder frei/ halten nicht mehr':
+        if bu2_blocked:         # True
             comment_label['fg'] = 'orange'
             data = 'Motoren sind\n' \
                    'gesperrt\nMotoren sind\n' \
                    'wieder frei/ \n' \
                    'halten nicht\n' \
                    'mehr'
-    elif(data == 'Motoren sind freigegeben!'):
-        if(bu1_blocked == True):
+    elif data == 'Motoren sind freigegeben!':
+        if bu1_blocked:     # True
             comment_label['fg'] = 'orange'
             data =  'Motoren Posi-\n' \
                     'tionen werden gehalten\n' + data
-    elif(data == 'Bilder wurden neu geladen'):
-        # if (bu1_blocked == True):
+    elif data == 'Bilder wurden neu geladen':
+        # if bu1_blocked == True:
         #     data = 'Motoren Positionen werden gehalten ' + data
-        # elif (bu2_blocked == True):
+        # elif bu2_blocked == True:
         #     data = "Motoren sind gesperrt\n" + data
-        # elif (bu2_blocked == True & bu1_blocked == True):
+        # elif bu2_blocked == True & bu1_blocked == True:
         #     data = 'Motoren Posi-\n' \
         #            'tionen werden gehalten  ' \
         #            'Motoren sind gesperrt' + data
@@ -511,12 +515,12 @@ def read(data):
     x, y, z = motion_control_scriptG.read_coordinates()
     wait = str(3)
     global text
-    if (data == ''):
+    if data == '':
         text = "x-Koordinate: " + x + "\n" \
                                       "y-Koordinate: " + y + "\n" \
                                                              "z-Koordinate " + z + "\n" \
                                                                                    "time to wait: " + wait + ""
-    elif (data == 'new angle position:'):
+    elif data == 'new angle position:':
         text = "pitch: " + x + "\n" \
                                "roll: " + y + "\n" \
                                               "yaw: " + z + "\n" \
@@ -571,7 +575,7 @@ def hide_images_buttons():
 # print script, navigate
 def print_script():
     global bu2_blocked
-    if(bu2_blocked == False):
+    if not bu2_blocked:     # False
         # TODO
         # Motoren ansteuern
 
@@ -680,9 +684,16 @@ def warning():
 
 #
 def opposite(root_angle, img):
-    motion_control_scriptG.opposite(image_na + '.txt')
-    root_angle.destroy()
-    img.place_forget()
+    if not bu2_blocked:
+        motion_control_scriptG.opposite(image_na + '.txt')
+        root_angle.destroy()
+        img.place_forget()
+    else:
+        # TODO
+        # keine extra Feld oeffnen
+        output("Motoren sind gesperrt!")
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+        stop()
 
 
 # close warning-label
@@ -706,14 +717,14 @@ def close_stop():
 # hold position
 def bu1_onclick():
     global bu1_blocked
-    if(bu1_blocked == False):
+    if not bu1_blocked:
         bu1['bg'] = '#FE9A2E'
         bu1['fg'] = 'white'
         bu1['text'] = 'Positionen \nwerden gehalten'
         bu1_blocked = True
         print(bu1_blocked)
         comment('Motoren Positionen werden gehalten')
-    elif(bu1_blocked == True):
+    elif bu1_blocked:
         bu1['bg'] = '#BDBDBD'
         bu1['fg'] = 'black'
         bu1['text'] = 'Motoren \nPosition halten'
@@ -729,14 +740,14 @@ def bu1_onclick():
 # blocked motor
 def bu2_onclick():
     global bu2_blocked
-    if(bu2_blocked == False):
+    if not bu2_blocked:
         bu2['bg'] = '#B40431'
         bu2_blocked = True
         bu2['fg'] = 'white'
         bu2['text'] = 'Motoren \ngesperrt'
         print(bu2_blocked)
         comment('Motoren sind gesperrt!')
-    elif(bu2_blocked == True):
+    elif bu2_blocked:
         bu2['bg'] = '#BDBDBD'
         bu2['fg'] = 'black'
         bu2['text'] = 'Motoren \nsperren'
@@ -754,17 +765,17 @@ def bu2_onclick():
 
 def get_blocked(ind):
     global bu2_blocked
-    if(bu2_blocked == False):
-        if(ind == 0):
+    if not bu2_blocked:     # == False
+        if ind == 0:
             motion_control_scriptG.up()
-        elif(ind == 1):
+        elif ind == 1:
             motion_control_scriptG.left()
-        elif (ind == 2):
+        elif ind == 2:
             motion_control_scriptG.right()
-        elif (ind == 3):
+        elif ind == 3:
             motion_control_scriptG.down()
     else:
-        print(index)
+        print(ind)  # index
         output("Motoren sind gesperrt!")
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
         # comment("Motoren sind gesperrt!")
@@ -791,7 +802,6 @@ toolbar_yyy = Frame(tk_fenster, bg='#084B8A')
 toolbar_yyy.place(x=900, y=0, width=100, height=720)
 
 # comment
-# txt = "Whatever you do will be insignificant, but it is very important that you do it.\n(Mahatma Gandhi)"
 comment_label = Message(master=toolbar_y, bg='#E6E6E6', anchor=N, text="Infos", font=('times', 10, 'italic'))      # ,text="Kommentarfenster"
 comment_label.place(x=10, y=320, width=130)         # , height=380
 
@@ -823,6 +833,12 @@ labelImg2 = Label(master=frameGui, bg='white')        # navigate
 
 label_img_coord1 = Label(master=frameGui, bg='white')
 label_img_coord2 = Label(master=frameGui, bg='white')
+
+
+# image informations
+image_infos = 'aktuelles Bild: ' + image_na
+image_label = Message(master=tk_fenster, bg='#E6E6E6', anchor=N, text=image_infos, font=('times', 9, 'italic'), aspect=100)
+image_label.place(x=910, y=120, width=80)
 
 # stop image
 i = Image.open("stop.png")

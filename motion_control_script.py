@@ -15,10 +15,10 @@ hold = False
 # Motoren sperren einbauen
 def blocked():
     global block
-    if(block == True):
+    if block:       # True
         block = False
         print colored("Motoren wurden freigegeben!", 'green')
-    elif(block == False):
+    elif not block:     # False
         block = True
         print colored("Motoren sind gesperrt!", 'red')
         # print("Motoren wurden gesperrt!\n")
@@ -28,14 +28,14 @@ def blocked():
 
 def motor_blocked():
     global block
-    if(block == True):
+    if block:   # True
         print colored("Motoren sind gesperrt", 'red')
         print("Motoren muessen erst noch freigegeben werden")
         # print("Um die Motoren freizugeben muss die Taste 0 gedrueckt werden\n")
         execute()
 
         return True
-    elif(block == False):
+    elif not block:     # False
         print colored("Motoren sind freigegeben\n", 'green')
         return False
         # execute()
@@ -47,15 +47,15 @@ def motor_blocked():
 # read old coordinates
 def read_coordinates():
     filename = open("coordinates.txt")
-    index = 0
+    ind = 0
     for line in filename:
-        if (index == 0):
+        if ind == 0:
             x = line.rstrip()
-        elif (index == 1):
+        elif ind == 1:
             y = line.rstrip()
-        elif(index == 2):
+        elif ind == 2:
             z = line.rstrip()
-        index = index+1;
+        ind = ind+1;
     return x, y, z
 
 
@@ -88,7 +88,7 @@ def list_images(maxi):
 # automatic modus
 def automatic():
     global name
-    if(motor_blocked() == False):
+    if not motor_blocked():     # False
         print("class automatic")
         edge_detection.execute(name)
 
@@ -99,7 +99,7 @@ def automatic():
 # coordinate modus
 def coordinate():
     print("class coordinate")
-    if (motor_blocked() == False):
+    if not motor_blocked():         # False
         x = input("enter the x coordinate:")
         y = input("enter the y coordinate:")
         z = input("enter the z coordinate:")
@@ -114,22 +114,40 @@ def coordinate():
 # navigate modus
 def navigate():
     print("class navigate:")
-    if (motor_blocked() == False):
+    if not motor_blocked():     # False
         x, y, z = read_coordinates()
         key = raw_input("\n"
                     "j: left \n"
                     "k: down \n"
                     "l: right \n"
                     "i: up \n"
+                    "o: auf die andere Seite fahren"
                     "input:")
-        if (key == "j"):
+        if key == "j":
             x, y, z = left(x, y, z)
-        elif (key == 'k'):
+        elif key == 'k':
             x, y, z = down(x, y, z)
-        elif (key == 'l'):
+        elif key == 'l':
             x, y, z = right(x, y, z)
-        elif (key == 'i'):
+        elif key == 'i':
             x, y, z = up(x, y, z)
+        elif key == 'o':
+            raw_in = raw_input ("Wollen Sie wirklich auf die andere Seite fahren?\n"
+                               "Gehen Sie, dass keine Gegenstaende im weg sind,\n "
+                               "dass der Verfahrweg frei ist!!!\n"
+                               "j: ja\n"
+                               "q: abbrechen\n")
+            if raw_in == 'j':
+                x, y, z = read_coordinates()
+                new_position = -1 * int(x)
+                print(new_position)
+
+                # TODO
+                # Motoren ansteuern
+
+                execute()
+            elif raw_in == 'q':
+                execute()
         else:
             print("undefined key pressed")
             exit()
@@ -142,11 +160,11 @@ def navigate():
                         "m: Menu \n"
                         "n: navigate \n"
                         "q: exit\n")
-        if(key_in == 'm'):
+        if key_in == 'm':
             execute()
-        elif(key_in == 'n'):
+        elif key_in == 'n':
             navigate()
-        elif(key_in == "q"):
+        elif key_in == "q":
             exit()
         else:
             print("undefined key pressed")
@@ -221,11 +239,11 @@ def load_old_coordinates(filename):
     filename = open('Positionen/' + filename + '.txt', 'r')
     index = 0
     for line in filename:
-        if (index == 0):
+        if index == 0:
             x = line.rstrip()
-        elif (index == 1):
+        elif index == 1:
             y = line.rstrip()
-        elif (index == 2):
+        elif index == 2:
             z = line.rstrip()
         index += 1
     return x, y, z
@@ -245,15 +263,15 @@ def execute():
 
     key = input("choose your mode:")
     print(key)
-    if(key == 1):
+    if key == 1:
         automatic()
-    elif (key == 2):
+    elif key == 2:
         x, y, z, wait = coordinate()
-    elif(key == 3):
+    elif key == 3:
         x, y, z, wait = navigate()
-    elif(key == 4):
+    elif key == 4:
        images()
-    elif(key == 0):
+    elif key == 0:
         blocked()
     else:
         print("undefined key pressed")
