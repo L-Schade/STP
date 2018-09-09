@@ -49,8 +49,6 @@ def click(event):
                "x-Abstand: {} \n" \
                "y-Abstand: {}".format(point, dist[0], dist[1])
 
-        # TODO
-        # schoeneres Textfeld
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)    #
         output_lab.place(x=225, y=475, width=600)
 
@@ -148,12 +146,14 @@ def button2_click():
     buttonMode21.place(x=175, y=100, width=140, height=30)
     buttonMode22.place(x=175, y=180, width=140, height=30)
 
+    # TODO
+    # Seite noch etwas fuellen, noch zu leer
+
 
 def button21_click():
     hide_coordinate_buttons()
     # TODO
     # Textfeld anpassen an moegliche Werte
-    # Textfeld richtig ausnutzen
     output('Geben Sie die gewuenschten Koordinaten ein, '
            'der Wert darf zwischen ??? liegen')
     output_label_coor()
@@ -163,7 +163,7 @@ def button21_click():
     # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
     # img.place(x=150, y=325, width=750, height=100)
     label_img_coord1.config(image=photo)
-    label_img_coord1.place(x=350, y=400, width=350, height=190)
+    label_img_coord1.place(x=250, y=350, width=550, height=260)
 
     # panel
     # buttonAction = Button(master=frameGui, text='ENTER', command=button_action)
@@ -252,8 +252,6 @@ def button21_click():
 
 def button22_click():
     hide_coordinate_buttons()
-    # TODO
-    # Textfeld richtig ausnutzen
     output('Geben Sie die gewuenschte Winkel Position der einzelnen Motoren ein, '
            'der Wert darf zwischen 0 - 180 Grad liegen')
     output_label_coor()
@@ -263,7 +261,7 @@ def button22_click():
     # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
     # img.place(x=150, y=325, width=750, height=100)
     label_img_coord2.config(image=photo)
-    label_img_coord2.place(x=350, y=400, width=350, height=190)
+    label_img_coord2.place(x=250, y=350, width=550, height=260)     # x=350, y=350, width=350, height=190
 
     def fetch(entries):
         global bu2_blocked, text
@@ -378,8 +376,7 @@ def button4_click():
     close_stop()
 
     print("lade Bilder")
-    # TODO
-    # Textfeld richtig ausnutzen
+
     output('Die letzten/ aktuellsten neun Bilder wurden geladen, Stand: ' + time.strftime("%d.%m.%Y %H:%M:%S"))
     output_label_img()
 
@@ -411,15 +408,15 @@ def button_click_image(index):
     image_na = image_name[0]
     print(image_na)
     load_position(image_na)
-    output("Daten zu Bild: " + image_na + " geladen")
+    output("Daten zum Bild: " + image_na + " wurden geladen")
     output_label_img()
 
 
 # output for the side coordinates
 def output_label_coor():
     # output_lab = Message(master=frameGui)
-    output_lab.config(text=str(text), bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'))
-    output_lab.place(x=300, y=100, width=450, height=200)
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'), aspect=300)
+    output_lab.place(x=300, y=120, width=450)       # y=100,   , height=200
 
 
 # output for the side image
@@ -449,6 +446,7 @@ def comment(data):
                    'tionen werden gehalten'
     elif(data == 'Motoren sind wieder frei/ halten nicht mehr'):
         if(bu2_blocked == True):
+            comment_label['fg'] = 'orange'
             data = 'Motoren sind\n' \
                    'gesperrt\nMotoren sind\n' \
                    'wieder frei/ \n' \
@@ -456,6 +454,7 @@ def comment(data):
                    'mehr'
     elif(data == 'Motoren sind freigegeben!'):
         if(bu1_blocked == True):
+            comment_label['fg'] = 'orange'
             data =  'Motoren Posi-\n' \
                     'tionen werden gehalten\n' + data
     elif(data == 'Bilder wurden neu geladen'):
@@ -467,7 +466,8 @@ def comment(data):
         #     data = 'Motoren Posi-\n' \
         #            'tionen werden gehalten  ' \
         #            'Motoren sind gesperrt' + data
-        date = 'Bilder wurden neu geladen'
+
+        # data = 'Bilder wurden neu geladen'
         comment_label['fg'] = 'black'
             # TODO
             # 2. String wird verschluckt, Messagebox zu klein?
