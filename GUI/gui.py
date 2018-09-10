@@ -161,11 +161,11 @@ def button21_click():
            'der Wert darf zwischen ??? liegen')
     output_label_coor()
 
-    i = Image.open("angle.jpeg")
-    photo = ImageTk.PhotoImage(i)
+    ind = Image.open("angle.jpeg")
+    pht = ImageTk.PhotoImage(ind)     # photo
     # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
     # img.place(x=150, y=325, width=750, height=100)
-    label_img_coord1.config(image=photo)
+    label_img_coord1.config(image=pht)
     label_img_coord1.place(x=250, y=350, width=550, height=260)
 
     # panel
@@ -259,11 +259,11 @@ def button22_click():
            'der Wert darf zwischen 0 - 180 Grad liegen')
     output_label_coor()
 
-    i = Image.open("angle.jpeg")
-    photo = ImageTk.PhotoImage(i)
+    ind = Image.open("angle.jpeg")
+    pht = ImageTk.PhotoImage(ind)
     # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
     # img.place(x=150, y=325, width=750, height=100)
-    label_img_coord2.config(image=photo)
+    label_img_coord2.config(image=pht)
     label_img_coord2.place(x=250, y=350, width=550, height=260)     # x=350, y=350, width=350, height=190
 
     def fetch(entries):
@@ -325,6 +325,7 @@ def button22_click():
             ent.pack(side=RIGHT, expand=YES, fill=X)
             entries.append((field, ent))
         return entries
+
 
     if __name__ == '__main__':
         root_angle = Tk()
@@ -401,8 +402,8 @@ def button4_click():
 # load another image
 def button_click_image(ind):
     global image, image_na
-    image_names = imagesG.list_images(12)
-    image = load_image(image_names[ind])
+    img_names = imagesG.list_images(12)     # image_names
+    image = load_image(img_names[ind])      # image_names[ind]
     reload_images()
 
     print("lade passende Position...")
@@ -462,9 +463,9 @@ def comment(data):
     elif data == 'Motoren sind freigegeben!':
         if bu1_blocked:     # True
             comment_label['fg'] = 'orange'
-            data =  'Motoren Posi-\n' \
+            data = 'Motoren Posi-\n' \
                     'tionen werden gehalten\n' + data
-    elif data == 'Bilder wurden neu geladen':
+    elif data =='Bilder wurden neu geladen':
         # if bu1_blocked == True:
         #     data = 'Motoren Positionen werden gehalten ' + data
         # elif bu2_blocked == True:
@@ -476,8 +477,8 @@ def comment(data):
 
         # data = 'Bilder wurden neu geladen'
         comment_label['fg'] = 'black'
-            # TODO
-            # 2. String wird verschluckt, Messagebox zu klein?
+        # TODO
+        # 2. String wird verschluckt, Messagebox zu klein?
     # else:
     #     comment_label['fg'] = 'white
     comment_label.config(text=str(data),anchor=NW ,font=('times', 14, 'italic'))
@@ -496,14 +497,14 @@ def read_coordinates(data):
     z_coord = coord[2]
     wait = str(3)
     global text
-    if(data == ''):
+    if data == '':
         text = "x-Koordinate: " + x_coord + "\n"  \
                                  "y-Koordinate: " + y_coord + "\n" \
-                                                     "z-Koordinate " + z_coord + "\n" \
+                                                              "z-Koordinate " + z_coord + "\n" \
                                                                        "time to wait: " + wait + ""
     # TODO
     # wird daas wirklich benoetigt ???
-    elif (data == 'new angle position:'):
+    elif data == 'new angle position:':
         text = "pitch: " + x_coord + "\n" \
                                       "roll: " + y_coord + "\n" \
                                                              "yaw: " + z_coord + "\n" \
@@ -518,24 +519,27 @@ def read_coordinates(data):
 
 # read old coordinates, independent of the image
 def read(data):
-    x, y, z = motion_control_scriptG.read_coordinates()
+    coord = motion_control_scriptG.read_coordinates()
+    x_coord = coord[0]
+    y_coord = coord[1]
+    z_coord = coord[2]
     wait = str(3)
     global text
     if data == '':
-        text = "x-Koordinate: " + x + "\n" \
-                                      "y-Koordinate: " + y + "\n" \
-                                                             "z-Koordinate " + z + "\n" \
+        text = "x-Koordinate: " + x_coord + "\n" \
+                                      "y-Koordinate: " + y_coord + "\n" \
+                                                             "z-Koordinate " + z_coord + "\n" \
                                                                                    "time to wait: " + wait + ""
     elif data == 'new angle position:':
-        text = "pitch: " + x + "\n" \
-                               "roll: " + y + "\n" \
-                                              "yaw: " + z + "\n" \
+        text = "pitch: " + x_coord + "\n" \
+                               "roll: " + y_coord + "\n" \
+                                              "yaw: " + z_coord + "\n" \
                                                             "time to wait: " + wait + ""
     else:
         text = "" + data + "\n" \
-                           "x-Koordinate: " + x + "\n" \
-                                                  "y-Koordinate: " + y + "\n" \
-                                                                         "z-Koordinate: " + z + "\n" \
+                           "x-Koordinate: " + x_coord + "\n" \
+                                                  "y-Koordinate: " + y_coord + "\n" \
+                                                                         "z-Koordinate: " + z_coord + "\n" \
                                                                                                 "time to wait: " + wait + ""
 
 
@@ -585,7 +589,6 @@ def print_script():
         # TODO
         # Motoren ansteuern
 
-
         # motion_control_scriptG.printScript2()
         # print('print script')
 
@@ -614,16 +617,16 @@ def load_image(name):
 def load_images(name):          # buttons
     # img = ImageTk.PhotoImage(Image.open(name))
     img = Image.open("../Matlab/Bilder/"+name)
-    img = resized_image(img, 175, 100)
+    img = resize_image(img, 175, 100)
     images.append(img)
     return img
 
 
 # adapt imgae size
-def resized_image(img, h, w):
-    resized = img.resize((h, w), Image.ANTIALIAS)
-    image = ImageTk.PhotoImage(resized)
-    return image
+def resize_image(img, h, w):
+    resize = img.resize((h, w), Image.ANTIALIAS)
+    img_re = ImageTk.PhotoImage(resize)        # image
+    return img_re                               # image
 
 
 #
@@ -636,28 +639,29 @@ def get_latest_images():
 
 # load the latest images, the number depend on maxi
 def list_images(maxi):
-    image_names = imagesG.list_images(maxi)
-    print(image_names)
-    for image in image_names:
-        load_images(image)
+    img_names = imagesG.list_images(maxi)           # image_names
+    print(img_names)
+    for img in img_names:                         # image
+        load_images(img)
 
 
 # load new image for gui
 def reload_images():
     global image, imageStart, imageAutomatic, imageNavigate
-    imageStart = resized_image(image, 300, 150)  # latest image
-    imageAutomatic = resized_image(image, 500, 250)
-    imageNavigate = resized_image(image, 350, 190)
+    imageStart = resize_image(image, 300, 150)  # latest image
+    imageAutomatic = resize_image(image, 500, 250)
+    imageNavigate = resize_image(image, 350, 190)
 
 
 # load position for ...
 def load_position(name):
     # file_name = 'Positionen/'+name+'.txt'
     # print(file_name)
-    x, y, z = motion_control_scriptG.read_old_coordinates(name)
+    x_coord, y_coord, z_coord = motion_control_scriptG.read_old_coordinates(name)
+
     # motion_control_scriptG.save_coordinates_without_wait(x, y, z)        Bildposition auf aktuelle Koordinaten setzen
-    print(x, y, z)
-    return x, y, z
+    print(x_coord, y_coord, z_coord)
+    return x_coord, y_coord, z_coord
 
     # motion_control_scriptG.printScript1(x, y, z, 3)
     # motion_control_scriptG.save_coordinates(x, y, z, 3)
@@ -669,16 +673,19 @@ def warning():
         root_angle = Tk()
         root_angle.title('Eingabe der Werte')
 
-        i = Image.open("warning1.jpg")
-        photo = ImageTk.PhotoImage(i)
-        img = Label(master=frameGui, image=photo)     # funktioniert nur mit master=frameGui
+        ind = Image.open("warning1.jpg")
+        pht = ImageTk.PhotoImage(ind)
+        img = Label(master=frameGui, image=pht)     # funktioniert nur mit master=frameGui
         img.place(x=150, y=325, width=750, height=100)
         # img.pack(fill=X, pady=5)
 
-        # tkMessageBox.showwarning("Warning", "Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte Richting verfahren koennen?")
-        text = Label(root_angle, text="Sind Sie sich sicher das nichts im Weg ist \n & Sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
-        text.pack(fill=X, pady=5)
-        b1 = Button(root_angle, text='auf die andere Seite fahren',command=lambda: opposite(root_angle, img)) # command=motion_control_scriptG.printScript()
+        # tkMessageBox.showwarning("Warning", "Sind sie sich sicher das nichts im Weg ist und sie in die gewuenschte
+        # Richting verfahren koennen?")
+        txt = Label(root_angle, text="Sind Sie sich sicher das nichts im Weg ist \n "
+                                      "& Sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
+        txt.pack(fill=X, pady=5)
+        b1 = Button(root_angle, text='auf die andere Seite fahren', command=lambda: opposite(root_angle, img))
+        # command=motion_control_scriptG.printScript()
         # b1 = Button(tkMessageBox, text='auf die andere Seite fahren', command=motion_control_scriptG.opposite())
         # b1.place(x=10, y=30, width=20, heigth=20)
         b1.pack(fill=X, pady=5)
@@ -809,7 +816,7 @@ toolbar_yyy = Frame(tk_fenster, bg='#084B8A')
 toolbar_yyy.place(x=900, y=0, width=100, height=720)
 
 # comment
-comment_label = Message(master=toolbar_y, bg='#E6E6E6', anchor=N, text="Infos", font=('times', 10, 'italic'))      # ,text="Kommentarfenster"
+comment_label = Message(master=toolbar_y, bg='#E6E6E6', anchor=N, text="Infos", font=('times', 10, 'italic'))
 comment_label.place(x=10, y=320, width=130)         # , height=380
 
 # scrollbar
@@ -844,7 +851,8 @@ label_img_coord2 = Label(master=frameGui, bg='white')
 
 # image informations
 image_infos = 'aktuelles Bild: ' + image_na
-image_label = Message(master=tk_fenster, bg='#E6E6E6', anchor=N, text=image_infos, font=('times', 9, 'italic'), aspect=100)
+image_label = Message(master=tk_fenster, bg='#E6E6E6', anchor=N, text=image_infos, font=('times', 9, 'italic'),
+                      aspect=100)
 image_label.place(x=910, y=120, width=80)
 
 # stop image
@@ -871,12 +879,12 @@ button1 = Button(master=frameGui, text='oben', command=lambda: get_blocked(0))
 button2 = Button(master=frameGui, text='links', command=lambda: get_blocked(1))
 # button3 = Button(master=frameGui, text='rechts', command=lambda: motion_control_scriptG.right(bu2_blocked))
 button3 = Button(master=frameGui, text='rechts', command=lambda: get_blocked(2))
-#button4 = Button(master=frameGui, text='unten', command=lambda: motion_control_scriptG.down(bu2_blocked))
+# button4 = Button(master=frameGui, text='unten', command=lambda: motion_control_scriptG.down(bu2_blocked))
 button4 = Button(master=frameGui, text='unten', command=lambda: get_blocked(3))
 button5 = Button(master=frameGui, text='3sec', command=lambda: motion_control_scriptG.wait(3))
 button6 = Button(master=frameGui, text='5sec', command=lambda: motion_control_scriptG.wait(5))
 button7 = Button(master=frameGui, text='Daten verschicken', command=print_script)
-button8 = Button(master=frameGui, text='zur anderen Seite fahren', command= warning)
+button8 = Button(master=frameGui, text='zur anderen Seite fahren', command=warning)
 # vlt die Anzahl noch variierbar machen?
 buttonImg1 = Button(master=frameGui, image=images[0], command=lambda: button_click_image(0))
 buttonImg2 = Button(master=frameGui, image=images[1], command=lambda: button_click_image(1))
