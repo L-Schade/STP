@@ -9,7 +9,6 @@ import distance_calculator
 import imagesG
 
 
-
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
 fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
 images = []
@@ -89,8 +88,12 @@ def button_click():
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=225, y=450, width=600, height=200)
 
-    x, y, z = motion_control_scriptG.read_old_coordinates(image_na)
-    print(x, y, z)
+    # x, y, z = motion_control_scriptG.read_old_coordinates(image_na)
+    old_coord = motion_control_scriptG.read_old_coordinates(image_na)
+    x_coord = old_coord[0]
+    y_coord = old_coord[1]
+    z_coord = old_coord[2]
+    print(x_coord, y_coord, z_coord)
     if not bu2_blocked:     # False
         print("test")
         # TODO
@@ -358,7 +361,7 @@ def button3_click():
     button7.place(x=235, y=290, width=130, height=20)
     button8.place(x=585, y=325, width=180, height=20)
     labelImg2.config(image=imageNavigate)
-    labelImg2.place(x=500, y=110, width=350, height= 190)
+    labelImg2.place(x=500, y=110, width=350, height=190)
 
     # read_coordinates('')
     # output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
@@ -396,14 +399,14 @@ def button4_click():
 
 
 # load another image
-def button_click_image(index):
+def button_click_image(ind):
     global image, image_na
     image_names = imagesG.list_images(12)
-    image = load_image(image_names[index])
+    image = load_image(image_names[ind])
     reload_images()
 
     print("lade passende Position...")
-    image_name = image_names[index]
+    image_name = image_names[ind]
 
     txt = 'aktuelles Bild:\n' + image_name
     image_label.config(text=txt)
@@ -487,26 +490,29 @@ def read_coordinates(data):
     global image_na
     print(image_na)
     # x, y, z, wait = motion_control_scriptG.read_coordinates()
-    x, y, z = load_position(image_na)
+    coord = load_position(image_na)
+    x_coord = coord[0]
+    y_coord = coord[1]
+    z_coord = coord[2]
     wait = str(3)
     global text
     if(data == ''):
-        text = "x-Koordinate: " + x + "\n"  \
-                                 "y-Koordinate: " + y + "\n" \
-                                                     "z-Koordinate " + z + "\n" \
+        text = "x-Koordinate: " + x_coord + "\n"  \
+                                 "y-Koordinate: " + y_coord + "\n" \
+                                                     "z-Koordinate " + z_coord + "\n" \
                                                                        "time to wait: " + wait + ""
     # TODO
     # wird daas wirklich benoetigt ???
     elif (data == 'new angle position:'):
-        text = "pitch: " + x + "\n" \
-                                      "roll: " + y + "\n" \
-                                                             "yaw: " + z + "\n" \
+        text = "pitch: " + x_coord + "\n" \
+                                      "roll: " + y_coord + "\n" \
+                                                             "yaw: " + z_coord + "\n" \
                                                                                     "time to wait: " + wait + ""
     else:
         text = ""+data+"\n" \
-               "x-Koordinate: " + x + "\n"  \
-                                          "y-Koordinate: " + y + "\n" \
-                                                             "z-Koordinate: " + z + "\n" \
+               "x-Koordinate: " + x_coord + "\n"  \
+                                          "y-Koordinate: " + y_coord + "\n" \
+                                                             "z-Koordinate: " + z_coord + "\n" \
                                                                                "time to wait: " + wait +""
 
 
@@ -578,6 +584,7 @@ def print_script():
     if not bu2_blocked:     # False
         # TODO
         # Motoren ansteuern
+
 
         # motion_control_scriptG.printScript2()
         # print('print script')
