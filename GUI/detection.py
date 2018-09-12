@@ -5,48 +5,67 @@ import numpy as np
 
 def load_image(img_name):
     img = cv2.imread(img_name)       # (img_name, 0) / (img_name, cv2.WINDOW_NORMAL)
+    height = img.shape[1]
+    width = img.shape[0]
+    print(height, width)
 
     # cv2.imshow('image', img)
     # k = cv2.waitKey(0)
     # if k == 27:  # wait for ESC key to exit
     #     cv2.destroyAllWindows()
 
-    # plt.imshow(img)         # cmap='gray', interpolation='bicubic'
-    # plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
-    # plt.show()
+    plt.imshow(img)         # cmap='gray', interpolation='bicubic'
+    plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
+    plt.show()
 
-    return img
+    return img, height, width
+
+
+def define_region(img, height, width, color):
+    print(color)
+
+    for x in range(0, width, 1):
+        for y in range(0, height, 1):
+            pxl_color = img[x, y]
+            print pxl_color
+
+    # cv2.imshow("kds", img)
+    #
+    # k = cv2.waitKey(0) & 0xFF
+    # if k == 27:
+    #     cv2.destroyAllWindows()
+    #
+    # cv2.imshow(img)
 
 
 def object_tracking(img_name, lower_color, upper_color):
     cap = load_image(img_name)     # cv2.VideoCapture(0)
-    while True:
 
-        # Take each frame
-        # _, frame = cap
-        frame = cap
+    # Take each frame
+    # _, frame = cap
+    frame = cap
 
-        # Convert BGR to HSV
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    # Convert BGR to HSV
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        # define range of blue color in HSV
-        lower_blue = np.array(lower_color)
-        upper_blue = np.array(upper_color)
+    # define range of blue color in HSV
+    lower_blue = np.array(lower_color)
+    upper_blue = np.array(upper_color)
 
-        # Threshold the HSV image to get only blue colors
-        mask = cv2.inRange(hsv, lower_blue, upper_blue)         # (hsv, lower_green, upper_green)
+    # Threshold the HSV image to get only blue colors
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)         # (hsv, lower_green, upper_green)
 
-        # Bitwise-AND mask and original image
-        res = cv2.bitwise_and(frame, frame, mask=mask)
+    # Bitwise-AND mask and original image
+    res = cv2.bitwise_and(frame, frame, mask=mask)
 
-        cv2.imshow('frame', frame)
-        cv2.imshow('mask', mask)
-        cv2.imshow('res', res)
-        k = cv2.waitKey(5) & 0xFF
-        if k == 27:
-            break
+    # cv2.imshow('frame', frame)
+    # cv2.imshow('mask', mask)        # schwarz-weiss-Bild, gesuchter Bereich ist weiss
+    # cv2.imshow('res', res)
+    # k = cv2.waitKey(0) & 0xFF
+    # if k == 27:
+    #     cv2.destroyAllWindows()
 
-    cv2.destroyAllWindows()
+    # return mask
 
 
 def basic_operations(img_name):
@@ -84,9 +103,13 @@ def basic_operations(img_name):
 
 
 def execute(img):
-    load_image(img)
+    img, height, width = load_image(img)
+    define_region(img, height, width, [255, 0, 0])
+
+    # object_tracking('../Matlab/Bilder/frame1.jpg', [110, 50, 50], [130, 255, 255])
+    # basic_operations('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
+
+    # define_region(load_image('../Matlab/Bilder/2018_05_24_14_43_25_647.png'))      # '../Matlab/Bilder/frame1.jpg'
 
 
-# execute('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
-object_tracking('../Matlab/Bilder/frame1.jpg', [110, 50, 50], [130, 255, 255])
-# basic_operations('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
+execute('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
