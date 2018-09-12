@@ -65,7 +65,7 @@ def click(event):
 # event function
 # latest position
 def button_click():
-    hide_automatic_windows()
+    hide_focus_windows()
     hide_coordinate_buttons()
     hide_navigate_buttons()
     hide_images_buttons()
@@ -108,8 +108,9 @@ def button_click():
         stop()
 
 
-# automatic
-def button1_click():
+# automatic modes
+# new focus
+def button11_click():
     hide_coordinate_buttons()
     hide_navigate_buttons()
     hide_images_buttons()
@@ -135,9 +136,45 @@ def button1_click():
     # text = "Abstand von {} zum Mittelpunkt: {}".format(point,dist)
 
 
+# tracking
+def button12_click():
+    hide_coordinate_buttons()
+    hide_navigate_buttons()
+    hide_images_buttons()
+    output_lab.place_forget()
+    labelImg.place_forget()
+    label_img_coord1.place_forget()
+    label_img_coord2.place_forget()
+
+    frame.place(x=225, y=75, width=600, height=350)
+
+    # TODO
+    # koennte man noch verbessern
+    labelImg1.config(image=imageAutomatic)
+    labelImg1.place(x=50, y=50, width=500, height=250)
+    labelImg1.Image = imageNavigate
+
+    global bu2_blocked
+    if not bu2_blocked:  # False
+        comment("Tracking-\nModus")
+        output('Tracking-Modus ...')
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)
+        output_lab.place(x=225, y=475, width=600)
+
+        # TODO
+        # WZ-Detektion
+        # Motoren ansteuern
+
+    else:
+        output("Motoren sind gesperrt!")
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+        output_lab.place(x=225, y=450, width=600)
+        stop()
+
+
 # coordinate
 def button2_click():
-    hide_automatic_windows()
+    hide_focus_windows()
     hide_navigate_buttons()
     hide_images_buttons()
     output_lab.place_forget()
@@ -341,7 +378,7 @@ def button22_click():
 
 # navigate
 def button3_click():
-    hide_automatic_windows()
+    hide_focus_windows()
     hide_coordinate_buttons()
     hide_images_buttons()
     labelImg.place_forget()
@@ -373,7 +410,7 @@ def button4_click():
     labelImg.place_forget()
     label_img_coord1.place_forget()
     label_img_coord2.place_forget()
-    hide_automatic_windows()
+    hide_focus_windows()
     hide_navigate_buttons()
     hide_coordinate_buttons()
     output_lab.place_forget()
@@ -483,7 +520,7 @@ def comment(data):
     #     comment_label['fg'] = 'white
     comment_label.config(text=str(data),anchor=NW ,font=('times', 14, 'italic'))
 
-    comment_label.place(x=10, y=320, width=130)     # , height=360
+    comment_label.place(x=10, y=360, width=130)     # , height=360
 
 
 # load position addicted to image
@@ -560,7 +597,7 @@ def hide_navigate_buttons():
     labelImg2.place_forget()
 
 
-def hide_automatic_windows():
+def hide_focus_windows():
     frame.place_forget()
     labelImg1.place_forget()
 
@@ -774,7 +811,7 @@ def bu2_onclick():
         # TODO
         output("Motoren sind wieder freigegeben!")
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-        # geht so nur bei navigate, coordinate, automatic & letzte Position
+        # geht so nur bei navigate, coordinate, focus & letzte Position
 
 
 def get_blocked(ind):
@@ -817,7 +854,7 @@ toolbar_yyy.place(x=900, y=0, width=100, height=720)
 
 # comment
 comment_label = Message(master=toolbar_y, bg='#E6E6E6', anchor=N, text="Infos", font=('times', 10, 'italic'))
-comment_label.place(x=10, y=320, width=130)         # , height=380
+comment_label.place(x=10, y=360, width=130)         # , height=380
 
 # scrollbar
 # scrollbar = Scrollbar(tk_fenster)
@@ -842,7 +879,7 @@ im = load_image(imagesG.latest_image())
 # Label for images
 labelImg = Label(master=frameGui, image=imageStart, bg='white', state=NORMAL)
 labelImg.place(x=350, y=100, width=350, height=200)
-labelImg1 = Label(master=frame, bg='white')           # automatic
+labelImg1 = Label(master=frame, bg='white')           # focus
 labelImg2 = Label(master=frameGui, bg='white')        # navigate
 
 label_img_coord1 = Label(master=frameGui, bg='white')
@@ -863,16 +900,18 @@ img_stop = Label(master=frameGui, image=photo)  # funktioniert nur mit master=fr
 # Button
 buttonMode = Button(master=toolbar_y, text='letzte Position', command=button_click)
 buttonMode.place(x=25, y=100, width=100, height=20)
-buttonMode1 = Button(master=toolbar_y, text='automatisch', command=button1_click)
-buttonMode1.place(x=25, y=140, width=100, height=20)
+buttonMode11 = Button(master=toolbar_y, text='automatisch', command=button11_click)
+buttonMode11.place(x=25, y=140, width=100, height=20)
+buttonMode12 = Button(master=toolbar_y, text='Tracking', command=button12_click)
+buttonMode12.place(x=25, y=180, width=100, height=20)
 buttonMode2 = Button(master=toolbar_y, text='Koordinaten', command=button2_click)
-buttonMode2.place(x=25, y=180, width=100, height=20)
+buttonMode2.place(x=25, y=220, width=100, height=20)
 buttonMode21 = Button(master=frameGui, text='Koordinaten: x, y, z', command=button21_click)
 buttonMode22 = Button(master=frameGui, text='Winkel', command=button22_click)
 buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
-buttonMode3.place(x=25, y=220, width=100, height=20)
+buttonMode3.place(x=25, y=260, width=100, height=20)
 buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
-buttonMode4.place(x=25, y=260, width=100, height=20)
+buttonMode4.place(x=25, y=300, width=100, height=20)
 # button1 = Button(master=frameGui, text='oben', command=lambda: motion_control_scriptG.up(bu2_blocked))
 button1 = Button(master=frameGui, text='oben', command=lambda: get_blocked(0))
 # button2 = Button(master=frameGui, text='links', command=lambda: motion_control_scriptG.left(bu2_blocked))
