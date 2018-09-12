@@ -14,32 +14,23 @@ def load_image(img_name):
     # if k == 27:  # wait for ESC key to exit
     #     cv2.destroyAllWindows()
 
-    plt.imshow(img)         # cmap='gray', interpolation='bicubic'
-    plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
-    plt.show()
+    # plt.imshow(img)         # cmap='gray', interpolation='bicubic'
+    # plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
+    # plt.show()
 
     return img, height, width
 
 
-def define_region(img, height, width, color):
-    print(color)
+def get_size(img):
+    height = img.shape[1]
+    width = img.shape[0]
 
-    for x in range(0, width, 1):
-        for y in range(0, height, 1):
-            pxl_color = img[x, y]
-            print pxl_color
-
-    # cv2.imshow("kds", img)
-    #
-    # k = cv2.waitKey(0) & 0xFF
-    # if k == 27:
-    #     cv2.destroyAllWindows()
-    #
-    # cv2.imshow(img)
+    return height, width
 
 
 def object_tracking(img_name, lower_color, upper_color):
     cap = load_image(img_name)     # cv2.VideoCapture(0)
+    cap = cap[0]
 
     # Take each frame
     # _, frame = cap
@@ -58,14 +49,15 @@ def object_tracking(img_name, lower_color, upper_color):
     # Bitwise-AND mask and original image
     res = cv2.bitwise_and(frame, frame, mask=mask)
 
-    # cv2.imshow('frame', frame)
-    # cv2.imshow('mask', mask)        # schwarz-weiss-Bild, gesuchter Bereich ist weiss
-    # cv2.imshow('res', res)
-    # k = cv2.waitKey(0) & 0xFF
-    # if k == 27:
-    #     cv2.destroyAllWindows()
+    cv2.imshow('frame', frame)
+    cv2.imshow('mask', mask)        # schwarz-weiss-Bild, gesuchter Bereich ist weiss
+    cv2.imshow('res', res)
+    k = cv2.waitKey(0) & 0xFF
+    if k == 27:
+        cv2.destroyAllWindows()
 
-    # return mask
+    cv2.imwrite('test.png', mask)
+
 
 
 def basic_operations(img_name):
@@ -102,14 +94,63 @@ def basic_operations(img_name):
     cv2.waitKey(0)
 
 
+def pixel_run(img, height, width, color):
+    print(color)
+    segment = []
+    for y in range(0, height, 1):
+        # for x in range(0, width, 1):
+        x = 0
+        while x < width:
+            # TODO
+            # Farbe wird nicht richtig "erkannt"
+            pxl_color = img[x, y]
+            print pxl_color
+            if pxl_color[0] == color[0]:
+                if pxl_color[1] == color[1]:
+                    if pxl_color[2] == color[2]:
+                        same_color = True
+            else:
+                same_color = False
+            while x < width and not same_color:
+                x += 1
+            if x < width:
+                x_start = x
+                while x < width and same_color:
+                    x += 1
+                segment.append([x_start, x, y])
+                # print(x, y)
+            # print pxl_color
+    print segment
+    # segment.append([3, 4])
+    # segment.append([7, 3])
+
+    return segment
+
+
+def define_regions(pxls):
+    # TODO
+    # vereinigen von segmenten
+    print("define regions")
+    for element in pxls:
+        print element[0]
+        print element[1]
+
+
+# TODO
+# WZ-Segment erkennen
+# verfahrpunkt ermitteln
+
 def execute(img):
     img, height, width = load_image(img)
-    define_region(img, height, width, [255, 0, 0])
+    print img.shape
+    pxl = pixel_run(img, height, width, [255, 255, 255])    # weiss
+    define_regions(pxl)
 
-    # object_tracking('../Matlab/Bilder/frame1.jpg', [110, 50, 50], [130, 255, 255])
+    object_tracking('../Matlab/Bilder/frame1.jpg', [110, 50, 50], [130, 255, 255])
+    new_img, height, width = load_image('test.png')
+    pxl = pixel_run(new_img, height, width, [255, 255, 255])
+
     # basic_operations('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
-
-    # define_region(load_image('../Matlab/Bilder/2018_05_24_14_43_25_647.png'))      # '../Matlab/Bilder/frame1.jpg'
 
 
 execute('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
