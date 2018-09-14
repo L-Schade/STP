@@ -268,14 +268,17 @@ def define_area(roots, segments):
 
 
 def draw_color(img, wz, segments):
+    # TODO
+    # schutzfunktion pixel farbe ueberhaupt enthalten
+
     new_img = cv2.imread(img)
     for segment in segments:
         # if segment.get_root() == segment:
         if segment.get_root() == wz.root:
             color = [072, 118, 255]
             for x in range(segment.x_start, segment.x_end, 1):
-                new_img[segment.y, x] = [072, 118, 255]
-                # new_img[segment.y, x] = color
+                # new_img[segment.y, x] = [072, 118, 255]
+                new_img[segment.y, x] = color
         # else:                                                 # alle segmente einer Farbe umfaerben/ anzeigen
         #     parent = segment.get_root()
         #     color = new_img[parent.y, parent.x_start]
@@ -320,10 +323,10 @@ def movement(img_width, img_height, wz):
 
 
 def algorithm(img_name, color):
-    # img, height, width = load_image(img_name)
-    img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
-    # segments_list = pixel_run(img, width, height, color)
-    segments_list = pixel_run(img, width, height, [33, 33, 33])
+    img, width, height = load_image(img_name)
+    # img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
+    segments_list = pixel_run(img, width, height, color)
+    # segments_list = pixel_run(img, width, height, [33, 33, 33])
     create_regions(segments_list)
     root_list = count_roots(segments_list)
     print(root_list)

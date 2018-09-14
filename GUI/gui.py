@@ -66,21 +66,23 @@ def click1(event):
 def click2(event):
     global x, y, text, center, bu2_blocked
     if not bu2_blocked:  # False
-        print("clicked at", event.x, event.y)
+        print("clicked at", event.x, event.y, event.char)
         x = event.x
         y = event.y
 
         print(event.char)
         point = [x, y]
-        print(imageAutomatic(x,y))
+        # print(imageAutomatic(x,y))
 
         # TODO
         # pixel Farbe bestimmen
+        color = [33, 33, 33]
+        button_click_color(color)
 
     else:
         output("Motoren sind gesperrt!")
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-        output_lab.place(x=225, y=450, width=600)
+        output_lab.place(x=600, y=460, width=170, height=150)
         stop()
 
 
@@ -183,26 +185,31 @@ def button12_click():
     buttonColor2.place(x=175, y=520, width=140, height=30)
     buttonColor3.place(x=175, y=580, width=140, height=30)
 
-    text_box.place(x=400, y=460, width=300, height=30)
-    text_box_button.place(x=400, y=520,width=300,height=30)
+    text_box_label1.place(x=370, y=460, width=30, height=30)
+    text_box_label2.place(x=370, y=520, width=30, height=30)
+    text_box_label3.place(x=370, y=580, width=30, height=30)
+    text_box1.place(x=400, y=460, width=140, height=30)
+    text_box2.place(x=400, y=520, width=140, height=30)
+    text_box3.place(x=400, y=580, width=140, height=30)
+    text_box_button.place(x=370, y=640, width=170, height=30)
 
-    global bu2_blocked
-    if not bu2_blocked:  # False
-        print("kd")
-        # comment("Tracking-\nModus")
-        # output('Tracking-Modus ...')
-        # output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)
-        # output_lab.place(x=225, y=475, width=600)
-
-        # TODO
-        # WZ-Detektion
-        # Motoren ansteuern
-
-    else:
-        output("Motoren sind gesperrt!")
-        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-        output_lab.place(x=225, y=450, width=600)
-        stop()
+    # global bu2_blocked
+    # if not bu2_blocked:  # False
+    #     print("kd")
+    #     # comment("Tracking-\nModus")
+    #     # output('Tracking-Modus ...')
+    #     # output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)
+    #     # output_lab.place(x=225, y=475, width=600)
+    #
+    #     # TODO
+    #     # WZ-Detektion
+    #     # Motoren ansteuern
+    #
+    # else:
+    #     output("Motoren sind gesperrt!")
+    #     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    #     output_lab.place(x=600, y=460, width=170, height=150)
+    #     stop()
 
 
 # coordinate
@@ -496,10 +503,8 @@ def button_click_image(ind):
 # set color for WZ-detection and get x-, y-distance
 def button_click_color(color):
     global image, bu2_blocked
-    print(color)
+    # print(color)
     if not bu2_blocked:
-        # TODO
-        # ruft fehler hervor
         img_name = "../Matlab/Bilder/" + image_na + ".png"
         # x_dist, y_dist = detection.algorithm(img_name, color)
         x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color)   # zum Testen
@@ -509,6 +514,9 @@ def button_click_color(color):
         # gewuenschte Position berechnen
         # Motoren ansteuern
     else:
+        output("Motoren sind gesperrt!")
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
         stop()
 
 
@@ -644,7 +652,12 @@ def hide_tracking_buttons():
     buttonColor1.place_forget()
     buttonColor2.place_forget()
     buttonColor3.place_forget()
-    text_box.place_forget()
+    text_box_label1.place_forget()
+    text_box_label2.place_forget()
+    text_box_label3.place_forget()
+    text_box1.place_forget()
+    text_box2.place_forget()
+    text_box3.place_forget()
     text_box_button.place_forget()
 
 
@@ -1014,9 +1027,17 @@ bu1.place(x=905, y=600, width=90, height=40)
 bu2 = Button(tk_fenster, text="Motoren \n sperren", command=lambda: bu2_onclick(), bg='#BDBDBD')
 bu2.place(x=905, y=660, width=90, height=40)
 
-#tracking-text box
-text_box = Entry(tk_fenster, bd=5, width=45)
-text_box_button = Button(tk_fenster, text='ENTER', command=lambda: button_click_color([55, 55, 55]))
+# tracking-text box
+text_box_label1 = Label(tk_fenster, text='R:')
+text_box_label2 = Label(tk_fenster, text='G:')
+text_box_label3 = Label(tk_fenster, text='B:')
+text_box1 = Entry(tk_fenster, bd=5, width=45)
+text_box2 = Entry(tk_fenster, bd=5, width=45)
+text_box3 = Entry(tk_fenster, bd=5, width=45)
+# text_box_button = Button(tk_fenster, text='ENTER', command=lambda: button_click_color([55, 55, 55]))
+text_box_button = Button(tk_fenster, text='ENTER', command=lambda:
+                         button_click_color([int(text_box1.get()), int(text_box2.get()), int(text_box3.get())]))
+
 
 # coordinate
 eingabefeld = Entry(tk_fenster, bd=5, width=45)
