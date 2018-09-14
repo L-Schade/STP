@@ -357,5 +357,5 @@ def execute(img):
 
 
 # execute('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
-algorithm('d', 'd')
+# algorithm('d', 'd')
 
