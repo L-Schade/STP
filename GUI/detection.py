@@ -1,14 +1,6 @@
 import cv2
 from matplotlib import pyplot as plt
 import numpy as np
-# from segment.py import Segment
-
-# segments:
-# segment[0]        x_start
-# segment[1]        x_end
-# segment[2]        y
-# segment[3]        root
-# segment[4]        parent
 
 
 class Segment:
@@ -33,50 +25,61 @@ class Segment:
             seg2.parent = seg.parent    # Elternknoten wird zu Grosselternknoten
         return seg
 
+    def get_size(self):
+        pxl = self.x_end - self.x_start
+
+        return pxl
+
 
 class SegmentArea:
     x_start = None
     x_end = None
     y_start = None
     y_end = None
+    elements = None     # in pixel
+    root = None
 
-    def __init__(self, x_start, x_end, y_start, y_end, members):
+    def __init__(self, x_start, x_end, y_start, y_end, elements, root):
         self.x_start = x_start
         self.x_end = x_end
         self.y_start = y_start
         self.y_end = y_end
-        self.memmbers = members
+        self.elements = elements
+        self.root = root
 
     def center(self):
         x = self.x_end-self.x_start
         y = self.y_end-self.y_start
 
-        return [x,y]
+        return [x, y]
+
+    # def set_element(self, ind):
+    #     self.elements = ind
 
 
 def load_image(img_name):
     img = cv2.imread(img_name)       # (img_name, 0) / (img_name, cv2.WINDOW_NORMAL)
-    height = img.shape[1]
-    width = img.shape[0]
-    print(height, width)
+    width = img.shape[1]
+    height = img.shape[0]
+    print(width, height)
 
     # cv2.imshow('image', img)
     # k = cv2.waitKey(0)
     # if k == 27:  # wait for ESC key to exit
     #     cv2.destroyAllWindows()
 
-    plt.imshow(img)         # cmap='gray', interpolation='bicubic'
-    plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
-    plt.show()
+    # plt.imshow(img)         # cmap='gray', interpolation='bicubic'
+    # plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
+    # plt.show()
 
-    return img, height, width
+    return img, width, height
 
 
 def get_size(img):
-    height = img.shape[1]
-    width = img.shape[0]
+    width = img.shape[1]
+    height = img.shape[0]
 
-    return height, width
+    return width, height
 
 
 def object_tracking(img_name, lower_color, upper_color):
@@ -147,8 +150,8 @@ def basic_operations(img_name):
     cv2.waitKey(0)
 
 
-def pixel_run(img, height, width, color):
-    print(color)
+def pixel_run(img, width, height, color):
+    # print(color)
     segment_list = []
     # segment_li = []
     for y in range(0, height, 1):
@@ -156,7 +159,7 @@ def pixel_run(img, height, width, color):
         x = 0
         while x < width:
             pxl_color = img[x, y]
-            print pxl_color
+            # print pxl_color
             if pxl_color[0] == color[0]:
                 if pxl_color[1] == color[1]:
                     if pxl_color[2] == color[2]:
@@ -244,7 +247,7 @@ def define_area(roots, segments):
         x_end = root.x_end
         y_start = root.y
         y_end = root.y
-        ind = 0
+        elements = 0
         for segment in segments:
             if root == segment.get_root():
                 if x_start > segment.x_start:
@@ -253,8 +256,8 @@ def define_area(roots, segments):
                     x_end = segment.x_end
                 if y_end < segment.y:
                     y_end = segment.y
-                ind += 1
-        area = SegmentArea(x_start, x_end, y_start, y_end, ind)
+                elements += segment.get_size()
+        area = SegmentArea(x_start, x_end, y_start, y_end, elements, root)
         areas.append(area)
 
     return areas
@@ -264,18 +267,25 @@ def define_area(roots, segments):
 # wird wahrscheinlich gar nicht benoetigt
 
 
-def draw_color(img, segments):
+def draw_color(img, wz, segments):
+    new_img = cv2.imread(img)
     for segment in segments:
-        if segment.get_root() == segment:
-            color = [255, 255, 255]
+        # if segment.get_root() == segment:
+        if segment.get_root() == wz.root:
+            color = [072, 118, 255]
             for x in range(segment.x_start, segment.x_end, 1):
-                img[x, segment.y] = color
-        else:
-            parent = segment.get_root()
-            color = img[parent.x_start, parent.y]
-            for x in range(segment.x_start, segment.x_end, 1):
-                img[x, segment.y] = color
-        return img
+                new_img[segment.y, x] = [072, 118, 255]
+                # new_img[segment.y, x] = color
+        # else:                                                 # alle segmente einer Farbe umfaerben/ anzeigen
+        #     parent = segment.get_root()
+        #     color = new_img[parent.y, parent.x_start]
+        #     for x in range(segment.x_start, segment.x_end, 1):
+        #         new_img[segment.y, x] = color
+
+    plt.imshow(new_img)
+    plt.show()
+
+    return img
 
 
 # TODO
@@ -286,40 +296,66 @@ def draw_color(img, segments):
 def define_wz(areas):
     wz_area = None
     for area in areas:
-        if wz_area < area.members:
+        if wz_area < area.elements:
             wz_area = area
+        elif wz_area == area.elements:
+            print("2 gleich grosse bereiche")
+            # TODO
+            #
+
+    return wz_area
 
 
+def movement(img_width, img_height, wz):
+    img_center = [(img_width/2), (img_height/2)]
+    # print(img_center)
+    wz_center = wz.center()
+    x_distance = wz_center[0]
+    y_distance = wz_center[1]
+    # print(x_distance)
+    # print(y_distance)
+
+    # return wz_center
+    return x_distance, y_distance
 
 
-def algorithm():
-    img, height, width = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
-    segments_list = pixel_run(img, height, width,  [33, 33, 33])
+def algorithm(img_name, color):
+    # img, height, width = load_image(img_name)
+    img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
+    # segments_list = pixel_run(img, width, height, color)
+    segments_list = pixel_run(img, width, height, [33, 33, 33])
     create_regions(segments_list)
     root_list = count_roots(segments_list)
     print(root_list)
     print(len(root_list))
     areas = define_area(root_list, segments_list)
-    define_wz(areas)
+    wz = define_wz(areas)
+
+    x_dist, y_dist = movement(width, height, wz)
+    print(x_dist, y_dist)
+
+    draw_color('schwarz_weiss.jpeg', wz, segments_list)
+
+    return x_dist, y_dist
 
 
 def execute(img):
-    img, height, width = load_image(img)
+    img, width, height = load_image(img)
     print img.shape
-    # pxl = pixel_run(img, height, width, [255, 255, 255])    # weiss
+    # pxl = pixel_run(img, width, height, [255, 255, 255])    # weiss
     # united_regions(seg1, seg2)
 
     object_tracking('../Matlab/frame1.jpg', [110, 50, 50], [130, 255, 255])
-    # new_img, height, width = load_image('test.png')
-    new_img, height, width = load_image('schwarz_weiss.jpeg')
+    # new_img, width, height = load_image('test.png')
+    new_img, width, height = load_image('schwarz_weiss.jpeg')
 
     # Testbild
     # pxl = pixel_run(new_img, height, width, [255, 255, 255])
-    pxl = pixel_run(new_img, height, width, [33, 33, 33])
+    pxl = pixel_run(new_img, width, height [33, 33, 33])
 
     # basic_operations('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
 
 
 # execute('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
-algorithm()
+algorithm('d', 'd')
 
