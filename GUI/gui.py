@@ -8,6 +8,7 @@ import distance_calculator
 # import functionsG
 import imagesG
 import detection
+import cv2
 
 
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
@@ -66,18 +67,31 @@ def click1(event):
 def click2(event):
     global x, y, text, center, bu2_blocked
     if not bu2_blocked:  # False
-        print("clicked at", event.x, event.y, event.char)
+        print("clicked at", event.x, event.y)
         x = event.x
         y = event.y
 
         print(event.char)
         point = [x, y]
-        # print(imageAutomatic(x,y))
+
+        img = cv2.imread("../Matlab/Bilder/" + image_na + ".png")
+        dim = (500, 250)
+        # resize image
+        resized = cv2.resize(img, dim)
+        print(resized[x, y])
 
         # TODO
         # pixel Farbe bestimmen
         color = [33, 33, 33]
-        button_click_color(color)
+
+        img_name = "../Matlab/Bilder/" + image_na + ".png"
+        # x_dist, y_dist = detection.algorithm_(img_name, color, x, y)
+        x_dist, y_dist = detection.algorithm_('schwarz_weiss.jpeg', color, x, y)  # zum Testen
+        # print(x_dist, y_dist)
+
+        # TODO
+        # gewuenschte Position berechnen
+        # Motoren ansteuern
 
     else:
         output("Motoren sind gesperrt!")
@@ -506,7 +520,7 @@ def button_click_color(color):
     # print(color)
     if not bu2_blocked:
         img_name = "../Matlab/Bilder/" + image_na + ".png"
-        # x_dist, y_dist = detection.algorithm(img_name, color)
+        # x_dist, y_dist = detection.algorithm(img_name, color, mode)
         x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color)   # zum Testen
         # print(x_dist, y_dist)
 

@@ -7,12 +7,14 @@ class Segment:
     x_start = None
     x_end = None
     y = None
+    ind = None
 
-    def __init__(self, x_start, x_end, y):
+    def __init__(self, x_start, x_end, y, ind):
         self.x_start = x_start
         self.x_end = x_end
         self.y = y
         self.parent = self
+        self.ind = ind
 
     def parent(self):
         self.parent = self
@@ -36,17 +38,21 @@ class SegmentArea:
     x_end = None
     y_start = None
     y_end = None
+    ind = None
     elements = None     # in pixel
     root = None
 
-    def __init__(self, x_start, x_end, y_start, y_end, elements, root):
+    def __init__(self, x_start, x_end, y_start, y_end, ind, elements, root):
         self.x_start = x_start
         self.x_end = x_end
         self.y_start = y_start
         self.y_end = y_end
+        self.ind = ind
         self.elements = elements
         self.root = root
 
+    # TODO
+    # vlt noch bessere Methode zur Mittelpunktbestimmung
     def center(self):
         x = self.x_end-self.x_start
         y = self.y_end-self.y_start
@@ -172,8 +178,49 @@ def pixel_run(img, width, height, color):
                 x_start = x
                 while x < width and same_color:
                     x += 1
-                segment = Segment(x_start, x, y)
+                segment = Segment(x_start, x, y, 0)
                 segment_list.append(segment)
+                # segment_li.append([x_start, x, y])
+            # print pxl_color
+    print segment_list
+    # print segment_li
+    print(len(segment_list))
+    # print(len(segment_li))
+    # segment_list.append([3, 4, 7])
+    # segment_list.append([7, 3, 9])
+    # print(segment[1][2])
+
+    return segment_list
+
+
+def pixel_run_(img, width, height, color, x_coord, y_coord):
+    # print(color)
+    segment_list = []
+    # segment_li = []
+    for y in range(0, height, 1):
+        # for x in range(0, width, 1):
+        x = 0
+        while x < width:
+            pxl_color = img[x, y]
+            # print pxl_color
+            if pxl_color[0] == color[0]:
+                if pxl_color[1] == color[1]:
+                    if pxl_color[2] == color[2]:
+                        same_color = True
+            else:
+                same_color = False
+            while x < width and not same_color:
+                x += 1
+            if x < width:
+                x_start = x
+                while x < width and same_color:
+                    x += 1
+                if x_start <= x_coord and x_coord <= x and y == y_coord:
+                    segment = Segment(x_start, x, y, 1)
+                    segment_list.append(segment)
+                else:
+                    segment = Segment(x_start, x, y, 0)
+                    segment_list.append(segment)
                 # segment_li.append([x_start, x, y])
             # print pxl_color
     print segment_list
@@ -242,6 +289,7 @@ def count_roots(segments):
 
 def define_area(roots, segments):
     areas = []
+    ind = None
     for root in roots:
         x_start = root.x_start
         x_end = root.x_end
@@ -257,14 +305,35 @@ def define_area(roots, segments):
                 if y_end < segment.y:
                     y_end = segment.y
                 elements += segment.get_size()
-        area = SegmentArea(x_start, x_end, y_start, y_end, elements, root)
+            if segment.ind == 1:
+                ind = 1
+            else:
+                ind = 0
+        area = SegmentArea(x_start, x_end, y_start, y_end, ind, elements, root)
         areas.append(area)
 
     return areas
 
+
 # TODO
-# koennte noch fehler enthalten
-# wird wahrscheinlich gar nicht benoetigt
+# WZ-Segment erkennen
+# verfahrpunkt ermitteln
+
+
+def define_wz(areas):
+    wz_area = None
+    for area in areas:
+        if area.ind == 0:
+            if wz_area < area.elements:
+                wz_area = area
+            elif wz_area == area.elements:
+                print("2 gleich grosse bereiche")
+                # TODO
+                #
+        elif area.ind == 1:
+            wz_area = area
+
+    return wz_area
 
 
 def draw_color(img, wz, segments):
@@ -291,24 +360,6 @@ def draw_color(img, wz, segments):
     return img
 
 
-# TODO
-# WZ-Segment erkennen
-# verfahrpunkt ermitteln
-
-
-def define_wz(areas):
-    wz_area = None
-    for area in areas:
-        if wz_area < area.elements:
-            wz_area = area
-        elif wz_area == area.elements:
-            print("2 gleich grosse bereiche")
-            # TODO
-            #
-
-    return wz_area
-
-
 def movement(img_width, img_height, wz):
     img_center = [(img_width/2), (img_height/2)]
     # print(img_center)
@@ -323,6 +374,27 @@ def movement(img_width, img_height, wz):
 
 
 def algorithm(img_name, color):
+    img, width, height = load_image(img_name)
+    # img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
+    segments_list = pixel_run(img, width, height, color)
+    # segments_list = pixel_run(img, width, height, [33, 33, 33])
+    create_regions(segments_list)
+    root_list = count_roots(segments_list)
+    print(root_list)
+    print(len(root_list))
+    areas = define_area(root_list, segments_list)
+    wz = define_wz(areas)
+
+    x_dist, y_dist = movement(width, height, wz)
+    print(x_dist, y_dist)
+
+    draw_color('schwarz_weiss.jpeg', wz, segments_list)
+
+    return x_dist, y_dist
+
+
+def algorithm_(img_name, color, x_coord, y_coord):
+    print('test')
     img, width, height = load_image(img_name)
     # img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
     segments_list = pixel_run(img, width, height, color)
