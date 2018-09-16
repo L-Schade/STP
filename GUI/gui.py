@@ -56,6 +56,7 @@ def click1(event):
         # TODO
         # gewuenschte Position berechnen
         # Motoren ansteuern
+        # Bildgroesse beachten
 
     else:
         output("Motoren sind gesperrt!")
@@ -71,27 +72,26 @@ def click2(event):
         x = event.x
         y = event.y
 
-        print(event.char)
-        point = [x, y]
-
         img = cv2.imread("../Matlab/Bilder/" + image_na + ".png")
         dim = (500, 250)
         # resize image
         resized = cv2.resize(img, dim)
-        print(resized[x, y])
+        print(resized[y, x])
 
         # TODO
         # pixel Farbe bestimmen
-        color = [33, 33, 33]
+        color = resized[y,x]
+        # color = [33, 33, 33]
 
         img_name = "../Matlab/Bilder/" + image_na + ".png"
-        # x_dist, y_dist = detection.algorithm_(img_name, color, x, y)
-        x_dist, y_dist = detection.algorithm_('schwarz_weiss.jpeg', color, x, y)  # zum Testen
+        x_dist, y_dist = detection.algorithm_(img_name, color, x, y)
+        # x_dist, y_dist = detection.algorithm_('schwarz_weiss.jpeg', color, x, y)  # zum Testen
         # print(x_dist, y_dist)
 
         # TODO
         # gewuenschte Position berechnen
         # Motoren ansteuern
+        # Bildgroesse beachten
 
     else:
         output("Motoren sind gesperrt!")
@@ -496,12 +496,14 @@ def button4_click():
 # load another image
 def button_click_image(ind):
     global image, image_na
-    img_names = imagesG.list_images(12)     # image_names
+    img_names = imagesG.list_images(9)     # 12, image_names
     image = load_image(img_names[ind])      # image_names[ind]
     reload_images()
 
     print("lade passende Position...")
-    image_name = image_names[ind]
+    # print(img_names[ind])
+
+    image_name = img_names[ind]
 
     txt = 'aktuelles Bild:\n' + image_name
     image_label.config(text=txt)
@@ -527,6 +529,7 @@ def button_click_color(color):
         # TODO
         # gewuenschte Position berechnen
         # Motoren ansteuern
+        # Bildgrosse beachten
     else:
         output("Motoren sind gesperrt!")
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))

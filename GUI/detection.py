@@ -156,6 +156,8 @@ def basic_operations(img_name):
     cv2.waitKey(0)
 
 
+# TODO
+# gewissen bereich fuer pixelfarbe tolerieren?
 def pixel_run(img, width, height, color):
     # print(color)
     segment_list = []
@@ -174,10 +176,24 @@ def pixel_run(img, width, height, color):
                 same_color = False
             while x < width and not same_color:
                 x += 1
+                if pxl_color[0] == color[0]:
+                    if pxl_color[1] == color[1]:
+                        if pxl_color[2] == color[2]:
+                            same_color = True
+                else:
+                    same_color = False
+
             if x < width:
                 x_start = x
                 while x < width and same_color:
                     x += 1
+                    if pxl_color[0] == color[0]:
+                        if pxl_color[1] == color[1]:
+                            if pxl_color[2] == color[2]:
+                                same_color = True
+                    else:
+                        same_color = False
+
                 segment = Segment(x_start, x, y, 0)
                 segment_list.append(segment)
                 # segment_li.append([x_start, x, y])
@@ -211,17 +227,31 @@ def pixel_run_(img, width, height, color, x_coord, y_coord):
                 same_color = False
             while x < width and not same_color:
                 x += 1
+                if pxl_color[0] == color[0]:
+                    if pxl_color[1] == color[1]:
+                        if pxl_color[2] == color[2]:
+                            same_color = True
+                else:
+                    same_color = False
+
             if x < width:
                 x_start = x
                 while x < width and same_color:
                     x += 1
+                    if pxl_color[0] == color[0]:
+                        if pxl_color[1] == color[1]:
+                            if pxl_color[2] == color[2]:
+                                same_color = True
+                    else:
+                        same_color = False
+
                 if x_start <= x_coord and x_coord <= x and y == y_coord:
                     segment = Segment(x_start, x, y, 1)
                     segment_list.append(segment)
                 else:
                     segment = Segment(x_start, x, y, 0)
                     segment_list.append(segment)
-                # segment_li.append([x_start, x, y])
+                    # segment_li.append([x_start, x, y])
             # print pxl_color
     print segment_list
     # print segment_li
@@ -322,18 +352,22 @@ def define_area(roots, segments):
 
 def define_wz(areas):
     wz_area = None
-    for area in areas:
-        if area.ind == 0:
-            if wz_area < area.elements:
+    if len(areas) == 0:
+        print("keine Elemente in der Liste\n"
+              "Es wurden keine Bereiche gefunden")
+        return None
+    else:
+        for area in areas:
+            if area.ind == 0:
+                if wz_area < area.elements:
+                    wz_area = area
+                elif wz_area == area.elements:
+                    print("2 gleich grosse bereiche")
+                    # TODO
+                    #
+            elif area.ind == 1:
                 wz_area = area
-            elif wz_area == area.elements:
-                print("2 gleich grosse bereiche")
-                # TODO
-                #
-        elif area.ind == 1:
-            wz_area = area
-
-    return wz_area
+        return wz_area
 
 
 def draw_color(img, wz, segments):
@@ -341,6 +375,8 @@ def draw_color(img, wz, segments):
     # schutzfunktion pixel farbe ueberhaupt enthalten
 
     new_img = cv2.imread(img)
+    dim = (500, 250)
+    new_img = cv2.resize(new_img, dim)
     for segment in segments:
         # if segment.get_root() == segment:
         if segment.get_root() == wz.root:
@@ -385,20 +421,26 @@ def algorithm(img_name, color):
     areas = define_area(root_list, segments_list)
     wz = define_wz(areas)
 
-    x_dist, y_dist = movement(width, height, wz)
-    print(x_dist, y_dist)
+    if not wz == None:
+        x_dist, y_dist = movement(width, height, wz)
+        print(x_dist, y_dist)
 
-    draw_color('schwarz_weiss.jpeg', wz, segments_list)
+        # draw_color(img_name, wz, segments_list)
+        draw_color('schwarz_weiss.jpeg', wz, segments_list)
 
-    return x_dist, y_dist
+        return x_dist, y_dist
+    else:
+        return None, None
 
 
 def algorithm_(img_name, color, x_coord, y_coord):
     print('test')
     img, width, height = load_image(img_name)
     # img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
-    segments_list = pixel_run(img, width, height, color)
-    # segments_list = pixel_run(img, width, height, [33, 33, 33])
+    dim = (500, 250)
+    resized_img = cv2.resize(img, dim)
+    segments_list = pixel_run_(resized_img, 500, 250, color, x_coord, y_coord)
+    # segments_list = pixel_run_(resized_img, 500, 250, [33, 33, 33], x_coord, y_coord)
     create_regions(segments_list)
     root_list = count_roots(segments_list)
     print(root_list)
@@ -406,12 +448,16 @@ def algorithm_(img_name, color, x_coord, y_coord):
     areas = define_area(root_list, segments_list)
     wz = define_wz(areas)
 
-    x_dist, y_dist = movement(width, height, wz)
-    print(x_dist, y_dist)
+    if not wz == None:
+        x_dist, y_dist = movement(width, height, wz)
+        print(x_dist, y_dist)
 
-    draw_color('schwarz_weiss.jpeg', wz, segments_list)
+        draw_color(img_name, wz, segments_list)
+        # draw_color('schwarz_weiss.jpeg', wz, segments_list)
 
-    return x_dist, y_dist
+        return x_dist, y_dist
+    else:
+        return None, None
 
 
 def execute(img):
