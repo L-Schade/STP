@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from Tkinter import *   # python 2.7
 # from  tkinter import *  # 3.5
 import tkMessageBox
@@ -56,7 +58,7 @@ def click1(event):
         # TODO
         # gewuenschte Position berechnen
         # Motoren ansteuern
-        # Bildgroesse beachten
+        # Bildgroesse beachten 500,250
 
     else:
         output("Motoren sind gesperrt!")
@@ -75,23 +77,32 @@ def click2(event):
         img = cv2.imread("../Matlab/Bilder/" + image_na + ".png")
         dim = (500, 250)
         # resize image
-        resized = cv2.resize(img, dim)
-        print(resized[y, x])
+        img_size = cv2.resize(img, dim)
+        print(img_size[y, x])
 
-        # TODO
-        # pixel Farbe bestimmen
-        color = resized[y,x]
+        color = img_size[y, x]
         # color = [33, 33, 33]
 
-        img_name = "../Matlab/Bilder/" + image_na + ".png"
-        x_dist, y_dist = detection.algorithm_(img_name, color, x, y)
-        # x_dist, y_dist = detection.algorithm_('schwarz_weiss.jpeg', color, x, y)  # zum Testen
-        # print(x_dist, y_dist)
+        request = Tk()
+        request.geometry('445x245')
+        request.title('Informationsfenster')
 
-        # TODO
-        # gewuenschte Position berechnen
-        # Motoren ansteuern
-        # Bildgroesse beachten
+        txt = Label(request, text="Wollen Sie eingewissen Bereich der Pixelfarbe angeben \n"
+                                  "oder wollen Sie nur genau nach dieser Pixelfarbe suchen")     # bg="red", fg="white")
+        txt.place(x=25, y=15, width=395, height=100)
+
+        b1 = Button(request, text='Nur nach dieser \nFarbe suchen',
+                    command=lambda: color_range(request, None, color, x, y))
+        b1.place(x=25, y=170, width=115, height=50)
+
+        text_box4 = Entry(request, text='groesse des Farbbereichs', bd=5, width=45)
+        text_box4.place(x=165, y=130, width=115, height=30)
+        b2 = Button(request, text='ENTER', command=lambda: color_range(request, text_box4.get(), color, x, y))
+        b2.place(x=165, y=180, width=115, height=30)
+
+        b3 = Button(request, text='Abbrechen', command=request.destroy)
+        b3.place(x=305, y=180, width=115, height=30)
+        request.mainloop()
 
     else:
         output("Motoren sind gesperrt!")
@@ -524,17 +535,36 @@ def button_click_color(color):
         img_name = "../Matlab/Bilder/" + image_na + ".png"
         # x_dist, y_dist = detection.algorithm(img_name, color, mode)
         x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color)   # zum Testen
-        # print(x_dist, y_dist)
+        print(x_dist, y_dist)
 
         # TODO
+        # was ist wenn x_dist, y_dist None ist
         # gewuenschte Position berechnen
         # Motoren ansteuern
-        # Bildgrosse beachten
+        # Bildgrosse beachten 250,125
     else:
         output("Motoren sind gesperrt!")
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))
         output_lab.place(x=600, y=460, width=170, height=150)
         stop()
+
+
+def color_range(request, color_rng, color, x, y):
+    request.destroy()
+
+    img_name = "../Matlab/Bilder/" + image_na + ".png"
+    x_dist, y_dist = detection.algorithm_(img_name, color_rng, color, x, y)
+    # x_dist, y_dist = detection.algorithm_('schwarz_weiss.jpeg', color, x, y)  # zum Testen
+    print(x_dist, y_dist)
+
+    # TODO
+    # funktionen in detection hier fuer anpassen/ schreiben
+    # was ist wenn x_dist, y_dist None ist
+
+    # TODO
+    # gewuenschte Position berechnen
+    # Motoren ansteuern
+    # Bildgroesse beachten 250,125
 
 
 # output for the side coordinates
@@ -801,7 +831,7 @@ def load_position(name):
 def warning():
     if __name__ == '__main__':
         root_angle = Tk()
-        root_angle.title('Eingabe der Werte')
+        root_angle.title('Warnung!')
 
         ind = Image.open("warning1.jpg")
         pht = ImageTk.PhotoImage(ind)
