@@ -537,18 +537,20 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
     print(x_dist, y_dist)
 
     # TODO
-    # output_lab auch anzeigen wenn man vorher Button mit vorgegebener Farbe gedrueckt hat
+    # geht nur wenn das Bild bei draw nicht angezeigt wird
 
-    # if x_dist is None and y_dist is None and x is not None and y is not None:
-    #     print("keine Bereich gefunden")
-    #     output('kein passenden Bereich gefunden')
-    #     output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
-    #     output_lab.place(x=600, y=460, width=170, height=150)
-    # elif x is not None and y is not None:
-    #     print(x_dist, y_dist)
-    #     output("x-Abstand: {} \ny-Abstand: {}".format(x_dist, y_dist))
-    #     output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
-    #     output_lab.place(x=600, y=460, width=170, height=150)
+    if x_dist is None and y_dist is None:
+        print("keine Bereich gefunden")
+        output('kein passenden Bereich gefunden')
+        output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
+    elif x_dist is not None and y_dist is not None:
+        print(x_dist, y_dist)
+        output('x-Abstand: {} \ny-Abstand: {}'.format(x_dist, y_dist))
+        output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
+    else:
+        print("...")
 
     # TODO
     # gewuenschte Position berechnen

@@ -373,8 +373,8 @@ def draw_color(img, wz, segments):
         #     for x in range(segment.x_start, segment.x_end, 1):
         #         new_img[segment.y, x] = color
 
-    plt.imshow(new_img)
-    plt.show()
+    # plt.imshow(new_img)
+    # plt.show()
 
     return img
 
