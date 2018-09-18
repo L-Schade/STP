@@ -83,26 +83,7 @@ def click2(event):
         color = img_size[y, x]
         # color = [33, 33, 33]
 
-        request = Tk()
-        request.geometry('445x245')
-        request.title('Informationsfenster')
-
-        txt = Label(request, text="Wollen Sie eingewissen Bereich der Pixelfarbe angeben \n"
-                                  "oder wollen Sie nur genau nach dieser Pixelfarbe suchen")     # bg="red", fg="white")
-        txt.place(x=25, y=15, width=395, height=100)
-
-        b1 = Button(request, text='Nur nach dieser \nFarbe suchen',
-                    command=lambda: color_range(request, None, color, x, y))
-        b1.place(x=25, y=170, width=115, height=50)
-
-        text_box4 = Entry(request, text='groesse des Farbbereichs', bd=5, width=45)
-        text_box4.place(x=165, y=130, width=115, height=30)
-        b2 = Button(request, text='ENTER', command=lambda: color_range(request, text_box4.get(), color, x, y))
-        b2.place(x=165, y=180, width=115, height=30)
-
-        b3 = Button(request, text='Abbrechen', command=request.destroy)
-        b3.place(x=305, y=180, width=115, height=30)
-        request.mainloop()
+        information_window(color, x, y)
 
     else:
         output("Motoren sind gesperrt!")
@@ -532,27 +513,12 @@ def button_click_color(color):
     global image, bu2_blocked, text
     # print(color)
     if not bu2_blocked:
-        img_name = "../Matlab/Bilder/" + image_na + ".png"
-        # x_dist, y_dist = detection.algorithm(img_name, color, mode)
-        x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color)   # zum Testen
-
-        if x_dist is None and y_dist is None:
-            print("keine Bereich gefunden")
-            # output("kein passenden Bereich gefunden")
-            # output_lab.config(tk_fenster, text=text, bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))
-            # output_lab.place(x=600, y=460, width=170, height=150)
-        else:
-            print(x_dist, y_dist)
-            print('test')
-            # output("x-Abstand: {} \n"
-            #        "y-Abstand: {}".format(x_dist, y_dist))
-            # output_lab.config(tk_fenster, text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))
-            # output_lab.place(x=600, y=460, width=170, height=150)
-
         # TODO
-        # gewuenschte Position berechnen
-        # Motoren ansteuern
-        # Bildgrosse beachten 250,125
+        # information_window einbauen
+
+        x, y = None, None
+        information_window(color, x, y)
+
     else:
         output("Motoren sind gesperrt!")
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))
@@ -561,30 +527,57 @@ def button_click_color(color):
 
 
 #
-def color_range(request, color_rng, color, x, y):
+def start_algorithm(request, color_rng, color, x_coord, y_coord):
     global text
     request.destroy()
 
     img_name = "../Matlab/Bilder/" + image_na + ".png"
-    x_dist, y_dist = detection.algorithm_(img_name, color_rng, color, x, y)
-    # x_dist, y_dist = detection.algorithm_('schwarz_weiss.jpeg', color, x, y)  # zum Testen
+    x_dist, y_dist = detection.algorithm(img_name, color_rng, color, x_coord, y_coord)          # , new_img
+    # x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color_rng, color, x_coord, y_coord)  # zum Testen
     print(x_dist, y_dist)
 
-    if x_dist is None and y_dist is None:
-        print("keine Bereich gefunden")
-        output('kein passenden Bereich gefunden')
-        output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
-        output_lab.place(x=600, y=460, width=170, height=150)
-    else:
-        print(x_dist, y_dist)
-        output("x-Abstand: {} \ny-Abstand: {}".format(x_dist, y_dist))
-        output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
-        output_lab.place(x=600, y=460, width=170, height=150)
+    # TODO
+    # output_lab auch anzeigen wenn man vorher Button mit vorgegebener Farbe gedrueckt hat
+
+    # if x_dist is None and y_dist is None and x is not None and y is not None:
+    #     print("keine Bereich gefunden")
+    #     output('kein passenden Bereich gefunden')
+    #     output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+    #     output_lab.place(x=600, y=460, width=170, height=150)
+    # elif x is not None and y is not None:
+    #     print(x_dist, y_dist)
+    #     output("x-Abstand: {} \ny-Abstand: {}".format(x_dist, y_dist))
+    #     output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+    #     output_lab.place(x=600, y=460, width=170, height=150)
 
     # TODO
     # gewuenschte Position berechnen
     # Motoren ansteuern
     # Bildgroesse beachten 250,125
+
+
+#
+def information_window(color, x, y):
+        request = Tk()
+        request.geometry('445x245')
+        request.title('Informationsfenster')
+
+        txt = Label(request, text="Wollen Sie eingewissen Bereich der Pixelfarbe angeben \n"
+                                  "oder wollen Sie nur genau nach dieser Pixelfarbe suchen")  # bg="red", fg="white")
+        txt.place(x=25, y=15, width=395, height=100)
+
+        b1 = Button(request, text='Nur nach dieser \nFarbe suchen',
+                    command=lambda: start_algorithm(request, None, color, x, y))
+        b1.place(x=25, y=170, width=115, height=50)
+
+        text_box4 = Entry(request, text='groesse des Farbbereichs', bd=5, width=45)
+        text_box4.place(x=165, y=130, width=115, height=30)
+        b2 = Button(request, text='ENTER', command=lambda: start_algorithm(request, text_box4.get(), color, x, y))
+        b2.place(x=165, y=180, width=115, height=30)
+
+        b3 = Button(request, text='Abbrechen', command=request.destroy)
+        b3.place(x=305, y=180, width=115, height=30)
+        request.mainloop()
 
 
 # output for the side coordinates

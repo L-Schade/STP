@@ -186,47 +186,7 @@ def color_area(img, color, color_range, x_pixel, y_pixel):
     return same_color
 
 
-# TODO
-# gewissen bereich fuer pixelfarbe tolerieren?
-def pixel_run(img, width, height, color):
-    # print(color)
-    segment_list = []
-    # segment_li = []
-    for y in range(0, height, 1):
-        # for x in range(0, width, 1):
-        x = 0
-        while x < width:
-            same_color = compare_pixel_color(img, color, x, y)
-
-            while x < width and not same_color:
-                x += 1
-
-                if x < width:
-                    same_color = compare_pixel_color(img, color, x, y)
-
-            if x < width:
-                x_start = x
-                while x < width and same_color:
-                    x += 1
-
-                    if x < width:
-                        same_color = compare_pixel_color(img, color, x, y)
-
-                segment = Segment(x_start, x, y, 0)
-                segment_list.append(segment)
-                # segment_li.append([x_start, x, y])
-    print segment_list
-    # print segment_li
-    print(len(segment_list))
-    # print(len(segment_li))
-    # segment_list.append([3, 4, 7])
-    # segment_list.append([7, 3, 9])
-    # print(segment[1][2])
-
-    return segment_list
-
-
-def pixel_run_(img, width, height, color, color_rng, x_coord, y_coord):
+def pixel_run(img, width, height, color, color_rng, x_coord, y_coord):
     # print(color)
     segment_list = []
     # segment_li = []
@@ -245,7 +205,7 @@ def pixel_run_(img, width, height, color, color_rng, x_coord, y_coord):
                 if x < width:
                     if color_rng is None:
                         same_color = compare_pixel_color(img, color, x, y)
-                    elif color_rng is not  None:
+                    elif color_rng is not None:
                         same_color = color_area(img, color, color_rng, x, y)
 
             if x < width:
@@ -259,13 +219,18 @@ def pixel_run_(img, width, height, color, color_rng, x_coord, y_coord):
                         elif color_rng is not None:
                             same_color = color_area(img, color, color_rng, x, y)
 
-                if x_start <= x_coord < x and y == y_coord:
-                    segment = Segment(x_start, x, y, 1)
-                    segment_list.append(segment)
+                if x_coord is not None and y_coord is not None:
+                    if x_start <= x_coord < x and y == y_coord:
+                        segment = Segment(x_start, x, y, 1)
+                        segment_list.append(segment)
+                    else:
+                        segment = Segment(x_start, x, y, 0)
+                        segment_list.append(segment)
+                        # segment_li.append([x_start, x, y])
                 else:
                     segment = Segment(x_start, x, y, 0)
                     segment_list.append(segment)
-                    # segment_li.append([x_start, x, y])
+
             # print pxl_color
     print segment_list
     # print segment_li
@@ -408,8 +373,8 @@ def draw_color(img, wz, segments):
         #     for x in range(segment.x_start, segment.x_end, 1):
         #         new_img[segment.y, x] = color
 
-    # plt.imshow(new_img)
-    # plt.show()
+    plt.imshow(new_img)
+    plt.show()
 
     return img
 
@@ -427,42 +392,19 @@ def movement(img_width, img_height, wz):
     return x_distance, y_distance
 
 
-def algorithm(img_name, color):
-    # img, width, height = load_image(img_name)
-    img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
-    dim = (250, 125)
-    img_size = cv2.resize(img, dim)
-    segments_list = pixel_run(img_size, 250, 125, color)
-    # segments_list = pixel_run(img, width, height, color)
-    # segments_list = pixel_run(img, width, height, [33, 33, 33])
-    create_regions(segments_list)
-    root_list = count_roots(segments_list)
-    print(root_list)
-    print(len(root_list))
-    areas = define_area(root_list, segments_list)
-    wz = define_wz(areas)
-
-    if wz is not None:
-        x_dist, y_dist = movement(width, height, wz)
-        print(x_dist, y_dist)
-
-        # draw_color(img_name, wz, segments_list)
-        draw_color('schwarz_weiss.jpeg', wz, segments_list)
-
-        return x_dist, y_dist
-    else:
-        return None, None
-
-
-def algorithm_(img_name, color_rng, color, x_coord, y_coord):
+def algorithm(img_name, color_rng, color, x_coord, y_coord):
     print('test')
     img, width, height = load_image(img_name)
     # img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
     dim = (250, 125)
     img_size = cv2.resize(img, dim)
 
-    segments_list = pixel_run_(img_size, 250, 125, color, color_rng, (x_coord/2), (y_coord/2))
-    # segments_list = pixel_run_(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
+    if x_coord is not None and y_coord is not None:
+        segments_list = pixel_run(img_size, 250, 125, color, color_rng, (x_coord/2), (y_coord/2))
+        # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
+    else:
+        segments_list = pixel_run(img_size, 250, 125, color, color_rng, x_coord, y_coord)
+        # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
 
     create_regions(segments_list)
     root_list = count_roots(segments_list)
@@ -478,30 +420,9 @@ def algorithm_(img_name, color_rng, color, x_coord, y_coord):
         draw_color(img_name, wz, segments_list)
         # draw_color('schwarz_weiss.jpeg', wz, segments_list)
 
-        return x_dist, y_dist
+        return x_dist, y_dist   # , img
     else:
-        return None, None
-
-
-def execute(img):
-    img, width, height = load_image(img)
-    print img.shape
-    # pxl = pixel_run(img, width, height, [255, 255, 255])    # weiss
-    # united_regions(seg1, seg2)
-
-    object_tracking('../Matlab/frame1.jpg', [110, 50, 50], [130, 255, 255])
-    # new_img, width, height = load_image('test.png')
-    new_img, width, height = load_image('schwarz_weiss.jpeg')
-
-    # Testbild
-    # pxl = pixel_run(new_img, height, width, [255, 255, 255])
-    pxl = pixel_run(new_img, width, height [33, 33, 33])
-
-    # basic_operations('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
-
-
-# execute('../Matlab/Bilder/2018_05_24_14_43_25_647.png')
-# algorithm('d', 'd')
+        return None, None   # , None
 
 
 # for(int y = 0; y < outputFrame.rows; y++)
