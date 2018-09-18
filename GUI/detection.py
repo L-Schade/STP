@@ -3,6 +3,7 @@
 import cv2
 from matplotlib import pyplot as plt
 import numpy as np
+import distance_calculator
 
 
 class Segment:
@@ -56,9 +57,10 @@ class SegmentArea:
     # TODO
     # vlt noch bessere Methode zur Mittelpunktbestimmung
     def center(self):
-        x = self.x_end-self.x_start
-        y = self.y_end-self.y_start
+        x = self.x_end - self.x_start
+        y = self.y_end - self.y_start
 
+        print(x, y)
         return [x, y]
 
     # def set_element(self, ind):
@@ -220,16 +222,18 @@ def pixel_run(img, width, height, color, color_rng, x_coord, y_coord):
                             same_color = color_area(img, color, color_rng, x, y)
 
                 if x_coord is not None and y_coord is not None:
-                    if x_start <= x_coord < x and y == y_coord:
+                    if x_start <= x_coord < x: # and y == y_coord:
+                        # TODO
+                        # funktioniert nicht -> Fehler muesste behoben sein
                         segment = Segment(x_start, x, y, 1)
                         segment_list.append(segment)
-                    else:
-                        segment = Segment(x_start, x, y, 0)
-                        segment_list.append(segment)
-                        # segment_li.append([x_start, x, y])
                 else:
                     segment = Segment(x_start, x, y, 0)
                     segment_list.append(segment)
+                    # segment_li.append([x_start, x, y])
+                # else:
+                #     segment = Segment(x_start, x, y, 0)
+                #     segment_list.append(segment)
 
             # print pxl_color
     print segment_list
@@ -266,7 +270,7 @@ def united_regions(segment1, segment2):
 def create_regions(segments):
     i = 0
     j = 0
-    print(len(segments))
+    # print(len(segments))
 
     while i < len(segments):
         # if segments[j][2] + 1 == segments[i][2] and segments[j][0] < segments[i][1] and \
@@ -319,6 +323,7 @@ def define_area(roots, segments):
             else:
                 ind = 0
         area = SegmentArea(x_start, x_end, y_start, y_end, ind, elements, root)
+        print(x_start, x_end, y_start, y_end, ind)
         areas.append(area)
 
     return areas
@@ -354,38 +359,43 @@ def define_wz(areas):
 
 
 def draw_color(img, wz, segments):
-    # TODO
-    # schutzfunktion pixel farbe ueberhaupt enthalten
+    if segments is not None:
+        new_img = cv2.imread(img)
+        dim = (250, 125)
+        new_img = cv2.resize(new_img, dim)
+        for segment in segments:
+            # if segment.get_root() == segment:
+            if segment.get_root() == wz.root:
+                color = [072, 118, 255]
+                for x in range(segment.x_start, segment.x_end, 1):
+                    # new_img[segment.y, x] = [072, 118, 255]
+                    new_img[segment.y, x] = color
+            # else:                                                 # alle segmente einer Farbe umfaerben/ anzeigen
+            #     parent = segment.get_root()
+            #     color = new_img[parent.y, parent.x_start]
+            #     for x in range(segment.x_start, segment.x_end, 1):
+            #         new_img[segment.y, x] = color
 
-    new_img = cv2.imread(img)
-    dim = (250, 125)
-    new_img = cv2.resize(new_img, dim)
-    for segment in segments:
-        # if segment.get_root() == segment:
-        if segment.get_root() == wz.root:
-            color = [072, 118, 255]
-            for x in range(segment.x_start, segment.x_end, 1):
-                # new_img[segment.y, x] = [072, 118, 255]
-                new_img[segment.y, x] = color
-        # else:                                                 # alle segmente einer Farbe umfaerben/ anzeigen
-        #     parent = segment.get_root()
-        #     color = new_img[parent.y, parent.x_start]
-        #     for x in range(segment.x_start, segment.x_end, 1):
-        #         new_img[segment.y, x] = color
+        new_img = cv2.resize(new_img, (500, 250))
+        cv2.imwrite("../Matlab/wz_detection.png", new_img)
+        # plt.imshow(new_img)
+        # plt.show()
 
-    cv2.imwrite("../Matlab/wz_detection.png",new_img)
-    # plt.imshow(new_img)
-    # plt.show()
+        return img
 
-    return img
+    else:
+
+        return None
 
 
 def movement(img_width, img_height, wz):
     img_center = [(img_width/2), (img_height/2)]
-    # print(img_center)
     wz_center = wz.center()
-    x_distance = wz_center[0]
-    y_distance = wz_center[1]
+
+    distance = distance_calculator.dist(img_center, wz_center)
+    print(distance)
+    x_distance = distance[0]        # wz_center[0] - img_width
+    y_distance = distance[1]        # wz_center[1] - img_height
     # print(x_distance)
     # print(y_distance)
 
@@ -394,17 +404,22 @@ def movement(img_width, img_height, wz):
 
 
 def algorithm(img_name, color_rng, color, x_coord, y_coord):
-    print('test')
+    print('algorithm')
     img, width, height = load_image(img_name)
-    # img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
-    dim = (250, 125)
-    img_size = cv2.resize(img, dim)
+    # img, width, height = load_image('schwarz_weiss.jpeg')
+
+    width, height = 250, 125
+    dim = (width, height)        # Bild in GUI (500, 250)
+    img_size = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
+
+    x, y = (x_coord / 2), (y_coord / 2)
+    print(x, y)
 
     if x_coord is not None and y_coord is not None:
-        segments_list = pixel_run(img_size, 250, 125, color, color_rng, (x_coord/2), (y_coord/2))
+        segments_list = pixel_run(img_size,  width, height, color, color_rng, x, y)
         # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
     else:
-        segments_list = pixel_run(img_size, 250, 125, color, color_rng, x_coord, y_coord)
+        segments_list = pixel_run(img_size,  width, height, color, color_rng, x_coord, y_coord)
         # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
 
     create_regions(segments_list)
@@ -425,15 +440,5 @@ def algorithm(img_name, color_rng, color, x_coord, y_coord):
     else:
         return None, None   # , None
 
-
-# for(int y = 0; y < outputFrame.rows; y++)
-# {
-#     for(int x = 0; x < outputFrame.cols; x++)
-#     {
-#         // I don't know which datatype I should use
-#         if (outputFrame.at<INSERT_DATATYPE_HERE>(x,y) == 255)
-#            //define area
-#     }
-# }
 
 # Scalar intensity = img.at<uchar>(y, x);

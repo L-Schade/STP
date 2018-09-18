@@ -155,6 +155,7 @@ def button11_click():
     frame.place(x=225, y=75, width=600, height=350)
     # frame.bind("<Button-1>", click)
 
+    reload_images()
     labelImg1.config(image=imageAutomatic)
     labelImg1.place(x=50, y=50, width=500, height=250)
     labelImg1.Image = imageNavigate
@@ -182,6 +183,7 @@ def button12_click():
 
     # TODO
     # koennte man noch verbessern
+    # get_latest_images()
     reload_images()
 
     labelImg1.config(image=imageAutomatic)
@@ -245,7 +247,7 @@ def button21_click():
     # Textfeld anpassen an moegliche Werte
     output('Geben Sie die gewuenschten Koordinaten ein, '
            'der Wert darf zwischen ??? liegen')
-    output_label_coor()
+    output_label_coord()
 
     ind = Image.open("angle.jpeg")
     pht = ImageTk.PhotoImage(ind)     # photo
@@ -343,7 +345,7 @@ def button22_click():
     hide_coordinate_buttons()
     output('Geben Sie die gewuenschte Winkel Position der einzelnen Motoren ein, '
            'der Wert darf zwischen 0 - 180 Grad liegen')
-    output_label_coor()
+    output_label_coord()
 
     ind = Image.open("angle.jpeg")
     pht = ImageTk.PhotoImage(ind)
@@ -555,7 +557,6 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         new_img = resize_image(new_img, 500, 250)
         imageAutomatic = new_img
 
-
         labelImg1.config(image=imageAutomatic)
         labelImg1.place(x=50, y=50, width=500, height=250)
         # labelImg1.Image = imageNavigate
@@ -571,7 +572,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
 
 
 #
-def information_window(color, x, y):
+def information_window(color, x_coord, y_coord):
         request = Tk()
         request.geometry('445x245')
         request.title('Informationsfenster')
@@ -581,12 +582,13 @@ def information_window(color, x, y):
         txt.place(x=25, y=15, width=395, height=100)
 
         b1 = Button(request, text='Nur nach dieser \nFarbe suchen',
-                    command=lambda: start_algorithm(request, None, color, x, y))
+                    command=lambda: start_algorithm(request, None, color, x_coord, y_coord))
         b1.place(x=25, y=170, width=115, height=50)
 
         text_box4 = Entry(request, text='groesse des Farbbereichs', bd=5, width=45)
         text_box4.place(x=165, y=130, width=115, height=30)
-        b2 = Button(request, text='ENTER', command=lambda: start_algorithm(request, text_box4.get(), color, x, y))
+        b2 = Button(request, text='ENTER',
+                    command=lambda: start_algorithm(request, text_box4.get(), color, x_coord, y_coord))
         b2.place(x=165, y=180, width=115, height=30)
 
         b3 = Button(request, text='Abbrechen', command=request.destroy)
@@ -595,7 +597,7 @@ def information_window(color, x, y):
 
 
 # output for the side coordinates
-def output_label_coor():
+def output_label_coord():
     # output_lab = Message(master=frameGui)
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'), aspect=300)
     output_lab.place(x=300, y=120, width=450)       # y=100,   , height=200
@@ -819,7 +821,7 @@ def resize_image(img, h, w):
 #
 def get_latest_images():
     global image
-    list_images(6)
+    list_images(9)
     image = load_image(imagesG.latest_image())
     comment('Bilder wurden neu geladen')
 
