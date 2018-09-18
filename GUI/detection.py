@@ -57,8 +57,8 @@ class SegmentArea:
     # TODO
     # vlt noch bessere Methode zur Mittelpunktbestimmung
     def center(self):
-        x = self.x_end - self.x_start
-        y = self.y_end - self.y_start
+        x = (self.x_end + self.x_start)/2           # self.x_end - self.x_start
+        y = (self.y_end + self.y_start)/2               # self.y_end - self.y_start
 
         print(x, y)
         return [x, y]
@@ -71,7 +71,7 @@ def load_image(img_name):
     img = cv2.imread(img_name)       # (img_name, 0) / (img_name, cv2.WINDOW_NORMAL)
     width = img.shape[1]
     height = img.shape[0]
-    print(width, height)
+    # print(width, height)
 
     # cv2.imshow('image', img)
     # k = cv2.waitKey(0)
@@ -162,7 +162,7 @@ def basic_operations(img_name):
 
 def compare_pixel_color(img, color, x_pixel, y_pixel):
     pxl_color = img[y_pixel, x_pixel]
-    # print pxl_color
+    # print(pxl_color, x_pixel, y_pixel)
     if pxl_color[0] == color[0]:
         if pxl_color[1] == color[1]:
             if pxl_color[2] == color[2]:
@@ -222,18 +222,19 @@ def pixel_run(img, width, height, color, color_rng, x_coord, y_coord):
                             same_color = color_area(img, color, color_rng, x, y)
 
                 if x_coord is not None and y_coord is not None:
-                    if x_start <= x_coord < x: # and y == y_coord:
+                    if x_start == x_coord < x or x_start < x_coord < x and y == y_coord:
                         # TODO
-                        # funktioniert nicht -> Fehler muesste behoben sein
+                        # funktioniert nicht <- Farbe stimmt nicht mit aus der von der gui über ein (behoben)
+                        # und if-bedingung wird nicht erfüllt
                         segment = Segment(x_start, x, y, 1)
                         segment_list.append(segment)
+                    else:
+                        segment = Segment(x_start, x, y, 0)
+                        segment_list.append(segment)
+                        # segment_li.append([x_start, x, y])
                 else:
                     segment = Segment(x_start, x, y, 0)
                     segment_list.append(segment)
-                    # segment_li.append([x_start, x, y])
-                # else:
-                #     segment = Segment(x_start, x, y, 0)
-                #     segment_list.append(segment)
 
             # print pxl_color
     print segment_list
@@ -412,10 +413,13 @@ def algorithm(img_name, color_rng, color, x_coord, y_coord):
     dim = (width, height)        # Bild in GUI (500, 250)
     img_size = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
 
-    x, y = (x_coord / 2), (y_coord / 2)
-    print(x, y)
-
     if x_coord is not None and y_coord is not None:
+        x, y = (x_coord / 2), (y_coord / 2)
+        print(x, y)
+
+        color = img_size[y, x]
+        print(color)
+
         segments_list = pixel_run(img_size,  width, height, color, color_rng, x, y)
         # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
     else:

@@ -553,6 +553,8 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
         output_lab.place(x=600, y=460, width=170, height=150)
 
+        buttonColorRefresh.place(x=600, y=640, width=170, height=30)
+
         new_img = load_image("../wz_detection.png")
         new_img = resize_image(new_img, 500, 250)
         imageAutomatic = new_img
@@ -735,6 +737,7 @@ def hide_tracking_buttons():
     text_box2.place_forget()
     text_box3.place_forget()
     text_box_button.place_forget()
+    buttonColorRefresh.place_forget()
 
 
 def hide_navigate_buttons():
@@ -841,6 +844,16 @@ def reload_images():
     imageAutomatic = resize_image(image, 500, 250)
     imageNavigate = resize_image(image, 350, 190)
 
+
+def reload_images_tracking():
+    global image, imageAutomatic
+    imageAutomatic = resize_image(image, 500, 250)
+    labelImg1.config(image=imageAutomatic)
+    labelImg1.place(x=50, y=50, width=500, height=250)
+
+    output('Bild wurde neu geladen')
+    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+    output_lab.place(x=600, y=460, width=170, height=150)
 
 # load position for ...
 def load_position(name):
@@ -1091,6 +1104,7 @@ buttonImg9 = Button(master=frameGui, image=images[8], command=lambda: button_cli
 buttonColor1 = Button(master=frameGui, text='[33, 33, 33]', command=lambda: button_click_color([33, 33, 33]))
 buttonColor2 = Button(master=frameGui, text='[0, 0, 0]', command=lambda: button_click_color([0, 0, 0]))
 buttonColor3 = Button(master=frameGui, text='[255, 255, 255]', command=lambda: button_click_color([255, 255, 255]))
+buttonColorRefresh = Button(master=frameGui, text='Bild neu laden', command=lambda: reload_images_tracking())
 
 #
 exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg='#BDBDBD')
