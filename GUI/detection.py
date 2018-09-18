@@ -175,9 +175,9 @@ def compare_pixel_color(img, color, x_pixel, y_pixel):
 def color_area(img, color, color_range, x_pixel, y_pixel):
     pxl_color = img[y_pixel, x_pixel]
     # print pxl_color
-    if (color[0]-color_range) <= pxl_color[0] <= (color[0]+color_range):
-        if (color[1]-color_range) <= pxl_color[1] <= (color[1]+color_range):
-            if (color[2] - color_range) <= pxl_color[2] <= (color[2] + color_range):
+    if (color[0]-int(color_range)) <= pxl_color[0] <= (color[0]+int(color_range)):
+        if (color[1]-int(color_range)) <= pxl_color[1] <= (color[1]+int(color_range)):
+            if (color[2] - int(color_range)) <= pxl_color[2] <= (color[2] + int(color_range)):
                 same_color = True
     else:
         same_color = False
@@ -226,7 +226,7 @@ def pixel_run(img, width, height, color):
     return segment_list
 
 
-def pixel_run_(img, width, height, color, x_coord, y_coord):
+def pixel_run_(img, width, height, color, color_rng, x_coord, y_coord):
     # print(color)
     segment_list = []
     # segment_li = []
@@ -234,15 +234,19 @@ def pixel_run_(img, width, height, color, x_coord, y_coord):
         # for x in range(0, width, 1):
         x = 0
         while x < width:
-            same_color = compare_pixel_color(img, color, x, y)
-            # same_color = color_area(img, color, 10, x, y)
+            if color_rng is None:
+                same_color = compare_pixel_color(img, color, x, y)
+            elif color_rng is not None:
+                same_color = color_area(img, color, color_rng, x, y)
 
             while x < width and not same_color:
                 x += 1
 
                 if x < width:
-                    same_color = compare_pixel_color(img, color, x, y)
-                    # same_color = color_area(img, color, 10, x, y)
+                    if color_rng is None:
+                        same_color = compare_pixel_color(img, color, x, y)
+                    elif color_rng is not  None:
+                        same_color = color_area(img, color, color_rng, x, y)
 
             if x < width:
                 x_start = x
@@ -250,8 +254,10 @@ def pixel_run_(img, width, height, color, x_coord, y_coord):
                     x += 1
 
                     if x < width:
-                        same_color = compare_pixel_color(img, color, x, y)
-                        # same_color = color_area(img, color, 10, x, y)
+                        if color_rng is None:
+                            same_color = compare_pixel_color(img, color, x, y)
+                        elif color_rng is not None:
+                            same_color = color_area(img, color, color_rng, x, y)
 
                 if x_start <= x_coord < x and y == y_coord:
                     segment = Segment(x_start, x, y, 1)
@@ -402,8 +408,8 @@ def draw_color(img, wz, segments):
         #     for x in range(segment.x_start, segment.x_end, 1):
         #         new_img[segment.y, x] = color
 
-    plt.imshow(new_img)
-    plt.show()
+    # plt.imshow(new_img)
+    # plt.show()
 
     return img
 
@@ -454,15 +460,9 @@ def algorithm_(img_name, color_rng, color, x_coord, y_coord):
     # img, width, height = load_image('schwarz_weiss.jpeg')     # weiss_mit_scharzem_punkt.png
     dim = (250, 125)
     img_size = cv2.resize(img, dim)
-    segments_list = None
 
-    if color_rng is None:
-        segments_list = pixel_run_(img_size, 250, 125, color, x_coord, y_coord)
-        # segments_list = pixel_run_(img_size, 500, 250, [33, 33, 33], x_coord, y_coord)
-    elif color_rng is not None:
-        segments_list = pixel_run_(img_size, 250, 125, color, x_coord, y_coord)
-        # TODO
-        # noch anpassen
+    segments_list = pixel_run_(img_size, 250, 125, color, color_rng, (x_coord/2), (y_coord/2))
+    # segments_list = pixel_run_(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
 
     create_regions(segments_list)
     root_list = count_roots(segments_list)

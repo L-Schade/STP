@@ -529,16 +529,27 @@ def button_click_image(ind):
 
 # set color for WZ-detection and get x-, y-distance
 def button_click_color(color):
-    global image, bu2_blocked
+    global image, bu2_blocked, text
     # print(color)
     if not bu2_blocked:
         img_name = "../Matlab/Bilder/" + image_na + ".png"
         # x_dist, y_dist = detection.algorithm(img_name, color, mode)
         x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color)   # zum Testen
-        print(x_dist, y_dist)
+
+        if x_dist is None and y_dist is None:
+            print("keine Bereich gefunden")
+            # output("kein passenden Bereich gefunden")
+            # output_lab.config(tk_fenster, text=text, bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))
+            # output_lab.place(x=600, y=460, width=170, height=150)
+        else:
+            print(x_dist, y_dist)
+            print('test')
+            # output("x-Abstand: {} \n"
+            #        "y-Abstand: {}".format(x_dist, y_dist))
+            # output_lab.config(tk_fenster, text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))
+            # output_lab.place(x=600, y=460, width=170, height=150)
 
         # TODO
-        # was ist wenn x_dist, y_dist None ist
         # gewuenschte Position berechnen
         # Motoren ansteuern
         # Bildgrosse beachten 250,125
@@ -549,7 +560,9 @@ def button_click_color(color):
         stop()
 
 
+#
 def color_range(request, color_rng, color, x, y):
+    global text
     request.destroy()
 
     img_name = "../Matlab/Bilder/" + image_na + ".png"
@@ -557,9 +570,16 @@ def color_range(request, color_rng, color, x, y):
     # x_dist, y_dist = detection.algorithm_('schwarz_weiss.jpeg', color, x, y)  # zum Testen
     print(x_dist, y_dist)
 
-    # TODO
-    # funktionen in detection hier fuer anpassen/ schreiben
-    # was ist wenn x_dist, y_dist None ist
+    if x_dist is None and y_dist is None:
+        print("keine Bereich gefunden")
+        output('kein passenden Bereich gefunden')
+        output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
+    else:
+        print(x_dist, y_dist)
+        output("x-Abstand: {} \ny-Abstand: {}".format(x_dist, y_dist))
+        output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
 
     # TODO
     # gewuenschte Position berechnen
@@ -782,7 +802,7 @@ def load_images(name):          # buttons
     return img
 
 
-# adapt imgae size
+# adapt image size
 def resize_image(img, h, w):
     resize = img.resize((h, w), Image.ANTIALIAS)
     img_re = ImageTk.PhotoImage(resize)        # image
