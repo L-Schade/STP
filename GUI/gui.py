@@ -182,6 +182,8 @@ def button12_click():
 
     # TODO
     # koennte man noch verbessern
+    reload_images()
+
     labelImg1.config(image=imageAutomatic)
     labelImg1.place(x=50, y=50, width=500, height=250)
     labelImg1.Image = imageNavigate
@@ -528,7 +530,7 @@ def button_click_color(color):
 
 #
 def start_algorithm(request, color_rng, color, x_coord, y_coord):
-    global text
+    global text, imageAutomatic
     request.destroy()
 
     img_name = "../Matlab/Bilder/" + image_na + ".png"
@@ -538,7 +540,6 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
 
     # TODO
     # geht nur wenn das Bild bei draw nicht angezeigt wird
-
     if x_dist is None and y_dist is None:
         print("keine Bereich gefunden")
         output('kein passenden Bereich gefunden')
@@ -549,6 +550,17 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         output('x-Abstand: {} \ny-Abstand: {}'.format(x_dist, y_dist))
         output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
         output_lab.place(x=600, y=460, width=170, height=150)
+
+        new_img = load_image("../wz_detection.png")
+        new_img = resize_image(new_img, 500, 250)
+        imageAutomatic = new_img
+
+
+        labelImg1.config(image=imageAutomatic)
+        labelImg1.place(x=50, y=50, width=500, height=250)
+        # labelImg1.Image = imageNavigate
+        # labelImg1.bind("<Button-1>", click2)
+
     else:
         print("...")
 
@@ -1025,8 +1037,8 @@ label_img_coord2 = Label(master=frameGui, bg='white')
 
 
 # image informations
-image_infos = 'aktuelles Bild: ' + image_na
-image_label = Message(master=tk_fenster, bg='#E6E6E6', anchor=N, text=image_infos, font=('times', 9, 'italic'),
+image_info = 'aktuelles Bild: ' + image_na
+image_label = Message(master=tk_fenster, bg='#E6E6E6', anchor=N, text=image_info, font=('times', 9, 'italic'),
                       aspect=100)
 image_label.place(x=910, y=120, width=80)
 
