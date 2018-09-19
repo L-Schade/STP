@@ -28,6 +28,12 @@ class Segment:
             seg2 = seg                  # aktuellen Knoten merken
             seg = seg.parent
             seg2.parent = seg.parent    # Elternknoten wird zu Grosselternknoten
+
+            # if seg.ind == 1:            #
+            #     seg2.parent.ind = 1
+            # if seg.parent.ind == 1:
+            #     seg2.parent.ind = 1
+
         return seg
 
     def get_size(self):
@@ -222,10 +228,10 @@ def pixel_run(img, width, height, color, color_rng, x_coord, y_coord):
                             same_color = color_area(img, color, color_rng, x, y)
 
                 if x_coord is not None and y_coord is not None:
-                    if x_start == x_coord < x or x_start < x_coord < x and y == y_coord:
-                        # TODO
-                        # funktioniert nicht <- Farbe stimmt nicht mit aus der von der gui über ein (behoben)
-                        # und if-bedingung wird nicht erfüllt
+                    # print(x_start, x_coord, x, y, y_coord)
+                    if int(x_start) <= int(x_coord) < int(x) and int(y) == int(y_coord):
+                        print('Segment mit ind=1')
+                        print(x_start, x, y,)
                         segment = Segment(x_start, x, y, 1)
                         segment_list.append(segment)
                     else:
@@ -264,8 +270,15 @@ def united_regions(segment1, segment2):
     root2 = segment2.get_root()
     if root1.y < root2.y or root1.y == root2.y and root1.x_start < root2.x_start:
         root2.parent = root1
+
+        # if root1.ind == 1:          #
+        #     root2.ind = 1
+
     else:
         root1.parent = root2
+
+        # if root2.ind == 1:          #
+        #     root1.ind = 1
 
 
 def create_regions(segments):
@@ -282,11 +295,11 @@ def create_regions(segments):
         #     j += 1
         # else:
         #     i += 1
-        if segments[j].y + 1 == segments[i].y and segments[j].x_start < segments[i].x_end and \
-                        segments[i].x_start < segments[j].x_end:
+        if segments[j].y + 1 == segments[i].y and segments[j].x_start < segments[i].x_end \
+                and segments[i].x_start < segments[j].x_end:
             united_regions(segments[j], segments[i])
-        if segments[j].y + 1 < segments[i].y or segments[j].y + 1 == segments[i].y and \
-                        segments[j].x_end < segments[i].x_end:
+        if segments[j].y + 1 < segments[i].y or segments[j].y + 1 == segments[i].y \
+                and segments[j].x_end < segments[i].x_end:
             j += 1
         else:
             i += 1
@@ -296,6 +309,7 @@ def count_roots(segments):
     root_list = []
     for segment in segments:
         if segment == segment.get_root():
+            print(segment.ind)
             root_list.append(segment)
 
     return root_list
@@ -318,11 +332,12 @@ def define_area(roots, segments):
                     x_end = segment.x_end
                 if y_end < segment.y:
                     y_end = segment.y
+                print(segment.ind)
+                if segment.ind == 1:            # einrückung war verkehrt?!
+                    ind = 1
+                else:
+                    ind = 0
                 elements += segment.get_size()
-            if segment.ind == 1:
-                ind = 1
-            else:
-                ind = 0
         area = SegmentArea(x_start, x_end, y_start, y_end, ind, elements, root)
         print(x_start, x_end, y_start, y_end, ind)
         areas.append(area)
@@ -331,12 +346,14 @@ def define_area(roots, segments):
 
 
 # TODO
+# Fehler finden, vlt beim vereinigen wird index nicht übertragen?
 # WZ-Segment erkennen
 # verfahrpunkt ermitteln
 
 
 def define_wz(areas):
-    wz_area = None
+    # wz_area = None
+    wz_area = SegmentArea(0, 0, 0, 0, 0, 0, 0)
     if len(areas) == 0:
         print("keine Elemente in der Liste\n"
               "Es wurden keine Bereiche gefunden")
@@ -344,9 +361,10 @@ def define_wz(areas):
     else:
         for area in areas:
             if area.ind == 0:
-                if wz_area < area.elements:
+                # if wz_area < area.elements:
+                if wz_area.elements < area.elements:
                     wz_area = area
-                elif wz_area == area.elements:
+                elif wz_area.elements == area.elements:
                     print("2 gleich grosse bereiche")
                     # TODO
                     #
@@ -435,7 +453,7 @@ def algorithm(img_name, color_rng, color, x_coord, y_coord):
 
     if wz is not None:
         x_dist, y_dist = movement(width, height, wz)
-        print(x_dist, y_dist)
+        # print(x_dist, y_dist)
 
         draw_color(img_name, wz, segments_list)
         # draw_color('schwarz_weiss.jpeg', wz, segments_list)
