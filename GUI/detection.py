@@ -346,7 +346,7 @@ def define_area(roots, segments):
 
 
 # TODO
-# Fehler finden, vlt beim vereinigen wird index nicht übertragen?
+# Fehler finden, vlt beim vereinigen wird index nicht übertragen? -> müsste behoben sein
 # WZ-Segment erkennen
 # verfahrpunkt ermitteln
 
