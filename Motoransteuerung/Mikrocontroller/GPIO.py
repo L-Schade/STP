@@ -11,18 +11,21 @@ GPIO.setup(Motor1A,GPIO.OUT)
 GPIO.setup(Motor1B,GPIO.OUT)
 GPIO.setup(Motor1E,GPIO.OUT)
  
-print "Turning motor on"
-# for x in range(0,5,1):
+print("Going forwards")
 GPIO.output(Motor1A,GPIO.HIGH)
 GPIO.output(Motor1B,GPIO.LOW)
 GPIO.output(Motor1E,GPIO.HIGH)
+ 
 sleep(2)
-
-GPIO.output(Motor1A,GPIO.HIGH)
-GPIO.output(Motor1B,GPIO.LOW)
-GPIO.output(Motor1E,GPIO.LOW)
-
-print "Stopping motor"
+ 
+print("Going backwards")
+GPIO.output(Motor1A,GPIO.LOW)
+GPIO.output(Motor1B,GPIO.HIGH)
+GPIO.output(Motor1E,GPIO.HIGH)
+ 
+sleep(2)
+ 
+print("Stopping motor")
 GPIO.output(Motor1E,GPIO.LOW)
  
 GPIO.cleanup()
