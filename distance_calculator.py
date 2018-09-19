@@ -16,8 +16,8 @@ def distance_image(di):
 
 # distance in x,y direction
 def dist(point_a, point_b):
-    dist_x = point_a[0]-point_b[0]
-    dist_y = point_a[1]-point_b[1]
+    dist_x = point_b[0]-point_a[0]      # point_a[0]-point_b[0]
+    dist_y = point_b[1]-point_a[1]      # point_a[1]-point_b[1]
     return dist_x, dist_y
 
 

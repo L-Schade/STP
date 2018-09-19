@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from Tkinter import *   # python 2.7
 # from  tkinter import *  # 3.5
 import tkMessageBox
@@ -7,6 +9,8 @@ import motion_control_scriptG
 import distance_calculator
 # import functionsG
 import imagesG
+import detection
+import cv2
 
 
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
@@ -28,7 +32,7 @@ bu2_blocked = False       # Motoren koennen bewegt werden
 
 
 # click_event
-def click(event):
+def click1(event):
     global x, y, text, center, bu2_blocked
     if not bu2_blocked:         # False
         # print("left")
@@ -54,6 +58,7 @@ def click(event):
         # TODO
         # gewuenschte Position berechnen
         # Motoren ansteuern
+        # Bildgroesse beachten 500,250
 
     else:
         output("Motoren sind gesperrt!")
@@ -62,10 +67,36 @@ def click(event):
         stop()
 
 
+def click2(event):
+    global x, y, text, center, bu2_blocked
+    if not bu2_blocked:  # False
+        print("clicked at", event.x, event.y)
+        x = event.x
+        y = event.y
+
+        img = cv2.imread("../Matlab/Bilder/" + image_na + ".png")
+        dim = (500, 250)
+        # resize image
+        img_size = cv2.resize(img, dim)
+        print(img_size[y, x])
+
+        color = img_size[y, x]
+        # color = [33, 33, 33]
+
+        information_window(color, x, y)
+
+    else:
+        output("Motoren sind gesperrt!")
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
+        stop()
+
+
 # event function
 # latest position
 def button_click():
     hide_focus_windows()
+    hide_tracking_buttons()
     hide_coordinate_buttons()
     hide_navigate_buttons()
     hide_images_buttons()
@@ -111,6 +142,7 @@ def button_click():
 # automatic modes
 # new focus
 def button11_click():
+    hide_tracking_buttons()
     hide_coordinate_buttons()
     hide_navigate_buttons()
     hide_images_buttons()
@@ -123,10 +155,11 @@ def button11_click():
     frame.place(x=225, y=75, width=600, height=350)
     # frame.bind("<Button-1>", click)
 
+    reload_images()
     labelImg1.config(image=imageAutomatic)
     labelImg1.place(x=50, y=50, width=500, height=250)
     labelImg1.Image = imageNavigate
-    labelImg1.bind("<Button-1>", click)
+    labelImg1.bind("<Button-1>", click1)
 
     global center
     center = distance_calculator.center(500, 250)
@@ -150,31 +183,49 @@ def button12_click():
 
     # TODO
     # koennte man noch verbessern
+    # get_latest_images()
+    reload_images()
+
     labelImg1.config(image=imageAutomatic)
     labelImg1.place(x=50, y=50, width=500, height=250)
     labelImg1.Image = imageNavigate
+    labelImg1.bind("<Button-1>", click2)
 
-    global bu2_blocked
-    if not bu2_blocked:  # False
-        comment("Tracking-\nModus")
-        output('Tracking-Modus ...')
-        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)
-        output_lab.place(x=225, y=475, width=600)
+    buttonColor1.place(x=175, y=460, width=140, height=30)
+    buttonColor2.place(x=175, y=520, width=140, height=30)
+    buttonColor3.place(x=175, y=580, width=140, height=30)
 
-        # TODO
-        # WZ-Detektion
-        # Motoren ansteuern
+    text_box_label1.place(x=370, y=460, width=30, height=30)
+    text_box_label2.place(x=370, y=520, width=30, height=30)
+    text_box_label3.place(x=370, y=580, width=30, height=30)
+    text_box1.place(x=400, y=460, width=140, height=30)
+    text_box2.place(x=400, y=520, width=140, height=30)
+    text_box3.place(x=400, y=580, width=140, height=30)
+    text_box_button.place(x=370, y=640, width=170, height=30)
 
-    else:
-        output("Motoren sind gesperrt!")
-        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-        output_lab.place(x=225, y=450, width=600)
-        stop()
+    # global bu2_blocked
+    # if not bu2_blocked:  # False
+    #     print("kd")
+    #     # comment("Tracking-\nModus")
+    #     # output('Tracking-Modus ...')
+    #     # output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)
+    #     # output_lab.place(x=225, y=475, width=600)
+    #
+    #     # TODO
+    #     # WZ-Detektion
+    #     # Motoren ansteuern
+    #
+    # else:
+    #     output("Motoren sind gesperrt!")
+    #     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+    #     output_lab.place(x=600, y=460, width=170, height=150)
+    #     stop()
 
 
 # coordinate
 def button2_click():
     hide_focus_windows()
+    hide_tracking_buttons()
     hide_navigate_buttons()
     hide_images_buttons()
     output_lab.place_forget()
@@ -196,7 +247,7 @@ def button21_click():
     # Textfeld anpassen an moegliche Werte
     output('Geben Sie die gewuenschten Koordinaten ein, '
            'der Wert darf zwischen ??? liegen')
-    output_label_coor()
+    output_label_coord()
 
     ind = Image.open("angle.jpeg")
     pht = ImageTk.PhotoImage(ind)     # photo
@@ -231,7 +282,7 @@ def button21_click():
             print('%s: "%s"' % (field, text))
             if ind == 0:
                 x = entry[1].get()
-                ind = ind+1
+                ind = ind + 1
             elif ind == 1 :
                 y = entry[1].get()
                 ind = ind + 1
@@ -294,7 +345,7 @@ def button22_click():
     hide_coordinate_buttons()
     output('Geben Sie die gewuenschte Winkel Position der einzelnen Motoren ein, '
            'der Wert darf zwischen 0 - 180 Grad liegen')
-    output_label_coor()
+    output_label_coord()
 
     ind = Image.open("angle.jpeg")
     pht = ImageTk.PhotoImage(ind)
@@ -379,6 +430,7 @@ def button22_click():
 # navigate
 def button3_click():
     hide_focus_windows()
+    hide_tracking_buttons()
     hide_coordinate_buttons()
     hide_images_buttons()
     labelImg.place_forget()
@@ -411,6 +463,7 @@ def button4_click():
     label_img_coord1.place_forget()
     label_img_coord2.place_forget()
     hide_focus_windows()
+    hide_tracking_buttons()
     hide_navigate_buttons()
     hide_coordinate_buttons()
     output_lab.place_forget()
@@ -439,12 +492,14 @@ def button4_click():
 # load another image
 def button_click_image(ind):
     global image, image_na
-    img_names = imagesG.list_images(12)     # image_names
+    img_names = imagesG.list_images(9)     # 12, image_names
     image = load_image(img_names[ind])      # image_names[ind]
     reload_images()
 
     print("lade passende Position...")
-    image_name = image_names[ind]
+    # print(img_names[ind])
+
+    image_name = img_names[ind]
 
     txt = 'aktuelles Bild:\n' + image_name
     image_label.config(text=txt)
@@ -457,8 +512,94 @@ def button_click_image(ind):
     output_label_img()
 
 
+# set color for WZ-detection and get x-, y-distance
+def button_click_color(color):
+    global image, bu2_blocked, text
+    # print(color)
+    if not bu2_blocked:
+        # TODO
+        # information_window einbauen
+
+        x, y = None, None
+        information_window(color, x, y)
+
+    else:
+        output("Motoren sind gesperrt!")
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 18, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
+        stop()
+
+
+#
+def start_algorithm(request, color_rng, color, x_coord, y_coord):
+    global text, imageAutomatic
+    request.destroy()
+
+    img_name = "../Matlab/Bilder/" + image_na + ".png"
+    x_dist, y_dist = detection.algorithm(img_name, color_rng, color, x_coord, y_coord)          # , new_img
+    # x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color_rng, color, x_coord, y_coord)  # zum Testen
+    print(x_dist, y_dist)
+
+    # TODO
+    # geht nur wenn das Bild bei draw nicht angezeigt wird
+    if x_dist is None and y_dist is None:
+        print("keine Bereich gefunden")
+        output('kein passenden Bereich gefunden')
+        output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
+    elif x_dist is not None and y_dist is not None:
+        print(x_dist, y_dist)
+        output('x-Abstand: {} \ny-Abstand: {}'.format(x_dist, y_dist))
+        output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+        output_lab.place(x=600, y=460, width=170, height=150)
+
+        buttonColorRefresh.place(x=600, y=640, width=170, height=30)
+
+        new_img = load_image("../wz_detection.png")
+        new_img = resize_image(new_img, 500, 250)
+        imageAutomatic = new_img
+
+        labelImg1.config(image=imageAutomatic)
+        labelImg1.place(x=50, y=50, width=500, height=250)
+        # labelImg1.Image = imageNavigate
+        # labelImg1.bind("<Button-1>", click2)
+
+    else:
+        print("...")
+
+    # TODO
+    # gewuenschte Position berechnen
+    # Motoren ansteuern
+    # Bildgroesse beachten 250,125
+
+
+#
+def information_window(color, x_coord, y_coord):
+        request = Tk()
+        request.geometry('445x245')
+        request.title('Informationsfenster')
+
+        txt = Label(request, text="Wollen Sie eingewissen Bereich der Pixelfarbe angeben \n"
+                                  "oder wollen Sie nur genau nach dieser Pixelfarbe suchen")  # bg="red", fg="white")
+        txt.place(x=25, y=15, width=395, height=100)
+
+        b1 = Button(request, text='Nur nach dieser \nFarbe suchen',
+                    command=lambda: start_algorithm(request, None, color, x_coord, y_coord))
+        b1.place(x=25, y=170, width=115, height=50)
+
+        text_box4 = Entry(request, text='groesse des Farbbereichs', bd=5, width=45)
+        text_box4.place(x=165, y=130, width=115, height=30)
+        b2 = Button(request, text='ENTER',
+                    command=lambda: start_algorithm(request, text_box4.get(), color, x_coord, y_coord))
+        b2.place(x=165, y=180, width=115, height=30)
+
+        b3 = Button(request, text='Abbrechen', command=request.destroy)
+        b3.place(x=305, y=180, width=115, height=30)
+        request.mainloop()
+
+
 # output for the side coordinates
-def output_label_coor():
+def output_label_coord():
     # output_lab = Message(master=frameGui)
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'), aspect=300)
     output_lab.place(x=300, y=120, width=450)       # y=100,   , height=200
@@ -585,6 +726,20 @@ def read(data):
     # text = data
 
 
+def hide_tracking_buttons():
+    buttonColor1.place_forget()
+    buttonColor2.place_forget()
+    buttonColor3.place_forget()
+    text_box_label1.place_forget()
+    text_box_label2.place_forget()
+    text_box_label3.place_forget()
+    text_box1.place_forget()
+    text_box2.place_forget()
+    text_box3.place_forget()
+    text_box_button.place_forget()
+    buttonColorRefresh.place_forget()
+
+
 def hide_navigate_buttons():
     button1.place_forget()
     button2.place_forget()
@@ -659,7 +814,7 @@ def load_images(name):          # buttons
     return img
 
 
-# adapt imgae size
+# adapt image size
 def resize_image(img, h, w):
     resize = img.resize((h, w), Image.ANTIALIAS)
     img_re = ImageTk.PhotoImage(resize)        # image
@@ -669,7 +824,7 @@ def resize_image(img, h, w):
 #
 def get_latest_images():
     global image
-    list_images(6)
+    list_images(9)
     image = load_image(imagesG.latest_image())
     comment('Bilder wurden neu geladen')
 
@@ -690,6 +845,16 @@ def reload_images():
     imageNavigate = resize_image(image, 350, 190)
 
 
+def reload_images_tracking():
+    global image, imageAutomatic
+    imageAutomatic = resize_image(image, 500, 250)
+    labelImg1.config(image=imageAutomatic)
+    labelImg1.place(x=50, y=50, width=500, height=250)
+
+    output('Bild wurde neu geladen')
+    output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
+    output_lab.place(x=600, y=460, width=170, height=150)
+
 # load position for ...
 def load_position(name):
     # file_name = 'Positionen/'+name+'.txt'
@@ -708,7 +873,7 @@ def load_position(name):
 def warning():
     if __name__ == '__main__':
         root_angle = Tk()
-        root_angle.title('Eingabe der Werte')
+        root_angle.title('Warnung!')
 
         ind = Image.open("warning1.jpg")
         pht = ImageTk.PhotoImage(ind)
@@ -887,8 +1052,8 @@ label_img_coord2 = Label(master=frameGui, bg='white')
 
 
 # image informations
-image_infos = 'aktuelles Bild: ' + image_na
-image_label = Message(master=tk_fenster, bg='#E6E6E6', anchor=N, text=image_infos, font=('times', 9, 'italic'),
+image_info = 'aktuelles Bild: ' + image_na
+image_label = Message(master=tk_fenster, bg='#E6E6E6', anchor=N, text=image_info, font=('times', 9, 'italic'),
                       aspect=100)
 image_label.place(x=910, y=120, width=80)
 
@@ -936,6 +1101,10 @@ buttonImg8 = Button(master=frameGui, image=images[7], command=lambda: button_cli
 buttonImg9 = Button(master=frameGui, image=images[8], command=lambda: button_click_image(8))
 # buttonModeTest = Button(master=frameGui, text='test', command=output_label)
 # buttonModeTest.place(x=50, y=400, width=100, height=20)
+buttonColor1 = Button(master=frameGui, text='[33, 33, 33]', command=lambda: button_click_color([33, 33, 33]))
+buttonColor2 = Button(master=frameGui, text='[0, 0, 0]', command=lambda: button_click_color([0, 0, 0]))
+buttonColor3 = Button(master=frameGui, text='[255, 255, 255]', command=lambda: button_click_color([255, 255, 255]))
+buttonColorRefresh = Button(master=frameGui, text='Bild neu laden', command=lambda: reload_images_tracking())
 
 #
 exit_button = Button(tk_fenster, text="Beenden", command=tk_fenster.destroy, bg='#BDBDBD')
@@ -947,6 +1116,18 @@ bu1 = Button(tk_fenster, text="Motoren \n halten", command=lambda: bu1_onclick()
 bu1.place(x=905, y=600, width=90, height=40)
 bu2 = Button(tk_fenster, text="Motoren \n sperren", command=lambda: bu2_onclick(), bg='#BDBDBD')
 bu2.place(x=905, y=660, width=90, height=40)
+
+# tracking-text box
+text_box_label1 = Label(tk_fenster, text='R:')
+text_box_label2 = Label(tk_fenster, text='G:')
+text_box_label3 = Label(tk_fenster, text='B:')
+text_box1 = Entry(tk_fenster, bd=5, width=45)
+text_box2 = Entry(tk_fenster, bd=5, width=45)
+text_box3 = Entry(tk_fenster, bd=5, width=45)
+# text_box_button = Button(tk_fenster, text='ENTER', command=lambda: button_click_color([55, 55, 55]))
+text_box_button = Button(tk_fenster, text='ENTER', command=lambda:
+                         button_click_color([int(text_box1.get()), int(text_box2.get()), int(text_box3.get())]))
+
 
 # coordinate
 eingabefeld = Entry(tk_fenster, bd=5, width=45)
