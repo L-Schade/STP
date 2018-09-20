@@ -31,7 +31,8 @@ while true
 
         % imwrite(getdata(vid), 'C:\Dokumente und Einstellungen\Doer-se-proj\Eigene Dateien\MATLAB\bild4.png');    %wichtig
         % fprintf('C:%sDokumente und Einstellungen%sDoer-se-proj%sEigene Dateien%sMATLAB%sBilder%s%s.png','\','\','\','\','\','\',date);
-        dest = ['C:\Dokumente und Einstellungen\Doer-se-proj\Eigene Dateien\MATLAB\Bilder\',date,'.png'];
+        % dest = ['C:\Dokumente und Einstellungen\Doer-se-proj\Eigene Dateien\MATLAB\Bilder\',date,'.png'];
+        dest = ['C:\MatLab-Bilder\',date,'.png'];
         imwrite(getdata(vid), char(dest));
         
         % preview(vid);   %neues Bild/ Video starten
