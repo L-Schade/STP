@@ -8,6 +8,7 @@ coil_B_pin = 23 # gruen
 coil_C_pin = 24 # blau
  
 # Sequenz
+index = 0
 StepCount = 6
 Seq = list(range(0, StepCount))
 Seq[0] = [1,0,0]
@@ -34,6 +35,7 @@ def forward(delay, steps):
         for j in range(StepCount):
             setStep(Seq[j][0], Seq[j][1], Seq[j][2])
             time.sleep(delay)
+            index = steps % 6
  
 def backwards(delay, steps):
     for i in range(steps):
@@ -41,10 +43,11 @@ def backwards(delay, steps):
             setStep(Seq[j][0], Seq[j][1], Seq[j][2])
             time.sleep(delay)
             
-if __name__ == '__main__':
-    while True:
-        delay = raw_input("Zeitverzoegerung (ms)?")
+##if __name__ == '__main__':
+delay = raw_input("Zeitverzoegerung (ms)?")
+while True:
+##        delay = raw_input("Zeitverzoegerung (ms)?")
         steps = raw_input("Wie viele Schritte vorwaerts? ")
-        forward(int(delay) / 1000.0, int(steps))
+        forward((float(delay) / 1000.0),int(steps))
         steps = raw_input("Wie viele Schritte rueckwaerts? ")
-        backwards(int(delay) / 1000.0, int(steps))
+        backwards((float(delay) / 1000.0), int(steps))
