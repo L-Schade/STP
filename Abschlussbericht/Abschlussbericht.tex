@@ -77,7 +77,8 @@ Folgende Geräte und Bauteile wurden verwendet
 \item Raspberry Pi 2 Model B 
 \item Bildschirm, Tastatur, Maus (einschließlich Kabel zum Anschließen an den Raspberry Pi)
 \item  Crossover-Kabel
-\item  TO DO Motoren, ESC ...
+\item  TO DO Motoren: BGM4108-130, ESC: STorM32BGC, F35A 3-6S BLHeli\_32...
+\item Schaltung: Mikrocontroller: (L293D), Widerstände (1k Ohm), Brücken
 \end{itemize}
 Die Position der Kamera ist durch ein Gestell mit drei Motoren variabel, wodurch ihr Winkel so eingestellt werden kann, dass sich Werkzeug und Werkstück optimal im Bildausschnitt befinden. Das Gestell kann sowohl an der Werkzeughalterung, als auch über der Werkstückaufnahme montiert werden. Im Rahmen unseres Projektes konnten wir die Montage TO DO realisieren.
 Die Kamera ist über eine FireWire-Schnittstelle mit dem Laptop verbunden. Der Laptop speichert das Bildmaterial und stellt es per Ordnerfreigabe dem Raspberry Pi zur Verfügung. Bildschirm, Maus und Tastatur sind an dem Raspberry Pi angeschlossen, sodass der Benutzer mit Hilfe einer graphischen Oberfläche gewünschte Aktionen auswählen kann. Außerdem verfügt der Raspberry Pi über einen Algorithmus, der zusammenhängende Bereiche mit bestimmten Farbwerten erkennt, wodurch die Kamera automatisch dem Werkzeug folgen kann. (TO DO kann sie das?)
@@ -92,11 +93,11 @@ Die zweite Möglichkeit ist eine direkte Verbindung durch ein Crossover-Kabel. D
 Durch die Arbeit mit mehreren Raspberry Pis benötigten wir die Einstellung, dass der Ordner für alle Benutzer freigegeben ist. Da der Laptop bei unserer Variante nun mit dem gesamten Netzwerk des Instituts verbunden ist, könnte man als eine zusätzliche Sicherheit (neben dem benötigten Passwort) die Ordnerfreigabe auf einen Benutzer beschränken. Dies müsste noch einmal durch einen Administrator des Laptops geschehen. 
 
 \chapter{Hardwareentwicklung}
-\section{Aufbau der Hardware}
+\section{Aufbau der Schaltung}
 TO DO
 \section{Steuerung der Motoren}
 TO DO
-\section{Konstruktion der Halterung}
+\section{Konstruktion des Gestells}
 TO DO
 
 \chapter{Algorithmus zur Werkzeugerkennung}
@@ -114,7 +115,14 @@ Eine weiter wichtige Aufgabe ist das Anzeigen des aktuell aufgenommen Bildes der
 
 \chapter{Bedienungsanleitung}
 TO DO (erst wenn finale Version fertig ist)
-
+\begin{itemize} 
+\item Einschalten, Kamera einrichten...
+\item Bild aufnehmen
+\item Bild verschicken (abhängig von Automatisierung)
+\item GUI Bilder neu laden Bilder anzeigen
+\item verschiedene Methoden zur Motoransteurung
+\item zusätzliche Funktionen
+\end{itemize}
 
 \chapter{Schlusswort}
 TO DO (was funktioniert und Aussicht wie System optimiert werden kann)
