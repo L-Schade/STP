@@ -1,24 +1,12 @@
-TO DO:
-board (storm32):
-	Stromversorgung
-	erstmal auf Eis gelegt
-
-Motoren:
-	Stromversorgung - Netzgerät
-	ansteuern
-
-Matlab:
-    Bilder speichern                                            -> fertig
-	Datenübertragung (Laptop -> RaspPi)
-	
-Octave:
-	Kanten-Erkennung -> in Python
-	
-Perl:
-	Storm32 ansteuern
-	Board erstmal rausgenommen
-
-
-Links:
-	Mikrocontroller.net
-		Brushless-Controller für Modellbaumotoren
+TODO:
+Lisa
+	Motoren mit Schrittansteuerung reproduzierbar machen
+	& einbinden in GUI
+	Doku: Bedingungsanleitung
+Erik:
+	Konstruktion
+	Platinenlayout + Löten
+	Doku: Motoren ESC STORM Schaltung alle Möglichkeiten die wir ausprobiert haben
+Kira:
+	Berechnung 		höchste PRIO!!!
+		Einwirkung Positionsänderung der Motoren auf Koordinaten!!!!
