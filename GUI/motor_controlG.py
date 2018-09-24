@@ -1,33 +1,99 @@
 import RPi.GPIO as GPIO
-import  time
+import time
 
-pin_m1 = 11
-pin_m2 = 17
-pin_m3 = 19
-
+global ind
+ 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin_m1, GPIO.OUT)
-# GPIO.setup(pin_m2, GPIO.OUT)
-# GPIO.setup(pin_m3, GPIO.OUT)
+GPIO.setwarnings(False)
+coil_A_pin = 4 # gelb
+coil_B_pin = 23 # gruen
+coil_C_pin = 24 # blau
+ 
+# Sequenz
+ind = 0
+# half-steps
+Seq = list(range(0, 6))
+Seq[0] = [1,1,0]
+Seq[1] = [1,0,0]
+Seq[2] = [1,0,1]
+Seq[3] = [0,0,1]
+Seq[4] = [0,1,1]
+Seq[5] = [0,1,0]
+Seq[5] = [0,1,0]
+# full-steps
+##Seq = list(range(0, 3))
+##Seq[0] = [1,0,0]
+##Seq[1] = [0,1,0]
+##Seq[2] = [0,0,1]
 
-m1 = GPIO.PWM(pin_m1, 50)
-# m2 = GPIO.PWM(pin_m2, 50)
-# m3 = GPIO.PWM(pin_m3, 50)
 
-m1.start(0)
-# m2.start(0)
-# m3.start(0)
+#GPIO.setup(enable_pin, GPIO.OUT)
+##def setup():
+##GPIO.setmode(GPIO.BCM)
+GPIO.setup(coil_A_pin, GPIO.OUT)
+GPIO.setup(coil_B_pin, GPIO.OUT)
+GPIO.setup(coil_C_pin, GPIO.OUT)
+ 
+#GPIO.output(enable_pin, 1)
+ 
+def setStep(w1, w2, w3):
+    GPIO.output(coil_A_pin, w1)
+    GPIO.output(coil_B_pin, w2)
+    GPIO.output(coil_C_pin, w3)
 
-try:
-    while True:
-        m1.ChangeDutyCycle(10)
-        time.sleep(0.5)
+ 
+def forward(delay, steps):
+    global ind
+    for i in range(0, steps, 1):
+        ind += 1
+        ind = ind % 6
+        print(ind)
+        
+        print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
+        setStep(Seq[ind][0], Seq[ind][1], Seq[ind][2])
+        time.sleep(delay)
 
-except KeyboardInterrupt:
-    m1.stop()
-    # m2.stop()
-    # m3.stop()
 
+def backwards(delay, steps):
+    global ind
+    for i in range(0, steps, 1):
+        ind -= 1
+        ind = ind % 6
+        print(ind)
+        
+        print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
+        setStep(Seq[ind][0], Seq[ind][1], Seq[ind][2])
+        time.sleep(delay)      
+
+
+def reference_point():
+    # TODO
+    # Warnung das nichts im Weg steht 
+    GPIO.cleanup() 				# move to reference point
+
+
+def move(x_angle, y_angle, delay):
+    if x_angle > 0:
+        forward((float(delay) / 1000.0), int(steps))
+    else:
+        backwards((float(delay) / 1000.0), int(steps))
+    if y_angle > 0:
+        forward((float(delay) / 1000.0), int(steps))
+    else:
+        backwards((float(delay) / 1000.0), int(steps))
+
+              
+if __name__ == '__main__':
+    try:
+        delay = raw_input("Zeitverzoegerung (ms)?")
+        while True:
+            ##        delay = raw_input("Zeitverzoegerung (ms)?")
+            steps = raw_input("Wie viele Schritte vorwaerts? ")
+            forward((float(delay) / 10.0),int(steps))
+            steps = raw_input("Wie viele Schritte rueckwaerts? ")
+            backwards((float(delay) / 10.0), int(steps))
+    except KeyboardInterrupt:
+        GPIO.cleanup()
 
 
 # import datetime
