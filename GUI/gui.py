@@ -56,6 +56,7 @@ def click1(event):
         output_lab.place(x=225, y=475, width=600)
 
         # TODO
+        # Pixel = 0,001149425 mm Höhe sowie Breite
         # gewuenschte Position berechnen
         # Motoren ansteuern
         # Bildgroesse beachten 500,250
@@ -234,8 +235,8 @@ def button2_click():
     label_img_coord2.place_forget()
     # output_lab.place_forget()
     # toolbar_yy.place(x=150, y=0, width=150, height=1000)
-    buttonMode21.place(x=175, y=100, width=140, height=30)
-    buttonMode22.place(x=175, y=180, width=140, height=30)
+    buttonMode21.place(x=175, y=100, width=160, height=30)
+    buttonMode22.place(x=175, y=180, width=160, height=30)
 
     # TODO
     # Seite noch etwas fuellen, noch zu leer
@@ -249,7 +250,7 @@ def button21_click():
            'der Wert darf zwischen ??? liegen')
     output_label_coord()
 
-    ind = Image.open("angle.jpeg")
+    ind = Image.open("coordinates.jpeg")
     pht = ImageTk.PhotoImage(ind)     # photo
     # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
     # img.place(x=150, y=325, width=750, height=100)
@@ -568,6 +569,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         print("...")
 
     # TODO
+    # Pixel = 0,001149425 mm Höhe sowie Breite
     # gewuenschte Position berechnen
     # Motoren ansteuern
     # Bildgroesse beachten 250,125
@@ -1072,7 +1074,7 @@ buttonMode12.place(x=25, y=180, width=100, height=20)
 buttonMode2 = Button(master=toolbar_y, text='Koordinaten', command=button2_click)
 buttonMode2.place(x=25, y=220, width=100, height=20)
 buttonMode21 = Button(master=frameGui, text='Koordinaten: x, y, z', command=button21_click)
-buttonMode22 = Button(master=frameGui, text='Winkel', command=button22_click)
+buttonMode22 = Button(master=frameGui, text='Winkel: pitch, roll, yaw', command=button22_click)
 buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
 buttonMode3.place(x=25, y=260, width=100, height=20)
 buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
