@@ -48,11 +48,11 @@ Abbildung 2.2 zeigt das Diamant-Werkzeug, welches sich dadurch auszeichnet, dass
 \label{fig:Bild2}
 \end{figure}
 \break
-Abbildung 2.3 zeigt die Kinematik des Mikroschneidens. Das Werkzeug schneidet zunächst in X,Y,-Z Richtung in das Werkstück und wird anschließend in -X,Y,Z Richtung zurückgeführt. Anschließend wird das Werkstück rotiert und der Schnittvorgang wiederholt sich. Durch diesen Vorgang können drei- bis sieben-seitige Kavitäten erstellt werden. \\ \\
+Abbildung 2.3 zeigt die Kinematik des Mikroschneidens. Das Werkzeug schneidet zunächst in X,Y,-Z Richtung in das Werkstück und wird anschließend in \\-X,Y,Z Richtung zurückgeführt. Nachfolgend wird das Werkstück rotiert und der Schnittvorgang wiederholt sich. Durch diesen Vorgang können drei- bis sieben-seitige Kavitäten erstellt werden. \\ \\
 Außerdem ist die Herstellung von kubischen Retroreflektoren aus dreieckigen Einzelstrukturen abgebildet. \\ \\
 \begin{figure}[htbp]
 \centering 
-\includegraphics[width=0.8\textwidth]{Mikroschneiden_Kinematik.PNG}
+\includegraphics[width=0.7\textwidth]{Mikroschneiden_Kinematik.PNG}
 \caption{Kinematik des Mikroschneidens}
 \label{fig:Bild3}
 \end{figure}
@@ -63,12 +63,30 @@ Besonders wichtig beim Mikroschneiden ist die richtige Justierung des Werkzeuges
 
 
 
-\section{nano Fast Tool Servos (nFTS)}
-Das Verfahren nano Fast Tool Servos dient zur Herstellung diffraktiver optischer Komponenten, welche ihre Anwendung beispielsweise in der Sicherheitstechnik finden. Dieses Verfahren arbeitet mit einer speziellen piezoelektrischen Keramik, welche sich durch eine hohe Linearität und geringe Hysterese auszeichnet. Darauf befindet sich eine Montageplatte für das Diamantwerkzeug. 
+\section{Nano Fast Tool Servos (nFTS)}
+Das Verfahren nano Fast Tool Servos dient zur Herstellung diffraktiver optischer Komponenten, welche ihre Anwendung beispielsweise in der Sicherheitstechnik finden. Dieses Verfahren arbeitet mit einer speziellen piezoelektrischen Keramik, welche sich durch eine hohe Linearität und geringe Hysterese auszeichnet. Darauf befindet sich eine Montageplatte für das Diamantwerkzeug. \\ \\
+Die herzustellende Strukturgeometrie unterliegt sowohl den Anforderungen des optischen Designs als auch denen der Bearbeitungstechnologie. Um beide möglichst gut zu berücksichtigen wird eine so genannte Blaze-Struktur verwendet. In der folgenden Abbildung 2.4 ist links die Geometrie einer Blaze-Optik zu sehen. Rechts ist eine diffraktive Umsetzung zur Fertigung mit Diamantwerkzeugen abgebildet. Strukturdaten werden als Höhenmodulation in die Flanken eingeschrieben. 
+\begin{figure}[htbp]
+\centering 
+\includegraphics[width=0.7\textwidth]{Blaze_Optik.PNG}
+\caption{Blaze-Struktur}
+\label{fig:Bild4}
+\end{figure}
+\break
+Nachfolgend ist der Bearbeitungsprozess des nFTS zu sehen. Rechts ist das Diamantwerkzeug, welches bei diesem Verfahren verwendet wird, abgebildet. \\ \\ 
+\begin{figure}[htbp]
+\centering 
+\includegraphics[width=0.6\textwidth]{nano.PNG}
+\caption{Bearbeitungsprozess}
+\label{fig:Bild5}
+\end{figure}
+\break
+\\ \\
+Beide Prozesse haben hohe Anforderungen an eine genaue Positionierung des Werkzeugs. Außerdem ist das Werkzeug in beiden Fällen aus Diamant, einem sehr teuren Werkstoff. Somit ist es besonders wichtig den Kontakt zwischen Werkzeug und Werkstück vorsichtig herzustellen, sodass es nicht zu Beschädigungen kommt. Dazu ist ein Kamerasystem mit starker Vergrößerung notwendig. Bisher wurde dies mit einer Kamera an der Werkzeughalterung realisiert. Diese musste manuell positioniert werden, wodurch viel Zeit in Anspruch genommen wurde. Während des Bearbeitungsprozesses kann es bei bestimmten Winkeln des Werkzeuges vorkommen, dass das Werkstück nicht mehr im Bildausschnitt zu sehen ist. Dies erfordert eine erneute manuelle Positionierung der Kamera und nimmt wieder Zeit in Anspruch. \\ \\
 
 \chapter{Konzeptentwicklung}
 
-Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeugkontakt-Detektion beschäftigt haben, wurden erste Lösungsansätze erarbeitet. Die grundlegende Fragestellung befasste sich damit, welche Art der Kameraführung am besten für das gegebene Problem geeignet ist. Bei der Beurteilung galt es zu überprüfen, ob die Grundstrukturen die gegebenen Anforderungen erfüllen und dabei gleichzeitig wirtschaftlich sind. In der nachfolgenden Tabelle sind vier Grundstrukturen der Kameraführung mit ihren Vor- und Nachteilen aufgelistet. \\ \\
+Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeug-kontakt-Detektion beschäftigt haben, wurden erste Lösungsansätze erarbeitet. Die grundlegende Fragestellung befasste sich damit, welche Art der Kameraführung am besten für das gegebene Problem geeignet ist. Bei der Beurteilung galt es zu überprüfen, ob die Grundstrukturen die gegebenen Anforderungen erfüllen und dabei gleichzeitig wirtschaftlich sind. In der nachfolgenden Tabelle sind vier Grundstrukturen der Kameraführung mit ihren Vor- und Nachteilen aufgelistet. \\ \\
 
 \begin{tabular}{lll}
  
@@ -108,19 +126,20 @@ Folgende Geräte und Bauteile wurden verwendet
 \item Raspberry Pi 2 Model B 
 \item Bildschirm, Tastatur, Maus (einschließlich Kabel zum Anschließen an den Raspberry Pi)
 \item  Crossover-Kabel
-\item  TO DO Motoren: BGM4108-130, ESC: STorM32BGC, F35A 3-6S BLHeli\_32...
+\item  Motoren: BGM4108-130, ESC: STorM32BGC, F35A 3-6S BLHeli\_32...
 \item Schaltung: Mikrocontroller: (L293D), Widerstände (1k Ohm), Brücken
 \end{itemize}
+TO DO vollständig und aktuell!! \\ \\
 Die Position der Kamera ist durch ein Gestell mit drei Motoren variabel, wodurch ihr Winkel so eingestellt werden kann, dass sich Werkzeug und Werkstück optimal im Bildausschnitt befinden. Das Gestell kann sowohl an der Werkzeughalterung, als auch über der Werkstückaufnahme montiert werden. Im Rahmen unseres Projektes konnten wir die Montage TO DO realisieren.
 Die Kamera ist über eine FireWire-Schnittstelle mit dem Laptop verbunden. Der Laptop speichert das Bildmaterial und stellt es per Ordnerfreigabe dem Raspberry Pi zur Verfügung. Bildschirm, Maus und Tastatur sind an dem Raspberry Pi angeschlossen, sodass der Benutzer mit Hilfe einer graphischen Oberfläche gewünschte Aktionen auswählen kann. Außerdem verfügt der Raspberry Pi über einen Algorithmus, der zusammenhängende Bereiche mit bestimmten Farbwerten erkennt, wodurch die Kamera automatisch dem Werkzeug folgen kann. (TO DO kann sie das?)
 
 \chapter{Datenübertragung}
 Die automatische Positionierung der Kamera setzt voraus, dass die Daten über den aktuellen Bildausschnitt bekannt sind. Die Kamera verfügt über eine FireWire-Schnittstelle. FireWire-Schnittstellen besitzen eine hohe Datendurchsatzrate, wodurch ein besonders schnelles Arbeiten möglich ist. FireWire 400 überträgt Datenströme und ist USB 2.0 daher besonders bei der Übertragung von kontinuierlichen Signalen zum Beispiel im Videobereich überlegen. Jedoch hat sich diese Schnittstelle auf dem Markt nicht durchgesetzt, weshalb viele aktuelle Geräte diese Schnittstelle gar nicht besitzen. USB bietet seit USB 3.0 eine so deutlich überlegene Übertragungsgeschwindigkeit, dass auch im Videobereich größere Datenraten übertragen werden können. \\ \\
 Zur Verfügung steht uns ein Laptop der Firma Toschiba mit dem Betriebssystem Windows XP. Dieser bietet einen FireWire-Anschluss, sodass wir die Kamera anschließen können. Das Bildmaterial der Kamera wird mit einer Software von MatLab auf dem Laptop angezeigt und abgespeichert. Da dieser Laptop jedoch sehr langsam arbeitet, wird die weitere Verarbeitung der Bilddaten auf einen Raspberry Pi 2 Model B ausgelagert. \\ \\
-Zur Übertragung der Bilddaten nutzen wir das Prinzip der Ordnerfreigabe. Das Betriebssystem Windows XP unterstützt Netzwerkfreigaben von sich aus, während der Raspberry Pi ein zusätzliches Programm für diese Funktion benötigt. Zum Einbinden der Windows-Freigabe nutzen wir das virtuelle Dateisystem \glqq cifs-vfs\grqq. Dazu wird das Paket \glqq cifs-utils\grqq auf dem Raspberry Pi installiert. Um den freigegebenen Ordner in das Dateisystem einzubinden nutzen wir den Befehl \glqq mount\grqq, wobei auch der Typ \glqq cifs\grqq und Angaben über den Ort des freigegebenen Ordners, sowie des Zielordners notwendig sind. Damit man den Ordner nicht bei jedem Neustart des Raspberry Pi's neu einbinden muss, hinterlegen wir alle Informationen für das Einbinden in der Konfigurations-Datei \glqq /etc/fstab\grqq. Nun müssen nur noch mit einem Befehl alle Dateisysteme, die in \glqq /etc/fstab\grqq vermerkt sind, einbinden. Dieser Befehl wird bei öffnen der graphischen Oberfläche unseres Programms automatisch ausgeführt. \\ \\
-Für die Verbindung zwischen Laptop und Raspberry Pi gibt es mehrere Möglichkeiten. Wir haben uns mit den zwei Möglichkeiten beschäftigt. \\ \\
+Zur Übertragung der Bilddaten nutzen wir das Prinzip der Ordnerfreigabe. Das Betriebssystem Windows XP unterstützt Netzwerkfreigaben von sich aus, während der Raspberry Pi ein zusätzliches Programm für diese Funktion benötigt. Zum Einbinden der Windows-Freigabe nutzen wir das virtuelle Dateisystem \glqq cifs-vfs\grqq. Dazu wird das Paket \glqq cifs-utils\grqq auf dem Raspberry Pi installiert. Um den freigegebenen Ordner in das Dateisystem einzubinden nutzen wir den Befehl \glqq mount\grqq, wobei auch der Typ \glqq cifs\grqq und Angaben über den Ort des freigegebenen Ordners, sowie des Zielordners notwendig sind. Damit man den Ordner nicht bei jedem Neustart des Raspberry Pi's neu einbinden muss, hinterlegen wir alle Informationen für das Einbinden in der Konfigurations-Datei \glqq /etc/fstab\grqq. Nun werden beim Hochfahren des Raspberry Pi's alle Dateisysteme, die in \glqq /etc/fstab\grqq vermerkt sind und zu denen auch eine aktive Verbindung besteht, eingebunden. \\ \\
+Für die Verbindung zwischen Laptop und Raspberry Pi gibt es mehrere Möglichkeiten. Wir haben uns mit den folgenden zwei Möglichkeiten beschäftigt. \\ \\
  Die erste Möglichkeit ist die Verbindung über das Netzwerk im LFM. Beide Geräte sind durch ein Ethernet-Kabel mit dem Netzwerk verbunden. Ein Vorteil ist, dass die Geräte auch so Zugang zum Internet haben. Der Laptop benötigt den Zugang zum Internet um die notwendigen Lizenzen für MatLab laden zu können. Der freigegebene Ordner kann nun in dem Netzwerk durch Angabe der IP-Adresse des Laptops im Netzwerk und Angabe des Freigabenamens gefunden werden. Dieser Ordner ist nun mit jedem Gerät in dem Netzwerk auffindbar, jedoch ist der Zugriff durch das Passwort des Benutzerkontos von dem Laptop geschützt. \\ \\
-Die zweite Möglichkeit ist eine direkte Verbindung durch ein Crossover-Kabel. Diese Verbindung ist sicherer und die Daten können schneller übertragen werden. Jedoch ergibt sich das Problem, dass das Crossover-Kabel den gleichen Anschluss verwendet, wie das Ethernet-Kabel. So kann der Laptop nicht gleichzeitig mit dem Raspberry Pi verbunden sein und Zugang zum Internet haben. Den Internetzugang braucht er allerdings, um die MatLab-Lizenzen zu laden. So müsste zuerst das Ethernetkabel angeschlossen werde, sodass die Lizenzen laden können. Danach müsste man das Kabel entfernen und das Crossoverkabel anschließen, um die Verbindung zum Raspberry Pi herzustellen. Dies wäre nicht besonders anwenderfreundlich. Jedoch konnte diese Möglichkeit optimiert werden, indem durch einen Adapter ein zweiter Netzwerkanschluss an dem Laptop angebracht wurde. Dies ermöglicht Internetzugang mit einem Ethernet-Kabel und mit dem Crossoverkabel diei Verbindung zum Raspberry Pi. Die IP-Adressen werden bei dieser Variante statisch gesetzt. So hat der Laptop die IP-Adresse \glqq 192.168.1.1\grqq und der Raspberry Pi die IP-Adresse  \glqq 192.168.1.2\grqq erhalten. Beiden wurde die gleiche Subnetzmaske  \glqq 255.255.0.0\grqq \\ übergeben. So kann der Ordner wieder durch die IP-Adresse des Laptops und den Freigabenamen gefunden und in das Dateisystem von dem Raspberry Pi einghängt werden. Mit dieser Variante wird nur ein LAN-Anschluss am Einsatzort des Systems benötigt und eine schnelle und sichere Datenübertragung ermöglicht, sodass wir uns für diese Variante entschieden haben. \\ \\
+Die zweite Möglichkeit ist eine direkte Verbindung durch ein Crossover-Kabel. Diese Verbindung ist sicherer und die Daten können schneller übertragen werden. Jedoch ergibt sich das Problem, dass das Crossover-Kabel den gleichen Anschluss verwendet, wie das Ethernet-Kabel. So kann der Laptop nicht gleichzeitig mit dem Raspberry Pi verbunden sein und Zugang zum Internet haben. Den Internetzugang braucht er allerdings, um die MatLab-Lizenzen zu laden. So müsste zuerst das Ethernetkabel angeschlossen werde, sodass die Lizenzen laden können. Danach müsste man das Kabel entfernen und das Crossoverkabel anschließen, um die Verbindung zum Raspberry Pi herzustellen. Dies wäre nicht besonders anwenderfreundlich. Jedoch konnte diese Möglichkeit optimiert werden, indem durch einen Adapter ein zweiter Netzwerkanschluss an dem Laptop angebracht wurde. Dies ermöglicht Internetzugang mit einem Ethernet-Kabel und mit dem Crossoverkabel die Verbindung zum Raspberry Pi. Die IP-Adressen werden bei dieser Variante statisch gesetzt. So hat der Laptop die IP-Adresse \glqq 192.168.1.1\grqq und der Raspberry Pi die IP-Adresse  \glqq 192.168.1.2\grqq erhalten. Beiden wurde die gleiche Subnetzmaske  \glqq 255.255.0.0\grqq \\ übergeben. So kann der Ordner wieder durch die IP-Adresse des Laptops und den Freigabenamen gefunden und in das Dateisystem von dem Raspberry Pi einghängt werden. Mit dieser Variante wird nur ein LAN-Anschluss am Einsatzort des Systems benötigt und eine schnelle und sichere Datenübertragung ermöglicht, sodass wir uns für diese Variante entschieden haben. \\ \\
 Durch die Arbeit mit mehreren Raspberry Pis benötigten wir die Einstellung, dass der Ordner für alle Benutzer freigegeben ist. Da der Laptop bei unserer Variante nun mit dem gesamten Netzwerk des Instituts verbunden ist, könnte man als eine zusätzliche Sicherheit (neben dem benötigten Passwort) die Ordnerfreigabe auf einen Benutzer beschränken. Dies müsste noch einmal durch einen Administrator des Laptops geschehen. 
 
 \chapter{Hardwareentwicklung}
@@ -145,11 +164,15 @@ In der GUI werden dem User verschiedene Möglichkeiten geboten, die Motoren einf
 Eine weiter wichtige Aufgabe ist das Anzeigen des aktuell aufgenommen Bildes der Kamera, welches das Werkzeug sowie Werkstück enthält. Jedoch besteht nicht nur die Möglichkeit sich das aktuelle Bild anzusehen, man kann sich auch noch zuvor aufgenommen Bilder anschauen, um Einstellungen zu vergleichen oder um doch mit früheren Positionen weiterarbeiten zu können.
 
 \chapter{Bedienungsanleitung}
-TO DO (erst wenn finale Version fertig ist)
+TO DO (finale Version)
 \begin{itemize} 
-\item Einschalten, Kamera einrichten...
+\item Kamera einrichten...
+\item Laptop einschalten, Benutzer: Doer-se-proj anmelden
+\item Laptop via Ethernetkabel mit Netzwerk verbinden
+\item Adapter für weiteren Netzwerkanschluss an Laptop anschließen und Laptop über diesen Adapter mit Raspberry Pi via Crossover-Kabel verbinden
+\item Bildschirm, Tastatur und Maus an Raspberry Pi anschließen und diesen mit Strom versorgen
+\item Es ist zu beachten, dass Laptop und Raspberry Pi verbunden sind bevor der Raspberry Pi hochfährt
 \item Bild aufnehmen
-\item Bild verschicken (abhängig von Automatisierung)
 \item GUI Bilder neu laden Bilder anzeigen
 \item verschiedene Methoden zur Motoransteurung
 \item zusätzliche Funktionen
@@ -157,6 +180,9 @@ TO DO (erst wenn finale Version fertig ist)
 
 \chapter{Schlusswort}
 TO DO (was funktioniert und Aussicht wie System optimiert werden kann)
+
+\chapter{Literaturverzeichnis}
+Veröffentlichungen... 
 
 
 \end{document}
