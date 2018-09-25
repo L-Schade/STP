@@ -14,9 +14,8 @@ import detection
 # import motor_controlG
 
 
-
-fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
-fields_angle = 'pitch', 'roll', 'yaw', 'time to wait'
+fields = 'x-coordinate:', 'y-coordinate:', 'time to wait:'
+fields_angle = 'Motor a:', 'Motor b:', 'Motor c:', 'time to wait:'
 images = []
 image = None            # aktuelles Bild
 image_na = None       # name aktuelles Bild (ohne Dateiformat)
@@ -285,27 +284,25 @@ def button21_click():
             print('%s: "%s"' % (field, text))
             if ind == 0:
                 x = entry[1].get()
-                ind = ind + 1
+                ind += 1
             elif ind == 1 :
                 y = entry[1].get()
-                ind = ind + 1
+                ind += 1
             elif ind == 2:
-                z = entry[1].get()
-                ind = ind+1
-            elif ind == 3:
                 wait = entry[1].get()
                 ind = 0
                 # TODO
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
-                    motion_control_scriptG.save_coordinates_wait(x, y, z, wait)
                     # TODO
                     # Motoren ansteuern
                     # noch Funktion zum "Umrechnen" einbauen
+                    motion_control_scriptG.coordinate(x, y, wait)
 
                     # read_coordinates('neue Koordinaten:')
                     read('')
+
                     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
                     # output_lab.place(x=225, y=450, width=600, height=200)
                     label_img_coord1.place_forget()
@@ -365,14 +362,14 @@ def button22_click():
             text = entry[1].get()
             print('%s: "%s"' % (field, text))
             if ind == 0:
-                x = entry[1].get()
-                ind = ind+1
+                m_a = entry[1].get()
+                ind += 1
             elif ind == 1:
-                y = entry[1].get()
-                ind = ind + 1
+                m_b = entry[1].get()
+                ind += 1
             elif ind == 2:
-                z = entry[1].get()
-                ind = ind + 1
+                m_c = entry[1].get()
+                ind += 1
             elif ind == 3:
                 wait = entry[1].get()
                 print(wait)
@@ -383,7 +380,7 @@ def button22_click():
                 if not bu2_blocked:         # False
                     # TODO
                     # Winkel der Motoren noch in Koordinaten umrechnen um einheitliches Format der "coordinaten.txt" zu haben
-                    motion_control_scriptG.save_coordinates_wait(x, y, z, wait)
+                    motion_control_scriptG.save_coordinates_wait(m_a, m_b, m_c, wait)
                     # TODO
                     # Motoren ansteuern
                     # noch Funktion zum "Umrechnen" einbauen
@@ -445,14 +442,13 @@ def button3_click():
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=225, y=425, width=600, height=200)
 
-    button1.place(x=250, y=100, width=100, height=20)
-    button2.place(x=175, y=140, width=100, height=20)
-    button3.place(x=325, y=140, width=100, height=20)
-    button4.place(x=250, y=180, width=100, height=20)
-    button5.place(x=235, y=230, width=40, height=20)
-    button6.place(x=325, y=230, width=40, height=20)
-    button7.place(x=235, y=290, width=130, height=20)
-    button8.place(x=585, y=325, width=180, height=20)
+    button1.place(x=250, y=140, width=100, height=20)
+    button2.place(x=175, y=180, width=100, height=20)
+    button3.place(x=325, y=180, width=100, height=20)
+    button4.place(x=250, y=220, width=100, height=20)
+    button5.place(x=235, y=260, width=40, height=20)
+    button6.place(x=325, y=260, width=40, height=20)
+    button7.place(x=585, y=325, width=180, height=20)
     labelImg2.config(image=imageNavigate)
     labelImg2.place(x=500, y=110, width=350, height=190)
 
@@ -754,7 +750,6 @@ def hide_navigate_buttons():
     button5.place_forget()
     button6.place_forget()
     button7.place_forget()
-    button8.place_forget()
     labelImg2.place_forget()
 
 
@@ -778,24 +773,6 @@ def hide_images_buttons():
     buttonImg7.place_forget()
     buttonImg8.place_forget()
     buttonImg9.place_forget()
-
-
-# print script, navigate
-def print_script():
-    global bu2_blocked
-    if not bu2_blocked:     # False
-        # TODO
-        # Motoren ansteuern
-
-        # motion_control_scriptG.printScript2()
-        # print('print script')
-
-        read('neue Koordinaten:')
-        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-    else:
-        output("Motoren sind gesperrt!")
-        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-        stop()
 
 
 # reload position
@@ -946,7 +923,7 @@ def bu1_onclick():
         bu1['text'] = 'Positionen \nwerden gehalten'
         bu1_blocked = True
         print(bu1_blocked)
-        comment('Motoren Positionen werden gehalten')
+        comment('Motoren-Posi\ntionen werden gehalten')
         hold()
     elif bu1_blocked:
         bu1['bg'] = '#BDBDBD'
@@ -967,6 +944,7 @@ def hold():
 
 def release():
     # motor_controlG.reference_point()
+    comment('Referenzpunkt wurde angefahren')
     print("")
 
 
@@ -1086,10 +1064,10 @@ buttonMode11 = Button(master=toolbar_y, text='automatisch', command=button11_cli
 buttonMode11.place(x=25, y=140, width=100, height=20)
 buttonMode12 = Button(master=toolbar_y, text='Tracking', command=button12_click)
 buttonMode12.place(x=25, y=180, width=100, height=20)
-buttonMode2 = Button(master=toolbar_y, text='Koordinaten', command=button2_click)
+buttonMode2 = Button(master=toolbar_y, text='Koordination', command=button2_click)
 buttonMode2.place(x=25, y=220, width=100, height=20)
-buttonMode21 = Button(master=frameGui, text='Koordinaten: x, y, z', command=button21_click)
-buttonMode22 = Button(master=frameGui, text='Winkel: pitch, roll, yaw', command=button22_click)
+buttonMode21 = Button(master=frameGui, text='Koordinaten: x, y', command=button21_click)
+buttonMode22 = Button(master=frameGui, text='Winkel: Motoren a, b, c', command=button22_click)
 buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
 buttonMode3.place(x=25, y=260, width=100, height=20)
 buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
@@ -1104,8 +1082,7 @@ button3 = Button(master=frameGui, text='rechts', command=lambda: get_blocked(2))
 button4 = Button(master=frameGui, text='unten', command=lambda: get_blocked(3))
 button5 = Button(master=frameGui, text='3sec', command=lambda: motion_control_scriptG.wait(3))
 button6 = Button(master=frameGui, text='5sec', command=lambda: motion_control_scriptG.wait(5))
-button7 = Button(master=frameGui, text='Daten verschicken', command=print_script)
-button8 = Button(master=frameGui, text='zur anderen Seite fahren', command=warning)
+button7 = Button(master=frameGui, text='zur anderen Seite fahren', command=warning)
 # vlt die Anzahl noch variierbar machen?
 buttonImg1 = Button(master=frameGui, image=images[0], command=lambda: button_click_image(0))
 buttonImg2 = Button(master=frameGui, image=images[1], command=lambda: button_click_image(1))
@@ -1130,7 +1107,9 @@ refresh_button = Button(tk_fenster, text=" Bilder \n neu laden", command=lambda:
 refresh_button.place(x=910, y=60, width=80, height=40)
 #
 bu1 = Button(tk_fenster, text="Motoren \n halten", command=lambda: bu1_onclick(), bg='#BDBDBD')
-bu1.place(x=905, y=600, width=90, height=40)
+bu1.place(x=905, y=540, width=90, height=40)
+bu1a = Button(tk_fenster, text="Referenz-\npunkt", command=lambda: release(), bg='#BDBDBD')
+bu1a.place(x=905, y=600, width=90, height=40)
 bu2 = Button(tk_fenster, text="Motoren \n sperren", command=lambda: bu2_onclick(), bg='#BDBDBD')
 bu2.place(x=905, y=660, width=90, height=40)
 

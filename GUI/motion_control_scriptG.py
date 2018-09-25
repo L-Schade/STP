@@ -6,20 +6,22 @@ y = None
 z = None
 wait = None
 
+# TODO
+# methoden & variabeln umbennen sinnvoller
 
 def read_coordinates_wait():
     filename = open("coordinates.txt")
     index = 0
     for line in filename:
-        if (index == 0):
+        if index == 0:
             x = line.rstrip()
-        elif (index == 1):
+        elif index == 1:
             y = line.rstrip()
-        elif(index == 2):
+        elif index == 2:
             z = line.rstrip()
-        elif (index == 3):
+        elif index == 3:
             wait = line.rstrip()
-        index = index+1;
+        index += 1;
     return x, y, z, wait
 
 
@@ -27,13 +29,13 @@ def read_coordinates():
     filename = open("coordinates.txt")
     index = 0
     for line in filename:
-        if (index == 0):
+        if index == 0:
             x = line.rstrip()
-        elif (index == 1):
+        elif index == 1:
             y = line.rstrip()
-        elif(index == 2):
+        elif index == 2:
             z = line.rstrip()
-        index += 1;     # = index+1
+        index += 1     # = index+1
     return x, y, z
 
 
@@ -43,13 +45,13 @@ def read_old_coordinates(file_name):
     filename = open('Positionen/'+file_name+'.txt','r')
     index = 0
     for line in filename:
-        if (index == 0):
+        if index == 0:
             x = line.rstrip()
-        elif (index == 1):
+        elif index == 1:
             y = line.rstrip()
-        elif(index == 2):
+        elif index == 2:
             z = line.rstrip()
-        index += 1;
+        index += 1
     save_coordinates(x, y, z)
     return x, y, z
 
@@ -78,14 +80,16 @@ def save_coordinates(x, y, z,):
 
 def automatic():
     print("class automatic")
-
+    # TODO
     # printScript()
     # save_coordinates_wait(x,y,z,wait)
     save_coordinates(x, y, z)
 
 
-def coordinate(x, y, z, wait):
+def coordinate(x, y, wait):
     print('test')
+    # neue Koordinatwen berechnen und speichern
+    save_coordinates(x, y, z)
 
 
 # TODO
@@ -93,7 +97,7 @@ def coordinate(x, y, z, wait):
 # Berechnen wie viel Pixel ein step sind und anpassen!
 def up():
     x, y, z = read_coordinates()
-    x += 1
+    y -= 1
     save_coordinates(x, y, z)
 
 
