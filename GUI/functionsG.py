@@ -3,6 +3,9 @@ import math
 import motion_control_scriptG
 
 
+distance = None
+
+
 def pixel_distance(pixel):
     distance = pixel * 0.0011465
 
@@ -21,6 +24,12 @@ def update_position():
     # a, b, c = motion_control_scriptG.read_position()
     # update a, b, c
     # motion_control_scriptG.save_position(a, b, c)
+
+
+def set_distance(dstnc):
+    global distance
+    distance = dstnc
+    print(distance)
 
 
 def set_current_position():

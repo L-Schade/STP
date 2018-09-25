@@ -915,6 +915,11 @@ def close_stop():
     img_stop.place_forget()
 
 
+def distance_input(distance):
+    functionsG.set_distance(distance)
+    comment('Abstand\nKamera &\nWST: ' +str(distance)+ ' mm')
+
+
 # hold position
 def bu1_onclick():
     global bu1_blocked
@@ -1114,11 +1119,11 @@ refresh_button = Button(tk_fenster, text=" Bilder \n neu laden", command=lambda:
 refresh_button.place(x=910, y=60, width=80, height=40)
 #
 bu1 = Button(tk_fenster, text="Motoren \n halten", command=lambda: bu1_onclick(), bg='#BDBDBD')
-bu1.place(x=905, y=540, width=90, height=40)
+bu1.place(x=905, y=500, width=90, height=40)
 bu1a = Button(tk_fenster, text="Referenz-\npunkt", command=lambda: release(), bg='#BDBDBD')
-bu1a.place(x=905, y=600, width=90, height=40)
+bu1a.place(x=905, y=560, width=90, height=40)
 bu2 = Button(tk_fenster, text="Motoren \n sperren", command=lambda: bu2_onclick(), bg='#BDBDBD')
-bu2.place(x=905, y=660, width=90, height=40)
+bu2.place(x=905, y=620, width=90, height=40)
 
 # tracking-text box
 text_box_label1 = Label(tk_fenster, text='R:')
@@ -1140,6 +1145,14 @@ text_label = Label(tk_fenster)
 output_lab = Message(master=frameGui)       # vorgeschriebene Breite
 # output_lab = Text(master=frameGui)          # hat kein Attribut text (bei config)
 # output_lab = Label(master=frameGui)       # text laeuft aus dem Label hinaus
+
+# distance input
+txt_box_label = Message(tk_fenster, text='Abstand Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)
+txt_box = Entry(tk_fenster, bd=5, width=45)
+txt_box_bttn = Button(tk_fenster, text='ENTER', command=lambda: distance_input(float(txt_box.get())))
+txt_box_label.place(x=910, y=280, width=80, height=60)
+txt_box.place(x=910, y=360, width=80)
+txt_box_bttn.place(x=910, y=400, width=80)
 
 # activation the window
 tk_fenster.mainloop()
