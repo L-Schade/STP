@@ -1,5 +1,6 @@
 import math
 # import motor_controlG
+import motion_control_scriptG
 
 
 def pixel_distance(pixel):
@@ -13,6 +14,19 @@ def angle_to_steps(angle):
     steps = float(angle) / float(angle_per_step)
 
     return steps
+
+
+def update_position():
+    print("")
+    # a, b, c = motion_control_scriptG.read_position()
+    # update a, b, c
+    # motion_control_scriptG.save_position(a, b, c)
+
+
+def set_current_position():
+    a, b, c = motion_control_scriptG.read_position()
+    print("test")
+    print(a, b, c)
 
 
 def motor(steps, delay, motor):

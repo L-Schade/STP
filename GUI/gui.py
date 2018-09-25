@@ -15,8 +15,8 @@ import detection
 # import motor_controlG
 
 
-fields = 'x-coordinate:', 'y-coordinate:', 'time to wait:'
-fields_angle = 'Motor a:', 'Motor b:', 'Motor c:', 'time to wait:'
+fields = 'x-coordinate:', 'y-coordinate:', 'delay:'
+fields_angle = 'Motor a:', 'Motor b:', 'Motor c:', 'delay:'
 images = []
 image = None            # aktuelles Bild
 image_na = None       # name aktuelles Bild (ohne Dateiformat)
@@ -57,11 +57,17 @@ def click1(event):
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)    #
         output_lab.place(x=225, y=475, width=600)
 
+        old_posi = motion_control_scriptG.read_old_position(image_na)
+        a_posi = old_posi[0]
+        b_posi = old_posi[1]
+        c_posi = old_posi[2]
+
         # TODO
         # Pixel = 0,001149425 mm Höhe sowie Breite
         # gewuenschte Position berechnen
         # Motoren ansteuern
         # Bildgroesse beachten 500,250
+
 
     else:
         output("Motoren sind gesperrt!")
@@ -123,16 +129,17 @@ def button_click():
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=225, y=450, width=600, height=200)
 
-    old_coord = motion_control_scriptG.read_old_position(image_na)
-    x_coord = old_coord[0]
-    y_coord = old_coord[1]
-    z_coord = old_coord[2]
-    print(x_coord, y_coord, z_coord)
+    functionsG.set_current_position()
+    old_posi = motion_control_scriptG.read_old_position(image_na)
+    a_posi = old_posi[0]
+    b_posi = old_posi[1]
+    c_posi = old_posi[2]
+    # print(a_posi, b_posi, c_posi)
     if not bu2_blocked:     # False
-        print("test")
-        # TODO
-        # nur noch an diese Position fahren
-        # Motoren ansteuern
+        functionsG.motor(a_posi, 1, 'a')
+        functionsG.motor(a_posi, 1, 'b')
+        functionsG.motor(a_posi, 1, 'c')
+        motion_control_scriptG.save_position(a_posi, b_posi, c_posi)
 
     else:
         print("Motoren sind gesperrt")
@@ -273,16 +280,21 @@ def button21_click():
                 y = entry[1].get()
                 ind += 1
             elif ind == 2:
-                wait = entry[1].get()
+                delay = entry[1].get()
                 ind = 0
                 # TODO
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
+                    old_posi = motion_control_scriptG.read_old_position(image_na)
+                    a_posi = old_posi[0]
+                    b_posi = old_posi[1]
+                    c_posi = old_posi[2]
+
                     # TODO
                     # Motoren ansteuern
                     # noch Funktion zum "Umrechnen" einbauen
-                    motion_control_scriptG.coordinate(x, y, wait)
+                    motion_control_scriptG.coordinate(x, y, delay)
 
                     # read_coordinates('neue Koordinaten:')
                     read('')
@@ -299,7 +311,6 @@ def button21_click():
                     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
                     output_lab.place(x=225, y=450, width=600, height=200)
                     stop()
-
 
     def makeform(root, fields):
         entries = []
@@ -355,19 +366,18 @@ def button22_click():
                 m_c = entry[1].get()
                 ind += 1
             elif ind == 3:
-                wait = entry[1].get()
-                print(wait)
+                delay = entry[1].get()
+                print(delay)
                 ind = 0
                 # TODO
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
-                    # TODO
-                    # Winkel der Motoren noch in Koordinaten umrechnen um einheitliches Format der "coordinaten.txt" zu haben
-                    motion_control_scriptG.save_coordinates(m_a, m_b, m_c)
-                    # TODO
-                    # Motoren ansteuern
-                    # noch Funktion zum "Umrechnen" einbauen
+                    functionsG.set_current_position()
+                    functionsG.motor(m_a, delay, 'a')
+                    functionsG.motor(m_b, delay, 'b')
+                    functionsG.motor(m_c, delay, 'c')
+                    motion_control_scriptG.save_position_delay(m_a, m_b, m_c, delay)
 
                     # read_coordinates('neue Koordinaten:')
                     read('new angle position:')
@@ -385,7 +395,6 @@ def button22_click():
                     output_lab.place(x=225, y=450, width=600, height=200)
                     stop()
 
-
     def makeform(root, fields):
         entries = []
         for field in fields_angle:
@@ -397,7 +406,6 @@ def button22_click():
             ent.pack(side=RIGHT, expand=YES, fill=X)
             entries.append((field, ent))
         return entries
-
 
     if __name__ == '__main__':
         root_angle = Tk()
@@ -548,14 +556,30 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         # labelImg1.Image = imageNavigate
         # labelImg1.bind("<Button-1>", click2)
 
-    else:
-        print("...")
+        old_posi = motion_control_scriptG.read_old_position(image_na)
+        a_posi = old_posi[0]
+        b_posi = old_posi[1]
+        c_posi = old_posi[2]
 
-    # TODO
-    # Pixel = 0,001149425 mm Höhe sowie Breite
-    # gewuenschte Position berechnen
-    # Motoren ansteuern
-    # Bildgroesse beachten 250,125
+        # TODO
+        # Pixel = 0,001149425 mm Höhe sowie Breite
+        # gewuenschte Position berechnen
+        # Motoren ansteuern
+        # Bildgroesse beachten 250,125
+
+    # else:
+    #     print("...")
+    #
+    # old_posi = motion_control_scriptG.read_old_position(image_na)
+    # a_posi = old_posi[0]
+    # b_posi = old_posi[1]
+    # c_posi = old_posi[2]
+    #
+    # # TODO
+    # # Pixel = 0,001149425 mm Höhe sowie Breite
+    # # gewuenschte Position berechnen
+    # # Motoren ansteuern
+    # # Bildgroesse beachten 250,125
 
 
 #
@@ -660,57 +684,50 @@ def read_coordinates(data):
     x_coord = coord[0]
     y_coord = coord[1]
     z_coord = coord[2]
-    wait = str(3)
+    # delay = str(3)
     global text
     if data == '':
-        text = "x-Koordinate: " + x_coord + "\n"  \
-                                 "y-Koordinate: " + y_coord + "\n" \
-                                                              "z-Koordinate " + z_coord + "\n" \
-                                                                       "time to wait: " + wait + ""
+        text = "Position Motor a: " + x_coord + "\n"  \
+                                 "Position Motor b: " + y_coord + "\n" \
+                                                              "Position Motor c: " + z_coord + "\n"
     # TODO
     # wird daas wirklich benoetigt ???
     elif data == 'new angle position:':
         text = "pitch: " + x_coord + "\n" \
                                       "roll: " + y_coord + "\n" \
-                                                             "yaw: " + z_coord + "\n" \
-                                                                                    "time to wait: " + wait + ""
+                                                             "yaw: " + z_coord + "\n"
     else:
         text = ""+data+"\n" \
-               "x-Koordinate: " + x_coord + "\n"  \
-                                          "y-Koordinate: " + y_coord + "\n" \
-                                                             "z-Koordinate: " + z_coord + "\n" \
-                                                                               "time to wait: " + wait +""
+               "Position Motor a: " + x_coord + "\n"  \
+                                          "Position Motor b: " + y_coord + "\n" \
+                                                             "Position Motor c: " + z_coord + "\n"
 
 
 # read old coordinates, independent of the image
 def read(data):
-    coord = motion_control_scriptG.read_position()
-    x_coord = coord[0]
-    y_coord = coord[1]
-    z_coord = coord[2]
-    wait = str(3)
+    posi = motion_control_scriptG.read_position_delay()
+    x_coord = str(posi[0])
+    y_coord = str(posi[1])
+    z_coord = str(posi[2])
+    delay = str(posi[3])
+    # delay = str(3)
     global text
     if data == '':
-        text = "x-Koordinate: " + x_coord + "\n" \
-                                      "y-Koordinate: " + y_coord + "\n" \
-                                                             "z-Koordinate " + z_coord + "\n" \
-                                                                                   "time to wait: " + wait + ""
+        text = "Position Motor a: " + x_coord + "\n" \
+                                      "Position Motor b: " + y_coord + "\n" \
+                                                             "Position Motor c: " + z_coord + "\n" \
+                                                                                   "Zeitverzögerung: " + delay + ""
     elif data == 'new angle position:':
         text = "pitch: " + x_coord + "\n" \
                                "roll: " + y_coord + "\n" \
                                               "yaw: " + z_coord + "\n" \
-                                                            "time to wait: " + wait + ""
+                                                                  "Zeitverzögerung: " + delay + ""
     else:
         text = "" + data + "\n" \
-                           "x-Koordinate: " + x_coord + "\n" \
-                                                  "y-Koordinate: " + y_coord + "\n" \
-                                                                         "z-Koordinate: " + z_coord + "\n" \
-                                                                                                "time to wait: " + wait + ""
-
-
-# def print(data):
-    # global text
-    # text = data
+                           "xPosition Motor a: " + x_coord + "\n" \
+                                                  "Position Motor b: " + y_coord + "\n" \
+                                                                         "Position Motor c: " + z_coord + "\n" \
+                                                                                                "Zeitverzögerung: " + delay + ""
 
 
 def hide_tracking_buttons():
@@ -969,6 +986,12 @@ def get_blocked(ind):
             motion_control_scriptG.right()
         elif ind == 3:
             motion_control_scriptG.down()
+        elif ind == 4:
+            motion_control_scriptG.delay(1)
+        elif ind == 5:
+            motion_control_scriptG.delay(2)
+        read('neue Koordinaten:')
+        output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     else:
         print(ind)  # index
         output("Motoren sind gesperrt!")
@@ -1064,8 +1087,8 @@ button2 = Button(master=frameGui, text='links', command=lambda: get_blocked(1))
 button3 = Button(master=frameGui, text='rechts', command=lambda: get_blocked(2))
 # button4 = Button(master=frameGui, text='unten', command=lambda: motion_control_scriptG.down(bu2_blocked))
 button4 = Button(master=frameGui, text='unten', command=lambda: get_blocked(3))
-button5 = Button(master=frameGui, text='3sec', command=lambda: motion_control_scriptG.wait(3))
-button6 = Button(master=frameGui, text='5sec', command=lambda: motion_control_scriptG.wait(5))
+button5 = Button(master=frameGui, text='1sec', command=lambda: get_blocked(4))
+button6 = Button(master=frameGui, text='2sec', command=lambda: get_blocked(5))
 button7 = Button(master=frameGui, text='zur anderen Seite fahren', command=warning)
 # vlt die Anzahl noch variierbar machen?
 buttonImg1 = Button(master=frameGui, image=images[0], command=lambda: button_click_image(0))

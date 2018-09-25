@@ -9,8 +9,9 @@ wait = None
 # TODO
 # methoden & variabeln umbennen sinnvoller
 
-def read_coordinates_wait():
-    filename = open("coordinates.txt")
+
+def read_position_delay():
+    filename = open("position.txt")
     index = 0
     for line in filename:
         if index == 0:
@@ -20,13 +21,13 @@ def read_coordinates_wait():
         elif index == 2:
             z = line.rstrip()
         elif index == 3:
-            wait = line.rstrip()
+            delay = line.rstrip()
         index += 1;
-    return x, y, z, wait
+    return int(x), int(y), int(z), float(delay)
 
 
 def read_position():
-    filename = open("coordinates.txt")
+    filename = open("position.txt")
     index = 0
     for line in filename:
         if index == 0:
@@ -39,7 +40,7 @@ def read_position():
     return int(x), int(y), int(z)
 
 
-# coordinates fits to image
+# position fits to image
 def read_old_position(file_name):
     print(file_name)
     filename = open('Positionen/'+file_name+'.txt','r')
@@ -52,16 +53,30 @@ def read_old_position(file_name):
         elif index == 2:
             z = line.rstrip()
         index += 1
-    save_position(x, y, z)
+    # save_position(x, y, z)
     return x, y, z
 
 
+# save position in steps
 def save_position(x, y, z,):
     print(y)
-    filename = open("coordinates.txt", "w")
+    filename = open("position.txt", "w")
     filename.write(str(x)+'\n')
     filename.write(str(y)+'\n')
     filename.write(str(z)+'\n')
+    filename.write(str(1) + '\n')           # auto delay
+    filename.write(str(datetime.datetime.now()))
+    filename.close()
+    print("save to file")
+
+
+def save_position_delay(x, y, z, delay):
+    print(y)
+    filename = open("position.txt", "w")
+    filename.write(str(x)+'\n')
+    filename.write(str(y)+'\n')
+    filename.write(str(z)+'\n')
+    filename.write(str(delay) + '\n')
     filename.write(str(datetime.datetime.now()))
     filename.close()
     print("save to file")
@@ -114,16 +129,16 @@ def down():
     save_position(x, y, z)
 
 
-def wait(time):
+def delay(time):
     x, y, z = read_position()
-    wait = int(time)
-    save_position(x, y, z)
+    delay = float(time)
+    save_position_delay(x, y, z, delay)
 
 
-def wait5():
-    x, y, z = read_position()
-    wait = 5
-    save_position(x, y, z)
+# def wait5():
+#     x, y, z = read_position()
+#     wait = 5
+#     save_position(x, y, z)
 
 
 def opposite(image_name):
