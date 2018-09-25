@@ -78,6 +78,7 @@ def click2(event):
         y = event.y
 
         img = cv2.imread("../Matlab/Bilder/" + image_na + ".png")
+        # img = cv2.imread("../Matlab/Bilder/" + image_na + ".png")
         dim = (500, 250)
         # resize image
         img_size = cv2.resize(img, dim)
@@ -122,8 +123,7 @@ def button_click():
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=225, y=450, width=600, height=200)
 
-    # x, y, z = motion_control_scriptG.read_old_coordinates(image_na)
-    old_coord = motion_control_scriptG.read_old_coordinates(image_na)
+    old_coord = motion_control_scriptG.read_old_position(image_na)
     x_coord = old_coord[0]
     y_coord = old_coord[1]
     z_coord = old_coord[2]
@@ -259,23 +259,6 @@ def button21_click():
     label_img_coord1.config(image=pht)
     label_img_coord1.place(x=250, y=350, width=550, height=260)
 
-    # panel
-    # buttonAction = Button(master=frameGui, text='ENTER', command=button_action)
-    # buttonAction.place(x=625, y=200, width=100, height=20)
-    # # dialog box
-    # eingabefeld.place(x=500, y=150 ,width=350, height=30)
-    # text_label.place(x=500, y=250,width=350,height=25)
-    # # motion_control_scriptG.navigate()
-
-    # def button_action():
-    #     entry_text = eingabefeld.get()
-    #     if  entry_text == "":
-    #         text_label.config(text="undefined key")
-    #     else:
-    #         text = functionsG.input(entry_text)
-    #         text_label.config(text=text)
-
-    # coordinates, extra window
     def fetch(entries):
         global bu2_blocked, text
         ind = 0
@@ -381,7 +364,7 @@ def button22_click():
                 if not bu2_blocked:         # False
                     # TODO
                     # Winkel der Motoren noch in Koordinaten umrechnen um einheitliches Format der "coordinaten.txt" zu haben
-                    motion_control_scriptG.save_coordinates_wait(m_a, m_b, m_c, wait)
+                    motion_control_scriptG.save_coordinates(m_a, m_b, m_c)
                     # TODO
                     # Motoren ansteuern
                     # noch Funktion zum "Umrechnen" einbauen
@@ -556,7 +539,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
 
         buttonColorRefresh.place(x=600, y=640, width=170, height=30)
 
-        new_img = load_image("../wz_detection.png")
+        new_img = Image.open("wz_detection.png")
         new_img = resize_image(new_img, 500, 250)
         imageAutomatic = new_img
 
@@ -672,7 +655,7 @@ def comment(data):
 def read_coordinates(data):
     global image_na
     print(image_na)
-    # x, y, z, wait = motion_control_scriptG.read_coordinates()
+    # x, y, z, wait = motion_control_scriptG.read_postion()
     coord = load_position(image_na)
     x_coord = coord[0]
     y_coord = coord[1]
@@ -701,7 +684,7 @@ def read_coordinates(data):
 
 # read old coordinates, independent of the image
 def read(data):
-    coord = motion_control_scriptG.read_coordinates()
+    coord = motion_control_scriptG.read_position()
     x_coord = coord[0]
     y_coord = coord[1]
     z_coord = coord[2]
@@ -843,18 +826,15 @@ def reload_images_tracking():
     output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
     output_lab.place(x=600, y=460, width=170, height=150)
 
+
 # load position for ...
 def load_position(name):
-    # file_name = 'Positionen/'+name+'.txt'
-    # print(file_name)
-    x_coord, y_coord, z_coord = motion_control_scriptG.read_old_coordinates(name)
+    x_coord, y_coord, z_coord = motion_control_scriptG.read_old_position(name)
 
-    # motion_control_scriptG.save_coordinates_without_wait(x, y, z)        Bildposition auf aktuelle Koordinaten setzen
     print(x_coord, y_coord, z_coord)
     return x_coord, y_coord, z_coord
 
-    # motion_control_scriptG.printScript1(x, y, z, 3)
-    # motion_control_scriptG.save_coordinates(x, y, z, 3)
+    # motion_control_scriptG.save_coordinates(x, y, z)
 
 
 # place warning-label

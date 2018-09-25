@@ -16,73 +16,10 @@ cid = None
 fig = None
 
 
-# # load image
-# def load_image(title):
-#     img = Image.open(title)
-#     return img
-#
-#
-# # ???
-# def image_size(image):
-#     width, height = image.size
-#     return width, height
-#
-#
-# def edges(image):
-#     # img = image.filter(ImageFilter.EDGE_ENHANCE)
-#     img = image.filter(ImageFilter.FIND_EDGES)
-#     # img.show(title=edges,command=edges)
-#     global fig
-#     fig = plt.imshow(img)
-#     plt.show(fig)
-#     return img
-#
-#
-# def contour(image):
-#     img = image.filter(ImageFilter.CONTOUR)
-#     # img.show(title='contour',command='contour')
-#     plt.imshow(img)
-#     plt.show()
-#     return img
-#
-#
-# def pixel_color_search(image, color):
-#     index = 0
-#     x, y = image.size
-#     for px in range(0, x):
-#         for py in range(0, y):
-#             rgb = image.getpixel((px, py))
-#             # r, g, b = image.convert('RGB').getpixel((x, y))
-#             if rgb == color:
-#                 w, h = (index+1), (index+1);
-#                 pixel = [[0 for x in range(w)] for y in range(h)]
-#                 pixel[index][index] = (px, py)
-#                 print(pixel)
-#
-#
-# def focus(image):
-#     width, height = image.size
-#     x = distance_calculator.center(width, height)
-#     return x
-#
-#
-# # convert image to jpg
-# def save_to_jpg(name):
-#     im = Image.open('../Matlab/Bilder/'+name+'.png')
-#     im.save('../Matlab/Bilder/'+name+'.jpg')
-#
-#
-# # resize the image to 128,128
-# def new_size(name):
-#     size = 128, 128
-#     im = Image.open('../Matlab/Bilder/'+name+'.png')
-#     im.thumbnail(size, Image.BICUBIC)
-#     im.save('../Matlab/Bilder/'+name+'.', "JPEG")
-
-
 # list the latest images (only png), the number depend on maxi
 def list_images(maxi):
     file_list = os.listdir('../Matlab/Bilder')
+    # file_list = os.listdir('../Matlab/Bilder')
     file_list.sort(reverse=True)
     update_list_len()
     index = 1
@@ -111,9 +48,11 @@ def latest_image():
 
 def delete_old_images():
     file_list = os.listdir('../Matlab/Bilder')
+    # file_list = os.listdir('../Matlab/Bilder')
     file_list.sort(reverse=True)
     for i in range(15, len(file_list),1):
         file_name = '../Matlab/Bilder/'+file_list[i]
+        # file_name = '../Matlab/Bilder/'+file_list[i]
         os.remove(str(file_name))
     update_list_len()
 
@@ -121,6 +60,7 @@ def delete_old_images():
 def update_list_len():
     global list_len
     file_list = os.listdir('../Matlab/Bilder')
+    # file_list = os.listdir('../Matlab/Bilder')
     list_len = len(file_list)
 
 
@@ -131,8 +71,10 @@ def update_images(thread):
     while True:
         global list_len
         if int(list_len) == len(os.listdir('../Matlab/Bilder')):
+        # if int(list_len) == len(os.listdir('../Matlab/Bilder')):
             print("...")
         elif int(list_len) < len(os.listdir('../Matlab/Bilder')):
+        # elif int(list_len) < len(os.listdir('../Matlab/Bilder')):
             print("neues Bild wurde erstellt")
             # gui.comment('Bild')
             # thread.exit()

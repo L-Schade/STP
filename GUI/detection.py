@@ -389,14 +389,9 @@ def draw_color(img, wz, segments):
                 for x in range(segment.x_start, segment.x_end, 1):
                     # new_img[segment.y, x] = [072, 118, 255]
                     new_img[segment.y, x] = color
-            # else:                                                 # alle segmente einer Farbe umfaerben/ anzeigen
-            #     parent = segment.get_root()
-            #     color = new_img[parent.y, parent.x_start]
-            #     for x in range(segment.x_start, segment.x_end, 1):
-            #         new_img[segment.y, x] = color
 
         new_img = cv2.resize(new_img, (500, 250))
-        cv2.imwrite("../Matlab/wz_detection.png", new_img)
+        cv2.imwrite("wz_detection.png", new_img)
         # plt.imshow(new_img)
         # plt.show()
 
