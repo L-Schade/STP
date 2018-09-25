@@ -5,7 +5,7 @@ import os
 from subprocess import Popen, PIPE
 
 
-sudo_password = ''
+sudo_password = 'dP5678901'
 command = 'pigpiod'.split()
 
 p = Popen(['sudo', '-S'] + command, stdin=PIPE, stderr=PIPE,
@@ -19,9 +19,9 @@ pwm.set_frequency(50000)
 print(pwm.frequency)
 print(pwm.get_cycle_length())
 
-pwm.set_pulse_start_and_length_in_fraction(4,0,2)
-pwm.set_pulse_start_and_length_in_fraction(23,0.33,2)
-pwm.set_pulse_start_and_length_in_fraction(24,0.66,2)
+pwm.set_pulse_start_and_length_in_fraction(4,0,1.5)
+pwm.set_pulse_start_and_length_in_fraction(23,1/3,1.5)
+pwm.set_pulse_start_and_length_in_fraction(24,2/3,1.5)
 
 ##pwm.set_pulse_start_and_length_in_micros(4,0,5000)
 ##pwm.set_pulse_start_and_length_in_micros(23,50,5)
