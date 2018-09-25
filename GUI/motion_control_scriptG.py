@@ -1,4 +1,6 @@
 import datetime
+# import motor_controlG
+
 x = None
 y = None
 z = None
@@ -87,12 +89,13 @@ def coordinate(x, y, z, wait):
 
 
 # TODO
-# Abfrage ob Motoren gesperrt sind wird schon in der Gui-Klasse abgefragt
+# Motoren ansteuern
+# Berechnen wie viel Pixel ein step sind und anpassen!
 def up():
     x, y, z = read_coordinates()
-    x = int(x)+1
-    # printScript()
+    x += 1
     save_coordinates(x, y, z)
+
 
 
 def left():
@@ -137,6 +140,9 @@ def opposite(image_name):
     new_position = -1 * int(x)
     print(new_position)
     # print("illegal type")
+
+    # TODO
+    # Motoren ansteuern
 
 
 # def printScript():

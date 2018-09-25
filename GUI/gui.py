@@ -2,15 +2,17 @@
 
 from Tkinter import *   # python 2.7
 # from  tkinter import *  # 3.5
-import tkMessageBox
 from PIL import Image, ImageTk
+import tkMessageBox
+import cv2
 import time
 import motion_control_scriptG
 import distance_calculator
-# import functionsG
+import functionsG
 import imagesG
 import detection
-import cv2
+# import motor_controlG
+
 
 
 fields = 'x-coordinate', 'y-coordinate', 'z-coordinate', 'time to wait'
@@ -659,6 +661,8 @@ def comment(data):
         comment_label['fg'] = 'black'
         # TODO
         # 2. String wird verschluckt, Messagebox zu klein?
+    elif data == 'Bild':
+        data = 'neues Bild wurde übertragen'
     # else:
     #     comment_label['fg'] = 'white
     comment_label.config(text=str(data),anchor=NW ,font=('times', 14, 'italic'))
@@ -833,6 +837,7 @@ def get_latest_images():
 
 # load the latest images, the number depend on maxi
 def list_images(maxi):
+    # img_names = imagesG.list_images(9)
     img_names = imagesG.list_images(maxi)           # image_names
     print(img_names)
     for img in img_names:                         # image
@@ -942,6 +947,7 @@ def bu1_onclick():
         bu1_blocked = True
         print(bu1_blocked)
         comment('Motoren Positionen werden gehalten')
+        hold()
     elif bu1_blocked:
         bu1['bg'] = '#BDBDBD'
         bu1['fg'] = 'black'
@@ -953,6 +959,15 @@ def bu1_onclick():
 
 # TODO
 # Funktion zum Position halten einbauen
+def hold():
+    # TODO
+    # Schaltung bestromen
+    print("")
+
+
+def release():
+    # motor_controlG.reference_point()
+    print("")
 
 
 # blocked motor

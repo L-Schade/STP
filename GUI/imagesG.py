@@ -1,8 +1,9 @@
 import os
 import thread
 import time
+# import gui        # GUI kennt dann nicht mehr die Module
 from PIL import Image
-from PIL import ImageFilter
+from PIL import  ImageFilter
 # from PIL import *
 # import numpy as np
 from matplotlib import pyplot as plt
@@ -10,11 +11,11 @@ import distance_calculator
 
 list_len = 0
 
-# pointC = None
-# cid = None
-# fig = None
+pointC = None
+cid = None
+fig = None
 
-#
+
 # # load image
 # def load_image(title):
 #     img = Image.open(title)
@@ -111,11 +112,11 @@ def latest_image():
 def delete_old_images():
     file_list = os.listdir('../Matlab/Bilder')
     file_list.sort(reverse=True)
-    for i in range(9, len(file_list),1):
+    for i in range(15, len(file_list),1):
         file_name = '../Matlab/Bilder/'+file_list[i]
         os.remove(str(file_name))
-
     update_list_len()
+
 
 def update_list_len():
     global list_len
@@ -133,7 +134,8 @@ def update_images(thread):
             print("...")
         elif int(list_len) < len(os.listdir('../Matlab/Bilder')):
             print("neues Bild wurde erstellt")
-            thread.exit()
+            # gui.comment('Bild')
+            # thread.exit()
             break
         time.sleep(5)
 

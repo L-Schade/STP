@@ -1,193 +1,142 @@
 import RPi.GPIO as GPIO
 import time
 
-global ind
- 
+# global ind
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-coil_A_pin = 4 # gelb
-coil_B_pin = 23 # gruen
-coil_C_pin = 24 # blau
- 
+
+coil_1A_pin = 4  # gelb
+coil_1B_pin = 23  # gruen
+coil_1C_pin = 24  # blau
+# coil_2A_pin = 4  # gelb
+# coil_2B_pin = 23  # gruen
+# coil_2C_pin = 24  # blau
+# coil_3A_pin = 4  # gelb
+# coil_3B_pin = 23  # gruen
+# coil_3C_pin = 24  # blau
+
 # Sequenz
-ind = 0
+ind_a = 0
+ind_b = 0
+ind_c = 0
 # half-steps
 Seq = list(range(0, 6))
-Seq[0] = [1,0,0]
-Seq[1] = [1,1,0]
-Seq[2] = [0,1,0]
-Seq[3] = [0,1,1]
-Seq[4] = [0,0,1]
-Seq[5] = [1,0,1]
-##Seq[0] = [1,1,0]
-##Seq[1] = [1,0,0]
-##Seq[2] = [1,0,1]
-##Seq[3] = [0,0,1]
-##Seq[4] = [0,1,1]
-##Seq[5] = [0,1,0]
+Seq[0] = [1, 0, 0]
+Seq[1] = [1, 1, 0]
+Seq[2] = [0, 1, 0]
+Seq[3] = [0, 1, 1]
+Seq[4] = [0, 0, 1]
+Seq[5] = [1, 0, 1]
+# Seq[0] = [1,1,0]
+# Seq[1] = [1,0,0]
+# Seq[2] = [1,0,1]
+# Seq[3] = [0,0,1]
+# Seq[4] = [0,1,1]
+# Seq[5] = [0,1,0]
 
 # full-steps
-##Seq = list(range(0, 3))
-##Seq[0] = [1,0,0]
-##Seq[1] = [0,1,0]
-##Seq[2] = [0,0,1]
+# Seq = list(range(0, 3))
+# Seq[0] = [1,0,0]
+# Seq[1] = [0,1,0]
+# Seq[2] = [0,0,1]
 
 
-#GPIO.setup(enable_pin, GPIO.OUT)
-##def setup():
-##GPIO.setmode(GPIO.BCM)
-GPIO.setup(coil_A_pin, GPIO.OUT)
-GPIO.setup(coil_B_pin, GPIO.OUT)
-GPIO.setup(coil_C_pin, GPIO.OUT)
- 
-#GPIO.output(enable_pin, 1)
- 
-def setStep(w1, w2, w3):
-    GPIO.output(coil_A_pin, w1)
-    GPIO.output(coil_B_pin, w2)
-    GPIO.output(coil_C_pin, w3)
+# GPIO.setup(enable_pin, GPIO.OUT)
+def setup():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(coil_1A_pin, GPIO.OUT)
+    GPIO.setup(coil_1B_pin, GPIO.OUT)
+    GPIO.setup(coil_1C_pin, GPIO.OUT)
 
- 
-def forward(delay, steps):
-    global ind
-    for i in range(0, steps, 1):
-        ind += 1
-        ind = ind % 6
-        print(ind)
-        
-        print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
-        setStep(Seq[ind][0], Seq[ind][1], Seq[ind][2])
-        time.sleep(delay)
+    # GPIO.setup(coil_2A_pin, GPIO.OUT)
+    # GPIO.setup(coil_2B_pin, GPIO.OUT)
+    # GPIO.setup(coil_2C_pin, GPIO.OUT)
+    #
+    # GPIO.setup(coil_3A_pin, GPIO.OUT)
+    # GPIO.setup(coil_3B_pin, GPIO.OUT)
+    # GPIO.setup(coil_3C_pin, GPIO.OUT)
+
+# GPIO.output(enable_pin, 1)
 
 
-def backwards(delay, steps):
-    global ind
-    for i in range(0, steps, 1):
-        ind -= 1
-        ind = ind % 6
-        print(ind)
-        
-        print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
-        setStep(Seq[ind][0], Seq[ind][1], Seq[ind][2])
-        time.sleep(delay)      
+def set_step(motor, w1, w2, w3):
+    if motor == 'a':
+        GPIO.output(coil_1A_pin, w1)
+        GPIO.output(coil_1B_pin, w2)
+        GPIO.output(coil_1C_pin, w3)
+    # elif motor == 'b':
+    #     GPIO.output(coil_2A_pin, w1)
+    #     GPIO.output(coil_2B_pin, w2)
+    #     GPIO.output(coil_2C_pin, w3)
+    # elif motor == 'c':
+    #     GPIO.output(coil_3A_pin, w1)
+    #     GPIO.output(coil_3B_pin, w2)
+    #     GPIO.output(coil_33C_pin, w3)
+    else:
+        print('')
 
 
 def reference_point():
     # TODO
-    # Warnung das nichts im Weg steht 
-    GPIO.cleanup() 				# move to reference point
+    # Warnung das nichts im Weg steht
+    GPIO.cleanup()  # move to reference point
 
 
-def move(x_angle, y_angle, delay):
-    if x_angle > 0:
-        forward((float(delay) / 1000.0), int(steps))
-    else:
-        backwards((float(delay) / 1000.0), int(steps))
-    if y_angle > 0:
-        forward((float(delay) / 1000.0), int(steps))
-    else:
-        backwards((float(delay) / 1000.0), int(steps))
+def forward(delay, steps, motor):
+    global ind_a, ind_b, ind_c
+    ind = 0
+    if motor == 'a':
+        ind = ind_a
+    elif motor == 'b':
+        ind = ind_b
+    elif motor == 'c':
+        ind = ind_c
+    for i in range(0, steps, 1):
+        ind += 1
+        ind %= 6
+        print(ind)
+
+        print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
+        set_step(motor, Seq[ind][0], Seq[ind][1], Seq[ind][2])
+        time.sleep(delay)
 
 
-def angle_to_steps(angle):
-    angle_per_step = 4
-    steps = float(angle) / float(angle_per_step)
+def backwards(delay, steps, motor):
+    global ind_a, ind_b, ind_c
+    ind = 0
+    if motor == 'a':
+        ind = ind_a
+    elif motor == 'b':
+        ind = ind_b
+    elif motor == 'c':
+        ind = ind_c
+    for i in range(0, steps, 1):
+        ind -= 1
+        ind %= 6
+        print(ind)
 
-    return steps
-    
-              
+        print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
+        set_step(motor, Seq[ind][0], Seq[ind][1], Seq[ind][2])
+        time.sleep(delay)
+
+
+def get_direction(delay, steps, motor):
+    if steps > 0:
+        forward((float(delay) / 1000.0), int(steps), motor)
+    elif steps < 0:
+        backwards((float(delay) / 1000.0), int(steps), motor)
+
+
 if __name__ == '__main__':
     try:
         delay = raw_input("Zeitverzoegerung (ms)?")
+        setup()
         while True:
-##            delay = raw_input("Zeitverzoegerung (ms)?") 
+            ##            delay = raw_input("Zeitverzoegerung (ms)?")
             steps = raw_input("Wie viele Schritte vorwaerts? ")
-            forward((int(delay)/ 1000.0), int(steps))
+            forward((int(delay) / 1000.0), int(steps))
             steps = raw_input("Wie viele Schritte rueckwaerts? ")
-            backwards((int(delay)/ 1000.0), int(steps))
+            backwards((int(delay) / 1000.0), int(steps))
     except KeyboardInterrupt:
         GPIO.cleanup()
-
-
-# import datetime
-# x = None
-# y = None
-# z = None
-# wait = None
-#
-#
-# def read_coordinates():
-#     file = open("coordinates.txt")
-#     index = 0
-#     for line in file:
-#         if (index == 0):
-#             x = line.rstrip()
-#         elif (index == 1):
-#             y = line.rstrip()
-#         elif(index == 2):
-#             z = line.rstrip()
-#         elif (index == 3):
-#             wait = line.rstrip()
-#         index += 1;
-#     return x, y, z, wait
-#
-#
-# def save_coordinates(x, y, z, wait):
-#     file = open("coordinates.txt", "w")
-#     file.write(str(x)+'\n')
-#     file.write(str(y)+'\n')
-#     file.write(str(z)+'\n')
-#     file.write(str(wait) + '\n')
-#     file.write(str(datetime.datetime.now()))
-#     file.close()
-#
-#
-# def automatic():
-#     print("class automatic")
-#
-#     save_coordinates(x, y, z, wait)
-#
-#
-# def coordinate(x, y, z, wait):
-#     print('test')
-#
-#
-# def up():
-#     x, y, z, wait = read_coordinates()
-#     x = int(x)+1
-#
-#     save_coordinates(x, y, z, wait)
-#
-#
-# def left():
-#     x, y, z, wait = read_coordinates()
-#     y = int(y) + 1
-#
-#     save_coordinates(x, y, z, wait)
-#
-#
-# def right():
-#     x, y, z, wait = read_coordinates()
-#     z = int(z)+1
-#
-#     save_coordinates(x, y, z, wait)
-#
-#
-# def down():
-#     x, y, z, wait = read_coordinates()
-#     x = int(x)+1
-#     y = int(y)+1
-#
-#     save_coordinates(x, y, z, wait)
-#
-#
-# def wait3():
-#     x, y, z, wait = read_coordinates()
-#     wait = 3
-#     save_coordinates(x, y, z, wait)
-#
-#
-# def wait5():
-#     x, y, z, wait = read_coordinates()
-#     wait = 5
-#     save_coordinates(x, y, z, wait)
