@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 import tkMessageBox
 import cv2
 import time
+# /home/doer-se-proj/Dokumente/GUI
 import motion_control_scriptG
 import distance_calculator
 import functionsG
@@ -535,6 +536,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
     request.destroy()
 
     img_name = "../Matlab/Bilder/" + image_na + ".png"
+    # img_name = "Bilder/" + image_na + ".png"
     x_dist, y_dist = detection.algorithm(img_name, color_rng, color, x_coord, y_coord)          # , new_img
     # x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color_rng, color, x_coord, y_coord)  # zum Testen
     print(x_dist, y_dist)
@@ -785,6 +787,7 @@ def update_coordinates():
 def load_image(name):
     # img = ImageTk.PhotoImage(Image.open(name))
     img = Image.open("../Matlab/Bilder/" + name)
+    # img = Image.open("Bilder/" + name)
     return img
 
 
@@ -792,6 +795,7 @@ def load_image(name):
 def load_images(name):          # buttons
     # img = ImageTk.PhotoImage(Image.open(name))
     img = Image.open("../Matlab/Bilder/"+name)
+    # img = Image.open("Bilder/"+name)
     img = resize_image(img, 175, 100)
     images.append(img)
     return img
@@ -799,7 +803,7 @@ def load_images(name):          # buttons
 
 # adapt image size
 def resize_image(img, h, w):
-    resize = img.resize((h, w), Image.ANTIALIAS)
+    resize = img.resize((h, w))		# , Image.ANTIALIAS
     img_re = ImageTk.PhotoImage(resize)        # image
     return img_re                               # image
 

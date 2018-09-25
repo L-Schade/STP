@@ -52,7 +52,7 @@ def forward(delay, steps):
     global ind
     for i in range(0, steps, 1):
         ind += 1
-        ind = ind % 6
+        ind %= 6
         print(ind)
         
         print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
@@ -64,7 +64,7 @@ def backwards(delay, steps):
     global ind
     for i in range(0, steps, 1):
         ind -= 1
-        ind = ind % 6
+        ind %= 6
         print(ind)
         
         print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
