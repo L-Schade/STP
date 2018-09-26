@@ -52,7 +52,7 @@ def click1(event):
         dist = distance_calculator.dist(center, point)
         text = "Abstand von {} zum Mittelpunkt:\n" \
                "x-Abstand: {} \n" \
-               "y-Abstand: {}".format(point, dist[0], dist[1])
+               "z-Abstand: {}".format(point, dist[0], dist[1])
 
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)    #
         output_lab.place(x=225, y=475, width=600)
@@ -541,7 +541,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         output_lab.place(x=600, y=460, width=170, height=150)
     elif x_dist is not None and y_dist is not None:
         print(x_dist, y_dist)
-        output('x-Abstand: {} \ny-Abstand: {}'.format(x_dist, y_dist))
+        output('x-Abstand: {} \nz-Abstand: {}'.format(x_dist, y_dist))
         output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
         output_lab.place(x=600, y=460, width=170, height=150)
 
@@ -724,7 +724,7 @@ def read(data):
                                                                   "Zeitverzögerung: " + delay + ""
     else:
         text = "" + data + "\n" \
-                           "xPosition Motor a: " + x_coord + "\n" \
+                           "Position Motor a: " + x_coord + "\n" \
                                                   "Position Motor b: " + y_coord + "\n" \
                                                                          "Position Motor c: " + z_coord + "\n" \
                                                                                                 "Zeitverzögerung: " + delay + ""
@@ -1072,7 +1072,7 @@ img_stop = Label(master=frameGui, image=photo)  # funktioniert nur mit master=fr
 # Button
 buttonMode = Button(master=toolbar_y, text='letzte Position', command=button_click)
 buttonMode.place(x=25, y=100, width=100, height=20)
-buttonMode11 = Button(master=toolbar_y, text='automatisch', command=button11_click)
+buttonMode11 = Button(master=toolbar_y, text='Zielfahrt', command=button11_click)
 buttonMode11.place(x=25, y=140, width=100, height=20)
 buttonMode12 = Button(master=toolbar_y, text='Tracking', command=button12_click)
 buttonMode12.place(x=25, y=180, width=100, height=20)
@@ -1118,12 +1118,12 @@ exit_button.place(x=910, y=20, width=80, height=20)
 refresh_button = Button(tk_fenster, text=" Bilder \n neu laden", command=lambda: get_latest_images(), bg='#BDBDBD')
 refresh_button.place(x=910, y=60, width=80, height=40)
 #
-bu1 = Button(tk_fenster, text="Motoren \n halten", command=lambda: bu1_onclick(), bg='#BDBDBD')
-bu1.place(x=905, y=500, width=90, height=40)
+# bu1 = Button(tk_fenster, text="Motoren \n halten", command=lambda: bu1_onclick(), bg='#BDBDBD')
+# bu1.place(x=905, y=500, width=90, height=40)
 bu1a = Button(tk_fenster, text="Referenz-\npunkt", command=lambda: release(), bg='#BDBDBD')
-bu1a.place(x=905, y=560, width=90, height=40)
+bu1a.place(x=905, y=500, width=90, height=40)
 bu2 = Button(tk_fenster, text="Motoren \n sperren", command=lambda: bu2_onclick(), bg='#BDBDBD')
-bu2.place(x=905, y=620, width=90, height=40)
+bu2.place(x=905, y=560, width=90, height=40)		# y=620
 
 # tracking-text box
 text_box_label1 = Label(tk_fenster, text='R:')
@@ -1147,7 +1147,7 @@ output_lab = Message(master=frameGui)       # vorgeschriebene Breite
 # output_lab = Label(master=frameGui)       # text laeuft aus dem Label hinaus
 
 # distance input
-txt_box_label = Message(tk_fenster, text='Abstand Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)
+txt_box_label = Message(tk_fenster, text='Abstand (Y) Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)
 txt_box = Entry(tk_fenster, bd=5, width=45)
 txt_box_bttn = Button(tk_fenster, text='ENTER', command=lambda: distance_input(float(txt_box.get())))
 txt_box_label.place(x=910, y=280, width=80, height=60)

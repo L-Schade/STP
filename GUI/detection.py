@@ -409,12 +409,12 @@ def movement(img_width, img_height, wz):
     distance = distance_calculator.dist(img_center, wz_center)
     print(distance)
     x_distance = distance[0]        # wz_center[0] - img_width
-    y_distance = distance[1]        # wz_center[1] - img_height
+    z_distance = distance[1]        # wz_center[1] - img_height
     # print(x_distance)
     # print(y_distance)
 
     # return wz_center
-    return x_distance, y_distance
+    return x_distance, z_distance
 
 
 def algorithm(img_name, color_rng, color, x_coord, y_coord):
