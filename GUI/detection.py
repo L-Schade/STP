@@ -453,6 +453,9 @@ def algorithm(img_name, color_rng, color, x_coord, z_coord):
         draw_color(img_name, wz, segments_list)
         # draw_color('schwarz_weiss.jpeg', wz, segments_list)
 
+        x_dist *= 2     # von 250x125 -> 500x250
+        z_dist *= 2
+
         return x_dist, z_dist   # , img
     else:
         return None, None   # , None
