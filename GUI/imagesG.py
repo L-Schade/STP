@@ -10,6 +10,7 @@ from matplotlib import pyplot as plt
 import distance_calculator
 
 list_len = 0
+started_thread = 0
 
 pointC = None
 cid = None
@@ -69,14 +70,16 @@ def update_list_len():
 
 def update_images(thread):
     while True:
-        global list_len
+        global list_len, thread_started
         if int(list_len) == len(os.listdir('../Matlab/Bilder')):
         # if int(list_len) == len(os.listdir('../Matlab/Bilder')):
             print("...")
         elif int(list_len) < len(os.listdir('../Matlab/Bilder')):
         # elif int(list_len) < len(os.listdir('../Matlab/Bilder')):
             print("neues Bild wurde erstellt")
+			# thread_started -= 1
             # gui.comment('Bild')
+			# update_list_len()
             # thread.exit()
             break
         time.sleep(5)
@@ -84,15 +87,19 @@ def update_images(thread):
 
 def create_thread():
     try:
+		# thread_started += 1
         thread.start_new_thread(update_images, (thread, ))
+		
     except:
         print "Error: unable to start thread"
-    while 1:
-        pass
+	while 1:
+		pass
+    # while 0 < thread_started:
+        # pass
 
+delete_old_images()
+create_thread()
 
-# create_thread()
-# delete_old_images()
 # list_img = list_images(4)
 # print(list_img)
 
