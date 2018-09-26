@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import thread
 import time
@@ -68,37 +70,36 @@ def update_list_len():
 # TODO
 # Thread richtig beenden
 
-def update_images(thread):
+def update_images():
+    global list_len, thread_started
     while True:
-        global list_len, thread_started
         if int(list_len) == len(os.listdir('../Matlab/Bilder')):
         # if int(list_len) == len(os.listdir('../Matlab/Bilder')):
             print("...")
         elif int(list_len) < len(os.listdir('../Matlab/Bilder')):
         # elif int(list_len) < len(os.listdir('../Matlab/Bilder')):
-            print("neues Bild wurde erstellt")
-			# thread_started -= 1
+            print("neues Bild wurde übertragen")
+            new_img = latest_image()
+            print(new_img)
             # gui.comment('Bild')
-			# update_list_len()
+            # update_list_len()
             # thread.exit()
-            break
+            # break
+            return new_img
         time.sleep(5)
 
 
 def create_thread():
     try:
-		# thread_started += 1
-        thread.start_new_thread(update_images, (thread, ))
-		
+        thread.start_new_thread(update_images(), (thread, ))
     except:
         print "Error: unable to start thread"
-	while 1:
+    while 1:
 		pass
-    # while 0 < thread_started:
-        # pass
 
-delete_old_images()
-create_thread()
+# delete_old_images()
+# update_images()
+# create_thread()
 
 # list_img = list_images(4)
 # print(list_img)

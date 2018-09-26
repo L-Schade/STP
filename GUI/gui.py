@@ -6,8 +6,10 @@ from PIL import Image, ImageTk
 import tkMessageBox
 import cv2
 import time
+import thread
+import os
 # /home/doer-se-proj/Dokumente/GUI
-import motion_control_scriptG
+import read_save_position
 import distance_calculator
 import functionsG
 import imagesG
@@ -45,7 +47,7 @@ def click1(event):
         point = [x, y]
         # text = "Punkt: ({},{})".format(x,y)
 
-        # motion_control_scriptG.automatic()
+        # functionsG.automatic()
 
         # distance = distance_calculator.distance(center, point)
         # text = "Abstand von {} zum Mittelpunkt: {}".format(point, distance)
@@ -57,7 +59,7 @@ def click1(event):
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)    #
         output_lab.place(x=225, y=475, width=600)
 
-        old_posi = motion_control_scriptG.read_old_position(image_na)
+        old_posi = read_save_position.read_old_position(image_na)
         a_posi = old_posi[0]
         b_posi = old_posi[1]
         c_posi = old_posi[2]
@@ -130,7 +132,7 @@ def button_click():
     output_lab.place(x=225, y=450, width=600, height=200)
 
     functionsG.set_current_position()
-    old_posi = motion_control_scriptG.read_old_position(image_na)
+    old_posi = read_save_position.read_old_position(image_na)
     a_posi = old_posi[0]
     b_posi = old_posi[1]
     c_posi = old_posi[2]
@@ -139,7 +141,7 @@ def button_click():
         functionsG.motor(a_posi, 1, 'a')
         functionsG.motor(a_posi, 1, 'b')
         functionsG.motor(a_posi, 1, 'c')
-        motion_control_scriptG.save_position(a_posi, b_posi, c_posi)
+        read_save_position.save_position(a_posi, b_posi, c_posi)
 
     else:
         print("Motoren sind gesperrt")
@@ -286,7 +288,7 @@ def button21_click():
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
-                    old_posi = motion_control_scriptG.read_old_position(image_na)
+                    old_posi = read_save_position.read_old_position(image_na)
                     a_posi = old_posi[0]
                     b_posi = old_posi[1]
                     c_posi = old_posi[2]
@@ -294,7 +296,7 @@ def button21_click():
                     # TODO
                     # Motoren ansteuern
                     # noch Funktion zum "Umrechnen" einbauen
-                    motion_control_scriptG.coordinate(x, y, delay)
+                    functionsG.coordinate(x, y, delay)
 
                     # read_coordinates('neue Koordinaten:')
                     read('')
@@ -329,7 +331,7 @@ def button21_click():
         root.title('Eingabe der Werte')
         ents = makeform(root, fields)
         root.bind('<Return>', (lambda event, e=ents: fetch(e)))
-        b1 = Button(root, text='Daten verschicken',command=(lambda e=ents: fetch(e))) # command=motion_control_scriptG.printScript()
+        b1 = Button(root, text='Daten verschicken',command=(lambda e=ents: fetch(e)))
         b1.pack(side=LEFT, padx=5, pady=5)
         b2 = Button(root, text='quit', command=root.destroy)
         b2.pack(side=LEFT, padx=5, pady=5)
@@ -377,7 +379,7 @@ def button22_click():
                     functionsG.motor(m_a, delay, 'a')
                     functionsG.motor(m_b, delay, 'b')
                     functionsG.motor(m_c, delay, 'c')
-                    motion_control_scriptG.save_position_delay(m_a, m_b, m_c, delay)
+                    read_save_position.save_position_delay(m_a, m_b, m_c, delay)
 
                     # read_coordinates('neue Koordinaten:')
                     read('new angle position:')
@@ -412,7 +414,7 @@ def button22_click():
         root_angle.title('Eingabe der Werte')
         ents = makeform(root_angle, fields)
         root_angle.bind('<Return>', (lambda event, e=ents: fetch(e)))
-        b1 = Button(root_angle, text='Daten verschicken',command=(lambda e=ents: fetch(e))) # command=motion_control_scriptG.printScript()
+        b1 = Button(root_angle, text='Daten verschicken',command=(lambda e=ents: fetch(e)))
         b1.pack(side=LEFT, padx=5, pady=5)
         b2 = Button(root_angle, text='quit', command=root_angle.destroy)
         b2.pack(side=LEFT, padx=5, pady=5)
@@ -428,7 +430,6 @@ def button3_click():
     labelImg.place_forget()
     label_img_coord1.place_forget()
     label_img_coord2.place_forget()
-    # motion_control_scriptG.coordinate()
 
     read_coordinates('alte Daten:')
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
@@ -556,7 +557,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         # labelImg1.Image = imageNavigate
         # labelImg1.bind("<Button-1>", click2)
 
-        old_posi = motion_control_scriptG.read_old_position(image_na)
+        old_posi = read_save_position.read_old_position(image_na)
         a_posi = old_posi[0]
         b_posi = old_posi[1]
         c_posi = old_posi[2]
@@ -570,7 +571,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
     # else:
     #     print("...")
     #
-    # old_posi = motion_control_scriptG.read_old_position(image_na)
+    # old_posi = read_save_position.read_old_position(image_na)
     # a_posi = old_posi[0]
     # b_posi = old_posi[1]
     # c_posi = old_posi[2]
@@ -679,7 +680,7 @@ def comment(data):
 def read_coordinates(data):
     global image_na
     print(image_na)
-    # x, y, z, wait = motion_control_scriptG.read_postion()
+    # a, b, c, wait = read_save_position.read_postion()
     coord = load_position(image_na)
     x_coord = coord[0]
     y_coord = coord[1]
@@ -705,7 +706,7 @@ def read_coordinates(data):
 
 # read old coordinates, independent of the image
 def read(data):
-    posi = motion_control_scriptG.read_position_delay()
+    posi = read_save_position.read_position_delay()
     x_coord = str(posi[0])
     y_coord = str(posi[1])
     z_coord = str(posi[2])
@@ -846,12 +847,12 @@ def reload_images_tracking():
 
 # load position for ...
 def load_position(name):
-    x_coord, y_coord, z_coord = motion_control_scriptG.read_old_position(name)
+    a, b, c = read_save_position.read_old_position(name)
 
-    print(x_coord, y_coord, z_coord)
-    return x_coord, y_coord, z_coord
+    print(a, b, c)
+    return a, b, c
 
-    # motion_control_scriptG.save_coordinates(x, y, z)
+    # read_save_position.save_coordinates(a, b, c)
 
 
 # place warning-label
@@ -872,9 +873,6 @@ def warning():
                                       "& Sie in die gewuenschte Richting verfahren koennen?", bg="red", fg="white")
         txt.pack(fill=X, pady=5)
         b1 = Button(root_angle, text='auf die andere Seite fahren', command=lambda: opposite(root_angle, img))
-        # command=motion_control_scriptG.printScript()
-        # b1 = Button(tkMessageBox, text='auf die andere Seite fahren', command=motion_control_scriptG.opposite())
-        # b1.place(x=10, y=30, width=20, heigth=20)
         b1.pack(fill=X, pady=5)
         # b2 = Button(root_angle, text='Abbrechen', command=root_angle.destroy)
         b2 = Button(root_angle, text='Abbrechen', command=lambda: close_warning(root_angle, img))
@@ -886,7 +884,7 @@ def warning():
 #
 def opposite(root_angle, img):
     if not bu2_blocked:
-        motion_control_scriptG.opposite(image_na + '.txt')
+        functionsG.opposite(image_na + '.txt')
         root_angle.destroy()
         img.place_forget()
     else:
@@ -921,23 +919,23 @@ def distance_input(distance):
 
 
 # hold position
-def bu1_onclick():
-    global bu1_blocked
-    if not bu1_blocked:
-        bu1['bg'] = '#FE9A2E'
-        bu1['fg'] = 'white'
-        bu1['text'] = 'Positionen \nwerden gehalten'
-        bu1_blocked = True
-        print(bu1_blocked)
-        comment('Motoren-Posi\ntionen werden gehalten')
-        hold()
-    elif bu1_blocked:
-        bu1['bg'] = '#BDBDBD'
-        bu1['fg'] = 'black'
-        bu1['text'] = 'Motoren \nPosition halten'
-        bu1_blocked = False
-        print(bu1_blocked)
-        comment('Motoren sind wieder frei/ halten nicht mehr')
+# def bu1_onclick():
+#     global bu1_blocked
+#     if not bu1_blocked:
+#         bu1['bg'] = '#FE9A2E'
+#         bu1['fg'] = 'white'
+#         bu1['text'] = 'Positionen \nwerden gehalten'
+#         bu1_blocked = True
+#         print(bu1_blocked)
+#         comment('Motoren-Posi\ntionen werden gehalten')
+#         hold()
+#     elif bu1_blocked:
+#         bu1['bg'] = '#BDBDBD'
+#         bu1['fg'] = 'black'
+#         bu1['text'] = 'Motoren \nPosition halten'
+#         bu1_blocked = False
+#         print(bu1_blocked)
+#         comment('Motoren sind wieder frei/ halten nicht mehr')
 
 
 # TODO
@@ -984,17 +982,17 @@ def get_blocked(ind):
     global bu2_blocked
     if not bu2_blocked:     # == False
         if ind == 0:
-            motion_control_scriptG.up()
+            functionsG.up()
         elif ind == 1:
-            motion_control_scriptG.left()
+            functionsG.left()
         elif ind == 2:
-            motion_control_scriptG.right()
+            functionsG.right()
         elif ind == 3:
-            motion_control_scriptG.down()
+            functionsG.down()
         elif ind == 4:
-            motion_control_scriptG.delay(1)
+            functionsG.delay(1)
         elif ind == 5:
-            motion_control_scriptG.delay(2)
+            functionsG.delay(2)
         read('neue Koordinaten:')
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     else:
@@ -1084,18 +1082,15 @@ buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
 buttonMode3.place(x=25, y=260, width=100, height=20)
 buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
 buttonMode4.place(x=25, y=300, width=100, height=20)
-# button1 = Button(master=frameGui, text='oben', command=lambda: motion_control_scriptG.up(bu2_blocked))
+
 button1 = Button(master=frameGui, text='oben', command=lambda: get_blocked(0))
-# button2 = Button(master=frameGui, text='links', command=lambda: motion_control_scriptG.left(bu2_blocked))
 button2 = Button(master=frameGui, text='links', command=lambda: get_blocked(1))
-# button3 = Button(master=frameGui, text='rechts', command=lambda: motion_control_scriptG.right(bu2_blocked))
 button3 = Button(master=frameGui, text='rechts', command=lambda: get_blocked(2))
-# button4 = Button(master=frameGui, text='unten', command=lambda: motion_control_scriptG.down(bu2_blocked))
 button4 = Button(master=frameGui, text='unten', command=lambda: get_blocked(3))
-button5 = Button(master=frameGui, text='1sec', command=lambda: get_blocked(4))
-button6 = Button(master=frameGui, text='2sec', command=lambda: get_blocked(5))
+button5 = Button(master=frameGui, text='1 ms', command=lambda: get_blocked(4))
+button6 = Button(master=frameGui, text='2 ms', command=lambda: get_blocked(5))
 button7 = Button(master=frameGui, text='zur anderen Seite fahren', command=warning)
-# vlt die Anzahl noch variierbar machen?
+
 buttonImg1 = Button(master=frameGui, image=images[0], command=lambda: button_click_image(0))
 buttonImg2 = Button(master=frameGui, image=images[1], command=lambda: button_click_image(1))
 buttonImg3 = Button(master=frameGui, image=images[2], command=lambda: button_click_image(2))
@@ -1156,3 +1151,4 @@ txt_box_bttn.place(x=910, y=400, width=80)
 
 # activation the window
 tk_fenster.mainloop()
+

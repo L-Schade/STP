@@ -1,19 +1,25 @@
+# -*- coding: utf-8 -*-
+
 import math
 # import motor_controlG
-import motion_control_scriptG
+import read_save_position
 
 
 distance = None
-
+a = None
+b = None
+c = None
 
 def pixel_distance(pixel):
-    distance = pixel * 0.0011465
+    dstnc = pixel * 0.0011465
 
-    return distance
+    return dstnc
 
 
 def angle_to_steps(angle):
-    angle_per_step = 4
+    angle_per_step = 6
+    if angle < 6:
+        return 1
     steps = float(angle) / float(angle_per_step)
 
     return steps
@@ -33,32 +39,40 @@ def set_distance(dstnc):
 
 
 def set_current_position():
-    a, b, c = motion_control_scriptG.read_position()
+    a, b, c = read_save_position.read_position()
     print("test")
     print(a, b, c)
 
 
 def motor(steps, delay, motor):
     print("")
-    # motor_controlG.get_direction(delay, a_steps, a):
+    # motor_controlG.get_direction(delay, steps, a):
+    if motor == 'a':
+        correction_b(steps)
+        correction_c(steps)
+    elif motor == 'b':
+        correction_c(steps)
 
 
-def motor_a(x_pixel, distance, delay):
+def motor_a(x_pixel, delay):        # distance,
+    global distance
     x_distance = pixel_distance(x_pixel)
     alpha = math.atan2(x_distance/distance)
     a_steps = angle_to_steps(alpha)
     # motor_controlG.get_direction(delay, a_steps, a):
 
 
-def motor_b(actual_distance, delay):
+def motor_b(delay):
+    global distance
     target_distance = int(8)
-    correction = actual_distance - target_distance
+    correction = target_distance - distance
     # beta =
     # b_steps = angle_to_steps(beta)
     # motor_controlG.get_direction(delay, b_steps, b):
 
 
-def motor_c(y_pixel, distance, delay):
+def motor_c(y_pixel, delay):       # distance,
+    global distance
     y_distance = pixel_distance(y_pixel)
     gamma = math.atan2(y_distance / distance)
     c_steps = angle_to_steps(gamma)
@@ -72,4 +86,67 @@ def correction_b(steps):
 
 def correction_c(steps):
     steps_c = steps * (-1)  # TODO
+
+
+
+def automatic():
+    print("class automatic")
+    # TODO
+    # printScript()
+
+    read_save_position.save_position(a, b, c)
+
+
+def coordinate(x, y, wait):
+    print('test')
+    # neue Koordinatwen berechnen und speichern
+    read_save_position.save_position(a, b, c)
+
+
+# TODO
+# Motoren ansteuern
+# Berechnen wie viel Pixel ein step sind und anpassen!
+def up():
+    a, b, c = read_save_position.read_position()
+    c-= 1
+    read_save_position.save_position(a, b, c)
+
+
+def left():
+    a, b, c = read_save_position.read_position()
+    c -= 1
+    read_save_position.save_position(a, b, c)
+
+
+def right():
+    a, b, c = read_save_position.read_position()
+    a += 1
+    read_save_position.save_position(a, b, c)
+
+
+def down():
+    a, b, c = read_save_position.read_position()
+    c -= 1
+    read_save_position.save_position(a, b, c)
+
+
+def delay(time):
+    a, b, c = read_save_position.read_position()
+    delay = float(time)
+    read_save_position.save_position_delay(a, b, c, delay)
+
+
+
+
+def opposite(image_name):
+    print(image_name)
+    print("Positionen/"+image_name)
+    a, b, c = read_save_position.read_position()
+    new_position = -1 * int(a)
+    print(new_position)
+    # print("illegal type")
+
+    # TODO
+    # Motoren ansteuern
+
 
