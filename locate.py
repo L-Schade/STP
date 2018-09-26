@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 # import keyboard
 # import motion_control_script
@@ -31,7 +33,7 @@ def save_coordinates(x, y, z, name):
     file.close()
 
 # list of all images
-fileList = os.listdir('Matlab/Bilder')
+fileList = os.listdir('../Matlab/Bilder')
 items = len(fileList)
 # print(items)
 
@@ -43,7 +45,7 @@ key = input()
 
 try:
     while(True):
-        fileList = os.listdir('Matlab/Bilder')
+        fileList = os.listdir('../Matlab/Bilder')
         length = len(fileList)
 
         if(length > items):
