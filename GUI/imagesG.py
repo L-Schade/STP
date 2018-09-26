@@ -68,8 +68,6 @@ def update_list_len():
 
 
 # TODO
-# Thread richtig beenden
-
 def update_images():
     global list_len, thread_started
     while True:
@@ -96,6 +94,7 @@ def create_thread():
         print "Error: unable to start thread"
     while 1:
 		pass
+
 
 # delete_old_images()
 # update_images()

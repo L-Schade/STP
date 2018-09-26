@@ -340,8 +340,8 @@ def button21_click():
 
 def button22_click():
     hide_coordinate_buttons()
-    output('Geben Sie die gewuenschte Winkel Position der einzelnen Motoren ein, '
-           'der Wert darf zwischen 0 - 180 Grad liegen')
+    output('Geben Sie die gewünschte Position der einzelnen Motoren ein, '
+           'der Wert entspricht einzelnen Steps und darf zwischen -30 & 30 liegen')
     output_label_coord()
 
     ind = Image.open("angle.jpeg")
@@ -611,7 +611,7 @@ def information_window(color, x_coord, y_coord):
 # output for the side coordinates
 def output_label_coord():
     # output_lab = Message(master=frameGui)
-    output_lab.config(text=str(text), bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'), aspect=300)
+    output_lab.config(text=str(text), bg='#E0ECF8', anchor=N, font=('times', 20, 'italic'), aspect=250)
     output_lab.place(x=300, y=120, width=450)       # y=100,   , height=200
 
 

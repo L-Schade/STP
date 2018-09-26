@@ -104,18 +104,21 @@ def coordinate(x, y, wait):
 
 
 # TODO
-# Motoren ansteuern
-# Berechnen wie viel Pixel ein step sind und anpassen!
+# delay mit übergeben
 def up():
     a, b, c = read_save_position.read_position()
-    c-= 1
+    c += 1
     read_save_position.save_position(a, b, c)
+
+    motor(1, 1, 'c')
 
 
 def left():
     a, b, c = read_save_position.read_position()
-    c -= 1
+    a -= 1
     read_save_position.save_position(a, b, c)
+
+    motor(-1, 1, 'a')
 
 
 def right():
@@ -123,19 +126,21 @@ def right():
     a += 1
     read_save_position.save_position(a, b, c)
 
+    motor(1, 1, 'c')
+
 
 def down():
     a, b, c = read_save_position.read_position()
     c -= 1
     read_save_position.save_position(a, b, c)
 
+    motor(-1, 1, 'c')
+
 
 def delay(time):
     a, b, c = read_save_position.read_position()
     delay = float(time)
     read_save_position.save_position_delay(a, b, c, delay)
-
-
 
 
 def opposite(image_name):

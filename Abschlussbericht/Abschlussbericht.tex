@@ -174,23 +174,39 @@ TO DO (finale Version)
 \item Adapter für weiteren Netzwerkanschluss an Laptop anschließen und Laptop über diesen Adapter mit Raspberry Pi via Crossover-Kabel verbinden
 \item Bildschirm, Tastatur und Maus an Raspberry Pi anschließen und diesen mit Strom versorgen
 \item Es ist zu beachten, dass Laptop und Raspberry Pi verbunden sind bevor der Raspberry Pi hochfährt
-\item Bild aufnehmen
+\item Bild aufnehmen\\
+Das Lifebild von der Kamera wird mithilfe von MatLab angezeigt. Damit man sich die Echtzeitübertragung der Kamera angucken kann, muss nur das Skript \glqq save\_image.m\grqq{} ausgeführt werden. Nun hat der Nutzer die Möglichkeit das aktuelle Bild zu speichern, indem er einen Impuls an das Programm sendet, dadurch, dass er  die Taste \glqq s\grqq{} drückt. Somit wird das Bild, in dem Ordner auf den auch der Rasperry Pi zugreifen kann, gespeichert und als Dateiname wird der dazugehörige Zeitstempel verwendet. Anschließend läuft das Programm weiter, damit noch weitere Aufnahmen gemacht werden können. Des Weiteren ist es auch möglich, das Programm mittels einer Tastatureingabe (\glqq q\grqq{}) zu beenden.
 \item GUI 
 \begin{itemize}
-\item letzte Position
-\item Automation
-\item Tracking
-\item Koordination
-\item Navigation
-\item Bilder
-\item Bilder neu laden
-\item Abstandseingabe
-\item Motoren halten
-\item Motoren sperren
-\item Informationsfenster
-\item locate.py
+\item letzte Position\\
+Die Funktion \glqq letzte Position\grqq{} ermöglicht ein schnelles Positionieren der Motoren. Die Motoren nehmen die Position ein, die sie bei der letzten Kameraaufnahme hatten.
+\item Zielfahrt\\
+Mit der \glqq Zielfahrt\grqq{} wurde die Möglichkeit gegeben, die neue Kameraposition in Bezug auf  das aktuelle Bild neu zu bestimmen. Der Nutzer muss nur einfach in das Bild an die Stelle klicken, die als nächstes im Mittelpunkt des Bildes zu sehen sein soll. Nach dem dies geschehen ist, werden die neuen Motorpositionen berechnet und die Motoren werden neu positioniert.
+\item Tracking\\
+Um den Werkzeugmittelpunkt auch in der Mitte des Bildes zu haben, kann die Methode Tracking verwendet werden. Die Methode braucht nur eine Pixelfarbe, anhand dieser wird dann das Werkzeug erkannt und in dem Bildausschnitt definiert. Die Pixelfarbe kann aber auch in einem Wertebereich liegen, dann muss der Nutzer nur noch diesen Wertebereich festlegen oder sagen, dass die Methode nur genau nach dieser Farbe suchen soll. Anschließend wird dann das Werkzeug mittels dem zuvor beschriebenen Algorithmus aus dem Bildausschnitt heraus gefiltert und dessen Mittelpunkt bestimmt. Dabei entspricht der ermittelte Werkzeugmittelpunkt nicht dem echten Mittelpunkt, sondern bezieht sich nur auf den Werkzeugausschnitt, der in dem Bild zu sehen ist.  Nun  wird noch der Werkzeugmitte als neuer Mittelpunkt des Bildes gesetzt und die Motoren verfahren dementsprechend.
+\item Koordination\\
+Der Reiter Koordination beinhaltet zwei ähnliche Funktionen. Bei der einen kann der Anwender die x- und z-Koordinate von dem aktuellen Bild angeben, an die die Kamera fahren soll. Mit der anderen kann man die Motorposition explizit angeben, dabei ist zu beachten, dass der eingegebene Wert Motorschritten entspricht und nicht einem Winkel.
+Bei beiden Funktionen ist es noch möglich die Zeitverzögerung der Schritte einzustellen.
+\item Navigation\\
+Navigation ist ein einfaches Tool, um die Motoren steuern zu können. Mit den Buttons kann man ganz einfach die Motoren nach oben (-y), unten (+y),  links (-x) und rechts (+x) fahren lassenausgehend von der aktuellen Position der Motoren. Dabei steht einmal Drücken (Button anklicken) für einen Schritt in die jeweilige Richtung der entsprechenden Motoren.
+Es werden dem User noch zwei zusätzliche Funktionen geboten, zum einen kann er entscheiden, wie schnell die Schritte ausgeführt werden sollen. Dafür stehen ihm zwei verschiedene Auswahlmöglichkeiten zur Verfügung. Des Weiteren kann er den Motoren das Signal geben, dass diese genau auf die andere Seite fahren sollen. Jedoch bevor die Motoren ihre neue Position einnehmen, wird noch einmal zur Absicherung abgefragt, ob die Motoren dort hinfahren können, nicht dass sich ein anderes Objekt in der Fahrbahn befindet. Die zuletzt genannte Funktion wurde eingebaut, falls ein Gegenstand, zum Beispiel das Werkzeug selbst, den Blick auf den Abstand zwischen Werkzeug und zu bearbeitender Oberfläche versperrt.
+\item Bilder\\ 
+Über den Button Bilder kommt man zu einer Seite, auf der verschiedene Bilder, die vorher mit der Kamera aufgenommen wurden, angezeigt werden. Es werden die neun zuletzt aufgenommen Bilder dargestellt, damit auch ältere Bilder wieder verwendet werden können, sowie die dazugehörige Kameraeinstellung. Um eines dieser Bilder auszuwählen, muss dieses einfach nur angeklickt werden. Mittels des Anklickens werden die Bilder der Funktionen letzte Position, Automation, Tracking, Koordination und  Navigation an das neu ausgewählte Bild angepasst sowie die dazu gehörigen Motoreneinstellungen geladen.
+\item Bilder neu laden\\
+Um zwischendurch die Bilder aktualisieren zu können, kann der User in der Linkensidebar den Button \glqq Bilder neu laden\grqq{} anklicken. Somit wird eine Funktion ausgelöst, die sich aus dem \glqq shared-Ordner\grqq{} alle Dateien holt und die neun neusten Bilder herausfiltertet. Anschließend werden die neuen Bilder in die GUI geladen und unter dem Reiter Bilder angezeigt
+\item Abstandseingabe\\ 
+Weil es nicht möglich ist, die Kamera immer genau an der selben Position  im Maschinenraum zu befestigen genau, und dies noch auf einen Millimeter genau, kann der genaue Abstand zwischen Motor a und dem Werkstück per Hand an die graphische Oberfläche übergeben werden. Somit können alle folgenden Berechnungen auf genau diesen Aufbau bezogen werden. Des Weiteren ermöglicht diese Funktion auch, dass die Kamera an verschiedenen Positionen im Maschinenraum montiert werden kann, also nicht nur hinter dem Werkzeug auf dem Rundtisch, sonder auch oberhalb der Werkstückaufnahme.
+\item Referenzpunkt\\
+Mithilfe dieser Methode wird die Position des Gestelles genullt, also an den Startpunkt gefahren. Von diesem Punkt aus werden auch die jeweiligen Motorpositionen berechnet.
+\item Motoren sperren\\
+Die Funktion Motoren sperren wurde in die GUI eingebaut, damit man nicht permanent die Motoren frei bewegen kann, oder um eine gewisse Position über einen längeren Zeitraum eingestellt zu lassen und so nicht die Möglichkeit besteht, ohne weiteres einen Motor verfahren lassen kann. Eine weiter Schutzfunktion erfüllt dieser Button noch zusätzlich da, weitere Gegenstände im Maschinenraum positioniert sein können. Die anderen Objekte können  sich in dem Bewegungsraum der Kamera befinden, und somit angefahren oder beschädigt werden.
+\item Informationsfenster\\
+Die GUI beinhaltet zwei verschiedene Informationsfenster. In dem Fenster am linken Rand wird immer angezeigt, welches Bild gerade geladen ist. Mit diesem Bild wird dann auch in den Funktionen letzte Position, Automation, Tracking, Koordination und Navigation gearbeitet. Die andere Informationsbox befindet sich auf der anderen Seite und ist dafür da, dem Nutzer Mitteilungen zu übermitteln. Zum Beispiel wir dort eine Nachricht angezeigt, wenn die Motoren gesperrt oder freigegeben werden, sowie wenn sie ihre Position halten sollen.
+\item locate.py\\
+Die Python Datei locate.py muss vom Anwender jedes mal als erstes gestartet und eingestellt werden. Wenn man die Motoren mithilfe der GUI starten möchte, muss man dem Programm zu Anfang eine Eins übergeben. Das Programm kann von da an dann im Hintergrund laufen. Die Aufgabe dieses Moduls ist es zu registrieren, wann ein Bild von dem Laptop an den Raspberry Pi gesendet wurde und zu diesem Bild die passenden Motorpositionen zu speichern, um die Kameraeinstellung reproduzierbar zu machen. Das Programm kann zu jedem Zeitpunkt mit einem Keyboardinterrupt beendet werden
 \end{itemize}
 \end{itemize}
+
 
 \chapter{Schlusswort}
 TO DO (was funktioniert und Aussicht wie System optimiert werden kann)
