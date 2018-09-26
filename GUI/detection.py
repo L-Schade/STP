@@ -9,14 +9,14 @@ import distance_calculator
 class Segment:
     x_start = None
     x_end = None
-    y = None
+    z = None
     ind = None
 
-    def __init__(self, x_start, x_end, y, ind):
+    def __init__(self, x_start, x_end, z, ind):
         self.x_start = x_start
         self.x_end = x_end
-        self.y = y
-        self.parent = self
+        self.z = z
+        self.parent = self  
         self.ind = ind
 
     def parent(self):
@@ -45,17 +45,17 @@ class Segment:
 class SegmentArea:
     x_start = None
     x_end = None
-    y_start = None
-    y_end = None
+    z_start = None
+    z_end = None
     ind = None
     elements = None     # in pixel
     root = None
 
-    def __init__(self, x_start, x_end, y_start, y_end, ind, elements, root):
+    def __init__(self, x_start, x_end, z_start, z_end, ind, elements, root):
         self.x_start = x_start
         self.x_end = x_end
-        self.y_start = y_start
-        self.y_end = y_end
+        self.z_start = z_start
+        self.z_end = z_end
         self.ind = ind
         self.elements = elements
         self.root = root
@@ -64,10 +64,10 @@ class SegmentArea:
     # vlt noch bessere Methode zur Mittelpunktbestimmung
     def center(self):
         x = (self.x_end + self.x_start)/2           # self.x_end - self.x_start
-        y = (self.y_end + self.y_start)/2               # self.y_end - self.y_start
+        z = (self.z_end + self.z_start)/2               # self.z_end - self.z_start
 
-        print(x, y)
-        return [x, y]
+        print(x, z)
+        return [x, z]
 
     # def set_element(self, ind):
     #     self.elements = ind
@@ -166,9 +166,9 @@ def basic_operations(img_name):
     cv2.waitKey(0)
 
 
-def compare_pixel_color(img, color, x_pixel, y_pixel):
-    pxl_color = img[y_pixel, x_pixel]
-    # print(pxl_color, x_pixel, y_pixel)
+def compare_pixel_color(img, color, x_pixel, z_pixel):
+    pxl_color = img[z_pixel, x_pixel]
+    # print(pxl_color, x_pixel, z_pixel)
     if pxl_color[0] == color[0]:
         if pxl_color[1] == color[1]:
             if pxl_color[2] == color[2]:
@@ -180,8 +180,8 @@ def compare_pixel_color(img, color, x_pixel, y_pixel):
     return same_color
 
 
-def color_area(img, color, color_range, x_pixel, y_pixel):
-    pxl_color = img[y_pixel, x_pixel]
+def color_area(img, color, color_range, x_pixel, z_pixel):
+    pxl_color = img[z_pixel, x_pixel]
     # print pxl_color
     if (color[0]-int(color_range)) <= pxl_color[0] <= (color[0]+int(color_range)):
         if (color[1]-int(color_range)) <= pxl_color[1] <= (color[1]+int(color_range)):
@@ -194,27 +194,27 @@ def color_area(img, color, color_range, x_pixel, y_pixel):
     return same_color
 
 
-def pixel_run(img, width, height, color, color_rng, x_coord, y_coord):
+def pixel_run(img, width, height, color, color_rng, x_coord, z_coord):
     # print(color)
     segment_list = []
     # segment_li = []
-    for y in range(0, height, 1):
+    for z in range(0, height, 1):
         # for x in range(0, width, 1):
         x = 0
         while x < width:
             if color_rng is None:
-                same_color = compare_pixel_color(img, color, x, y)
+                same_color = compare_pixel_color(img, color, x, z)
             elif color_rng is not None:
-                same_color = color_area(img, color, color_rng, x, y)
+                same_color = color_area(img, color, color_rng, x, z)
 
             while x < width and not same_color:
                 x += 1
 
                 if x < width:
                     if color_rng is None:
-                        same_color = compare_pixel_color(img, color, x, y)
+                        same_color = compare_pixel_color(img, color, x, z)
                     elif color_rng is not None:
-                        same_color = color_area(img, color, color_rng, x, y)
+                        same_color = color_area(img, color, color_rng, x, z)
 
             if x < width:
                 x_start = x
@@ -223,23 +223,23 @@ def pixel_run(img, width, height, color, color_rng, x_coord, y_coord):
 
                     if x < width:
                         if color_rng is None:
-                            same_color = compare_pixel_color(img, color, x, y)
+                            same_color = compare_pixel_color(img, color, x, z)
                         elif color_rng is not None:
-                            same_color = color_area(img, color, color_rng, x, y)
+                            same_color = color_area(img, color, color_rng, x, z)
 
-                if x_coord is not None and y_coord is not None:
-                    # print(x_start, x_coord, x, y, y_coord)
-                    if int(x_start) <= int(x_coord) < int(x) and int(y) == int(y_coord):
+                if x_coord is not None and z_coord is not None:
+                    # print(x_start, x_coord, x, z, z_coord)
+                    if int(x_start) <= int(x_coord) < int(x) and int(z) == int(z_coord):
                         print('Segment mit ind=1')
-                        print(x_start, x, y,)
-                        segment = Segment(x_start, x, y, 1)
+                        print(x_start, x, z,)
+                        segment = Segment(x_start, x, z, 1)
                         segment_list.append(segment)
                     else:
-                        segment = Segment(x_start, x, y, 0)
+                        segment = Segment(x_start, x, z, 0)
                         segment_list.append(segment)
-                        # segment_li.append([x_start, x, y])
+                        # segment_li.append([x_start, x, z])
                 else:
-                    segment = Segment(x_start, x, y, 0)
+                    segment = Segment(x_start, x, z, 0)
                     segment_list.append(segment)
 
             # print pxl_color
@@ -268,7 +268,7 @@ def united_regions(segment1, segment2):
     #     print element[1]
     root1 = segment1.get_root()
     root2 = segment2.get_root()
-    if root1.y < root2.y or root1.y == root2.y and root1.x_start < root2.x_start:
+    if root1.z < root2.z or root1.z == root2.z and root1.x_start < root2.x_start:
         root2.parent = root1
 
         # if root1.ind == 1:          #
@@ -295,10 +295,10 @@ def create_regions(segments):
         #     j += 1
         # else:
         #     i += 1
-        if segments[j].y + 1 == segments[i].y and segments[j].x_start < segments[i].x_end \
+        if segments[j].z + 1 == segments[i].z and segments[j].x_start < segments[i].x_end \
                 and segments[i].x_start < segments[j].x_end:
             united_regions(segments[j], segments[i])
-        if segments[j].y + 1 < segments[i].y or segments[j].y + 1 == segments[i].y \
+        if segments[j].z + 1 < segments[i].z or segments[j].z + 1 == segments[i].z \
                 and segments[j].x_end < segments[i].x_end:
             j += 1
         else:
@@ -321,8 +321,8 @@ def define_area(roots, segments):
     for root in roots:
         x_start = root.x_start
         x_end = root.x_end
-        y_start = root.y
-        y_end = root.y
+        z_start = root.z
+        z_end = root.z
         elements = 0
         for segment in segments:
             if root == segment.get_root():
@@ -330,16 +330,16 @@ def define_area(roots, segments):
                     x_start = segment.x_start
                 if x_end < segment.x_end:
                     x_end = segment.x_end
-                if y_end < segment.y:
-                    y_end = segment.y
+                if z_end < segment.z:
+                    z_end = segment.z
                 print(segment.ind)
                 if segment.ind == 1:            # einrückung war verkehrt?!
                     ind = 1
                 else:
                     ind = 0
                 elements += segment.get_size()
-        area = SegmentArea(x_start, x_end, y_start, y_end, ind, elements, root)
-        print(x_start, x_end, y_start, y_end, ind)
+        area = SegmentArea(x_start, x_end, z_start, z_end, ind, elements, root)
+        print(x_start, x_end, z_start, z_end, ind)
         areas.append(area)
 
     return areas
@@ -387,8 +387,8 @@ def draw_color(img, wz, segments):
             if segment.get_root() == wz.root:
                 color = [072, 118, 255]
                 for x in range(segment.x_start, segment.x_end, 1):
-                    # new_img[segment.y, x] = [072, 118, 255]
-                    new_img[segment.y, x] = color
+                    # new_img[segment.z, x] = [072, 118, 255]
+                    new_img[segment.z, x] = color
 
         new_img = cv2.resize(new_img, (500, 250))
         cv2.imwrite("wz_detection.png", new_img)
@@ -411,13 +411,13 @@ def movement(img_width, img_height, wz):
     x_distance = distance[0]        # wz_center[0] - img_width
     z_distance = distance[1]        # wz_center[1] - img_height
     # print(x_distance)
-    # print(y_distance)
+    # print(z_distance)
 
     # return wz_center
     return x_distance, z_distance
 
 
-def algorithm(img_name, color_rng, color, x_coord, y_coord):
+def algorithm(img_name, color_rng, color, x_coord, z_coord):
     print('algorithm')
     img, width, height = load_image(img_name)
     # img, width, height = load_image('schwarz_weiss.jpeg')
@@ -426,18 +426,18 @@ def algorithm(img_name, color_rng, color, x_coord, y_coord):
     dim = (width, height)        # Bild in GUI (500, 250)
     img_size = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
 
-    if x_coord is not None and y_coord is not None:
-        x, y = (x_coord / 2), (y_coord / 2)
-        print(x, y)
+    if x_coord is not None and z_coord is not None:
+        x, z = (x_coord / 2), (z_coord / 2)
+        print(x, z)
 
-        color = img_size[y, x]
+        color = img_size[z, x]
         print(color)
 
-        segments_list = pixel_run(img_size,  width, height, color, color_rng, x, y)
-        # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
+        segments_list = pixel_run(img_size,  width, height, color, color_rng, x, z)
+        # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, z_coord)
     else:
-        segments_list = pixel_run(img_size,  width, height, color, color_rng, x_coord, y_coord)
-        # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, y_coord)
+        segments_list = pixel_run(img_size,  width, height, color, color_rng, x_coord, z_coord)
+        # segments_list = pixel_run(img_size, 500, 250, [33, 33, 33], color_rng, x_coord, z_coord)
 
     create_regions(segments_list)
     root_list = count_roots(segments_list)
@@ -447,13 +447,13 @@ def algorithm(img_name, color_rng, color, x_coord, y_coord):
     wz = define_wz(areas)
 
     if wz is not None:
-        x_dist, y_dist = movement(width, height, wz)
-        # print(x_dist, y_dist)
+        x_dist, z_dist = movement(width, height, wz)
+        # print(x_dist, z_dist)
 
         draw_color(img_name, wz, segments_list)
         # draw_color('schwarz_weiss.jpeg', wz, segments_list)
 
-        return x_dist, y_dist   # , img
+        return x_dist, z_dist   # , img
     else:
         return None, None   # , None
 
