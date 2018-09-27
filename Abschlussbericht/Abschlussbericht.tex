@@ -13,7 +13,7 @@
 \usepackage{setspace}
 \usepackage[right]{eurosym}
 \usepackage{acronym}
-\usepackage{subfig}
+\usepackage{subfigure}
 \usepackage{floatflt}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{colortbl}
@@ -248,13 +248,14 @@ Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte
 Der Gimbal erschien uns als eine gute Grundlage für das Kamera-Positionierungssystem, da er leicht, schnell und preiswert ist. Der Gimbal enthält drei bürstenlose Motoren mit denen sehr kleine Winkeländerungen möglich sind. Den mechanischen Teil der Führung würden wir auf unsere Anforderungen anpassen. Wir haben uns also für diese Variante der Kameraführung entschieden.
 
 TO DO ÜBERARBEITUNG
+
 \section{Entwicklung der Motoransteuerng}
 \subsection{STorM32BGC und ESC}
 Da ein Gimbal sehr kleine und präzise Winkeländerungen durchführen kann schien auch der mitgelieferte Controller, ein STorM32BGC, als optimal. Er besteht aus einem 32Bit-Prozessor (STM32F103RC) und hat einen Mikrocontroller je Motor und Phase. Es wurde nun versucht, die Firmware den eigenen Bedürfnissen anzupassen. Jedoch mussten wir feststellen, dass die Firmware zwar Anpassungen und auch die aktive Steuerung zulässt, jedoch nicht ohne eine Grundkalibrierung funktioniert. Diese Grundkalibrierung verlangt die drehmomentfreie Ausrichtung aller Achsen und Schwenken auf jeder Achse in einer bestimmten Reihenfolge. Aufgrund des stehenden Aufbaus des Gestells für dieses Projekt war und ist dies nicht möglich.
 
 TODO Bild Storm
 
-Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\textit{ESC}). Diese sind speziell dafür entwickelt, bürstenlose Gleichstrommotoren (\textit{BDLC}) anzusteuern. Gemäß den Angaben zu Spannungsversorgung und anschließbaren Motoren haben wir \textit{F35A 3-6S BLHeli\_32} ESCs bestellt. Die Ansteuerung der Motoren mit diesen ESCs war völlig erfolglos. Da wir dann feststellten, dass ein anderer, sogar schwächerer ESC aber funktionierte, schlossen wir darauf, dass unsere ESCs wiederum ein Firmwareproblem hatten und/oder defekt sind.
+Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\textit{ESC}). Diese sind speziell dafür entwickelt, bürstenlose Gleichstrommotoren (\textit{BLDC}) anzusteuern. Gemäß den Angaben zu Spannungsversorgung und anschließbaren Motoren haben wir \textit{F35A 3-6S BLHeli\_32} ESCs bestellt. Die Ansteuerung der Motoren mit diesen ESCs war völlig erfolglos. Da wir dann feststellten, dass ein anderer, sogar schwächerer ESC aber funktionierte, schlossen wir darauf, dass unsere ESCs wiederum ein Firmwareproblem hatten und/oder defekt sind.
 
 TODO Bild ESC
 
@@ -268,9 +269,6 @@ Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. 
 \end{figure}
 
 Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke. Genutzt werden nur drei Ein- und Ausgänge, der vierte bleibt frei. Die Pins $1,2EN$ sowie $3,4EN$ schalten nur die entsprechenden Transistoren ein. $V_{CC1}$ ist für die Spannungsversorgung des IC selbst und wird mit 5V beaufschlagt, an $V_{CC2}$ liegt die Versorgungsspannung für die Motoren, 14V, an. Die Anschlüsse $1-4A$ und $1-4Y$ stellen die Ein- und Ausgänge dar. In \autoref{fig:mikrocontroller-schaltung} auf \autopageref{fig:mikrocontroller-schaltung} wird die Schaltung dargestellt. Hierbei sei angemekrt, dass sich die GPIO-Pinbelegung am RaspberryPi durch das Layout auf der Latine noch geändert haben.
-
-\subsection{Layout}
-
 \begin{figure}[th]
 	\centering
 	\includegraphics[width=0.6\linewidth]{l293d_pins}
@@ -278,6 +276,89 @@ Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke
 	\label{fig:l293dpins}
 \end{figure}
 
+\subsection{Layout}
+Wie in \autoref{fig:platine} zu sehen ist, befinden sich neben den ICs und den Eingangswiderständen noch die Anschlüsse für $Ground$ und $14V$ (ganz links, von unten nach oben) und eine 40-polige Brücke für die GPIO-Pins des RaspberryPi auf der Platine.\\\\
+Die finale Pinbelegung am RaspberryPi ist wie folgt:
+
+\begin{table}[htp] 
+	\centering 
+	\begin{tabular}{|c||c|c|c||c|}
+		\hline 
+		& 3,3V &  & 5V & alle $V_{CC1}$ und $xxEN$ \\ 
+		\hline 
+		& GPIO2 &  & 5V &  \\ 
+		\hline 
+		& GPIO3 &  & GND &  \\ 
+		\hline 
+		& GPIO4 &  & GPIO14 & Motor A Phase 3 \\ 
+		\hline 
+		GND 14V& GND &  & GPIO15 & Motor A Phase 1 \\ 
+		\hline 
+		& GPIO17 &  & GPIO18 & Motor A Phase 2 \\ 
+		\hline 
+		& GPIO27 &  & GND & GND $IC_{MotorA}$ \\ 
+		\hline 
+		& GPIO22 &  & GPIO23 &  \\ 
+		\hline 
+		& 3,3V &  & GPIO24 &  \\ 
+		\hline 
+		& GPIO10 &  & GND &  \\ 
+		\hline 
+		& GPIO9 &  & GPIO25 &  \\ 
+		\hline 
+		& GPIO11 &  & GPIO8 &  \\ 
+		\hline 
+		& GND &  & GPIO7 & Motor B Phase 3 \\ 
+		\hline 
+		& ID\_SD &  & ID\_SC &  \\ 
+		\hline 
+		& GPIO5 &  & GND &  \\ 
+		\hline 
+		& GPIO6 &  & GPIO12 & Motor B Phase 1 \\ 
+		\hline 
+		& GPIO13 &  & GND & GND $IC_{MotorB}$ \\ 
+		\hline 
+		Motor C Phase 2& GPIO19 &  & GPIO16 & Motor B Phase 2 \\ 
+		\hline 
+		Motor C Phase 1& GPIO26 &  & GPIO20 &  \\ 
+		\hline 
+		GND $IC_{MotorC}$& GND &  & GPIO21 & Motor C Phase 3 \\ 
+		\hline 
+	\end{tabular} 
+	\caption{Pinbelegung am RaspberryPi} 
+	\label{tab:pins}
+\end{table}
+
+\begin{figure} 
+	\subfigure[Oberseite der Platine]{\includegraphics[width=0.49\textwidth]{platinevorn}} 
+	\subfigure[Unterseite der Platine]{\includegraphics[width=0.49\textwidth]{platinehinten}} 
+	\caption[Platine mit Brücke und Schaltung, aufgenommen von Erik Rother, 27.09.2018]{Platine mit Brücke und Schaltung} 
+	\label{fig:platine}
+\end{figure} 
+\subsection{Ansteuerung der Motoren}
+Geplant war die Ansteuerung der Motoren mit PWM-Signalen, um so die Phasenverschiebung der Phasen des Motors nutzen zu können und ihn beliebig langsam drehen zu lassen. Mangels Zeit haben wir dies nicht verwirklichen können. Die Motoren werden nun wie Schrittmotoren angesteuert. Das heißt es werden die 3 Phasen der Reihe nach an- und abgeschalten. Dadurch ergibt sich folgende Sequenz:
+\begin{table}[htp] 
+	\centering 
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			0 & \textcolor{green}{an} & \textcolor{red}{aus} & \textcolor{red}{aus}  \\ 
+			\hline 
+			1 & \textcolor{green}{an} & \textcolor{green}{an} & \textcolor{red}{aus}  \\ 
+			\hline 
+			2 & \textcolor{red}{aus}  & \textcolor{green}{an} & \textcolor{red}{aus}  \\ 
+			\hline 
+			3 & \textcolor{red}{aus}  & \textcolor{green}{an} & \textcolor{green}{an} \\ 
+			\hline 
+			4 & \textcolor{red}{aus}  & \textcolor{red}{aus}  & \textcolor{green}{an} \\ 
+			\hline 
+			5 & \textcolor{green}{an} & \textcolor{red}{aus}  & \textcolor{green}{an} \\ 
+			\hline
+		\end{tabular} 
+\caption{Sequenztabelle für einen Phasenumlauf} 
+\label{tab:sequenz}
+\end{table}
+
+Wie aus \autoref{tab:sequenz} zu entnehmen ist, wird dadurch das Magnetfeld um jeweils einen halben Pol verschoben und der Motor dementsprechend bewegt. In Abschnitt \ref{berechnungSteps} wird die maximale Auflösung rechnerisch ermittelt.
 \section{Aufbau des Gesamtsystems}
 TO DO BILD \\ \\
 Folgende Geräte und Bauteile wurden verwendet
@@ -287,9 +368,8 @@ Folgende Geräte und Bauteile wurden verwendet
 \item Laptop mit FireWire-Schnittstelle
 \item Raspberry Pi 2 Model B 
 \item Bildschirm, Tastatur, Maus (einschließlich Kabel zum Anschließen an den Raspberry Pi)
-\item  Crossover-Kabel
+\item Crossover-Kabel
 \item Motoren: 3 mal BGM4108-130
-%\item Steuergerät für die Motoren: STorM32BGC F35A 3-6S BLHeli\_32...
 \item Schaltung: Mikrocontroller: (L293D), Widerstände (1k Ohm), Brücken
 \end{itemize}
 TO DO vollständig und aktuell!! \\ \\
@@ -328,6 +408,7 @@ Eine weiter wichtige Aufgabe ist das Anzeigen des aktuell aufgenommen Bildes der
 
 \subsection{Berechnungen}
 \subsubsection{Steps}
+\label{berechnungSteps}
 Steps pro Umdrehung: \\
 $22*3 = 66 $\\
 Winkel pro Step: \\
