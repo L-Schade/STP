@@ -299,15 +299,16 @@ $22*3 = 66 $\\
 Winkel pro Step: \\
 $360/66 = 60/11 = 5.4545$\\
 \subsection{Abstand und Winkel}
+Das Gestell ist mit drei Motoren ausgestattet, um die Kamera richtig zu positionieren. Motor A bewegt die Kamera in aus der Draufsicht betrachtet in einer Kreisbahn, sodass die x-Position des Bildausschnittes verändert werden kann. Durch diese Kreisbahn ändert sich jedoch auch der Abstand von Kamera zu Werkstück. Um den genauen Abstand einzustellen wird die Kamera durch Motor B vor und zurück geschwenkt. Auch dies geschieht auf einer Kreisbahn. So verändert sich mit dem Abstand zum Werkstück auch die Höhe der Kamera. Mit Motor C kann die Kamera hoch und runter gekippt werden, wodurch die zuvor entstandene Höhendifferenz wieder ausgeglichen werden kann. Außerdem wird durch diesen Motor die y-Position des Bildausschnittes eingestellt.
 
 \begin{figure}[htbp]
 \centering 
-\includegraphics[width=0.8\textwidth]{Motoren.PNG}
+\includegraphics[width=0.5\textwidth]{Motoren.PNG}
 \caption{Gestell mit den drei Motoren}
 \label{fig:Bild6}
 \end{figure}
 \break
-
+In Abbildung 7 ist die Bahn, entlang der sich die Kamera durch Motor A bewegt, in der Draufsicht zu sehen. Ausgehend von der Position mittig auf dem Halbkreis kann die Kamera zu beiden Seiten geschwenkt werden. Während sie mittig den größten Abstand zum Werkstück hat, wird der Abstand beim Schwenken zu den Seiten geringer. Zu dem Abstand zwischen Motor A und Werkstück wird dann $cos(\alpha) * Radius A$ gerechnet. Der Cosinus beträgt bei 0$^\circ$ 1, dies entspricht genau der Position mittig auf dem Halbkreis, da in dem Fall der Abstand mit Abstand zwischen Motor A und Werkstück + Radius A am größten ist. 
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.8\textwidth]{Motor_A.PNG}
@@ -315,7 +316,7 @@ $360/66 = 60/11 = 5.4545$\\
 \label{fig:Bild7}
 \end{figure}
 \break
-
+In Abbildung 8 erkennt man nun die Bahn, entlang der sich die Kamera durch Motor B bewegt aus seitlicher Ansicht. Der Abstand zum Werkstück soll hier korrigiert werden. Die Kamera kann auf der Kreisbahn näher zum Werkstück hingeführt werden. Von dem ursprünglichen Abstand wird dann $Sin(\beta)*Radius B$ subtrahiert, da der Abstand kleiner wird. Schwenkt man die Kamera nach hinten wird der genannte Therm addiert, da sich der Abstand vergrößert. Jedoch bewegt sich die Kamera entlang dieser Kreisbahn auch in ihrer Höhe. Die Höhe ändert sich um den Therm $Radius B - Cos(\beta) *Radius B$. Sowohl dieser Höhenunterschied muss durch den Motor C ausgeglichen werden, als auch der Winkel, den Motor B verstellt. Wird die Kamera beispielsweise durch Motor B etwas nach unten gekippt, neigt Motor C die Kamera wieder um dieses Winkel nach oben. Außerdem wird die Höhendifferenz auf dem Bildausschnitt berechnet und die Kamera wird so weit nach oben geneigt, bis sie wieder den richtigen Bildausschnitt zeigt.
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.8\textwidth]{Motor_B.PNG}
@@ -323,7 +324,7 @@ $360/66 = 60/11 = 5.4545$\\
 \label{fig:Bild8}
 \end{figure}
 \break
-
+Bei den Berechnungen wurde die Annahme getroffen, dass die Distanzänderung, die nur durch den Winkel des Motors C entsteht vernachlässigt werden kann. Es ist anzunehmen, dass die Winkeländerungen von Motor C im Vergleich zu dem Abstand zum Werkstück so gering sind, dass sich die Distanz nur minimal ändert. Sollte es trotzdem zu unscharfen Bildern kommen, kann man die Motorpositionen durch ein iteratives Verfahren optimieren. In diesem Verfahren würde die Abstandsdifferenz zwischen angenommenem Abstand und wahrem Abstand mit Hilfe von Cosinus berechnet. Der Abstand würde durch Motor B angepasst und anschließend würde der Winkel von Motor C entsprechend den Änderungen durch Motor B wieder angepasst. Durch mehrfaches Ausführen dieser Schritte könnte man den Abstand optimieren. Jedoch haben wir uns gegen eine solche Optimierung entschieden, da zunächst die grundlegenden Funktionen unserer Positionierung im Vordergrund stehen sollten. 
 
 \section{Bedienungsanleitung}
 TO DO (finale Version)

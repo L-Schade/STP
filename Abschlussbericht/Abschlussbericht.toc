@@ -16,7 +16,7 @@
 \contentsline {subsection}{\numberline {8.1}Berechnungen}{11}{subsection.8.1}
 \contentsline {subsubsection}{\numberline {8.1.1}Steps}{11}{subsubsection.8.1.1}
 \contentsline {subsection}{\numberline {8.2}Abstand und Winkel}{11}{subsection.8.2}
-\contentsline {section}{\numberline {9}Bedienungsanleitung}{14}{section.9}
+\contentsline {section}{\numberline {9}Bedienungsanleitung}{13}{section.9}
 \contentsline {section}{\numberline {10}Schlusswort}{17}{section.10}
 \vspace {-0.5em}
 \contentsline {section}{\numberline {A}Abbildungsverzeichnis}{18}{appendix.A}
