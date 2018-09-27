@@ -247,10 +247,35 @@ Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte
 
 Der Gimbal erschien uns als eine gute Grundlage für das Kamera-Positionierungssystem, da er leicht, schnell und preiswert ist. Der Gimbal enthält drei bürstenlose Motoren mit denen sehr kleine Winkeländerungen möglich sind. Den mechanischen Teil der Führung würden wir auf unsere Anforderungen anpassen. Wir haben uns also für diese Variante der Kameraführung entschieden.
 
-TO DO ÜBERARBEITUNG
+\section{Aufbau des Gesamtsystems}
+TO DO BILD \\ \\
+Folgende Geräte und Bauteile wurden verwendet
+\begin{itemize} 
+\item Kamera: Guppy F - 146
+\item Objektiv: Macro-CCD Lens 4x
+\item Laptop mit FireWire-Schnittstelle
+\item Raspberry Pi 2 Model B 
+\item Bildschirm, Tastatur, Maus (einschließlich Kabel zum Anschließen an den Raspberry Pi)
+\item Crossover-Kabel
+\item Motoren: 3 mal BGM4108-130
+\item Schaltung: Mikrocontroller: (L293D), Widerstände (1k Ohm), Brücken
+\end{itemize}
 
-\section{Entwicklung der Motoransteuerng}
-\subsection{STorM32BGC und ESC}
+Die Position der Kamera ist durch ein Gestell mit drei Motoren variabel, wodurch ihr Winkel so eingestellt werden kann, dass sich Werkzeug und Werkstück optimal im Bildausschnitt befinden. Das Gestell kann sowohl an der Werkzeughalterung, als auch über der Werkstückaufnahme montiert werden. Im Rahmen unseres Projektes konnten wir die Montage an einem Präsentationsaufbau realisieren.
+Die Kamera ist über eine FireWire-Schnittstelle mit dem Laptop verbunden. Der Laptop speichert das Bildmaterial und stellt es per Ordnerfreigabe dem Raspberry Pi zur Verfügung. Bildschirm, Maus und Tastatur sind an dem Raspberry Pi angeschlossen, sodass der Benutzer mit Hilfe einer graphischen Oberfläche gewünschte Aktionen auswählen kann. Außerdem verfügt der Raspberry Pi über einen Algorithmus, der zusammenhängende Bereiche mit bestimmten Farbwerten erkennt, wodurch die Kamera automatisch dem Werkzeug folgen kann. (TO DO kann sie das?)
+
+\section{Datenübertragung}
+Die automatische Positionierung der Kamera setzt voraus, dass die Daten über den aktuellen Bildausschnitt bekannt sind. Die Kamera verfügt über eine FireWire-Schnittstelle. FireWire-Schnittstellen besitzen eine hohe Datendurchsatzrate, wodurch ein besonders schnelles Arbeiten möglich ist. FireWire 400 überträgt Datenströme und ist USB 2.0 daher besonders bei der Übertragung von kontinuierlichen Signalen zum Beispiel im Videobereich überlegen. Jedoch hat sich diese Schnittstelle auf dem Markt nicht durchgesetzt, weshalb viele aktuelle Geräte diese Schnittstelle gar nicht besitzen. USB bietet seit USB 3.0 eine so deutlich überlegene Übertragungsgeschwindigkeit, dass auch im Videobereich größere Datenraten übertragen werden können. \\ \\
+Zur Verfügung steht uns ein Laptop der Firma Toschiba mit dem Betriebssystem Windows XP. Dieser bietet einen FireWire-Anschluss, sodass wir die Kamera anschließen können. Das Bildmaterial der Kamera wird mit einer Software von MatLab auf dem Laptop angezeigt und abgespeichert. Da dieser Laptop jedoch sehr langsam arbeitet, wird die weitere Verarbeitung der Bilddaten auf einen Raspberry Pi 2 Model B ausgelagert. \\ \\
+Zur Übertragung der Bilddaten nutzen wir das Prinzip der Ordnerfreigabe. Das Betriebssystem Windows XP unterstützt Netzwerkfreigaben von sich aus, während der Raspberry Pi ein zusätzliches Programm für diese Funktion benötigt. Zum Einbinden der Windows-Freigabe nutzen wir das virtuelle Dateisystem \glqq cifs-vfs\grqq. Dazu wird das Paket \glqq cifs-utils\grqq auf dem Raspberry Pi installiert. Um den freigegebenen Ordner in das Dateisystem einzubinden nutzen wir den Befehl \glqq mount\grqq, wobei auch der Typ \glqq cifs\grqq und Angaben über den Ort des freigegebenen Ordners, sowie des Zielordners notwendig sind. Damit man den Ordner nicht bei jedem Neustart des Raspberry Pi's neu einbinden muss, hinterlegen wir alle Informationen für das Einbinden in der Konfigurations-Datei \glqq /etc/fstab\grqq. Nun werden beim Hochfahren des Raspberry Pi's alle Dateisysteme, die in \glqq /etc/fstab\grqq vermerkt sind und zu denen auch eine aktive Verbindung besteht, eingebunden. \\ \\
+Für die Verbindung zwischen Laptop und Raspberry Pi gibt es mehrere Möglichkeiten. Wir haben uns mit den folgenden zwei Möglichkeiten beschäftigt. \\ \\
+ Die erste Möglichkeit ist die Verbindung über das Netzwerk im LFM. Beide Geräte sind durch ein Ethernet-Kabel mit dem Netzwerk verbunden. Ein Vorteil ist, dass die Geräte auch so Zugang zum Internet haben. Der Laptop benötigt den Zugang zum Internet um die notwendigen Lizenzen für MatLab laden zu können. Der freigegebene Ordner kann nun in dem Netzwerk durch Angabe der IP-Adresse des Laptops im Netzwerk und Angabe des Freigabenamens gefunden werden. Dieser Ordner ist nun mit jedem Gerät in dem Netzwerk auffindbar, jedoch ist der Zugriff durch das Passwort des Benutzerkontos von dem Laptop geschützt. \\ \\
+Die zweite Möglichkeit ist eine direkte Verbindung durch ein Crossover-Kabel. Diese Verbindung ist sicherer und die Daten können schneller übertragen werden. Jedoch ergibt sich das Problem, dass das Crossover-Kabel den gleichen Anschluss verwendet, wie das Ethernet-Kabel. So kann der Laptop nicht gleichzeitig mit dem Raspberry Pi verbunden sein und Zugang zum Internet haben. Den Internetzugang braucht er allerdings, um die MatLab-Lizenzen zu laden. So müsste zuerst das Ethernetkabel angeschlossen werde, sodass die Lizenzen laden können. Danach müsste man das Kabel entfernen und das Crossoverkabel anschließen, um die Verbindung zum Raspberry Pi herzustellen. Dies wäre nicht besonders anwenderfreundlich. Jedoch konnte diese Möglichkeit optimiert werden, indem durch einen Adapter ein zweiter Netzwerkanschluss an dem Laptop angebracht wurde. Dies ermöglicht Internetzugang mit einem Ethernet-Kabel und mit dem Crossoverkabel die Verbindung zum Raspberry Pi. Die IP-Adressen werden bei dieser Variante statisch gesetzt. So hat der Laptop die IP-Adresse \glqq 192.168.1.1\grqq und der Raspberry Pi die IP-Adresse  \glqq 192.168.1.2\grqq erhalten. Beiden wurde die gleiche Subnetzmaske  \glqq 255.255.0.0\grqq \\ übergeben. So kann der Ordner wieder durch die IP-Adresse des Laptops und den Freigabenamen gefunden und in das Dateisystem von dem Raspberry Pi einghängt werden. Mit dieser Variante wird nur ein LAN-Anschluss am Einsatzort des Systems benötigt und eine schnelle und sichere Datenübertragung ermöglicht, sodass wir uns für diese Variante entschieden haben. \\ \\
+Durch die Arbeit mit mehreren Raspberry Pis benötigten wir die Einstellung, dass der Ordner für alle Benutzer freigegeben ist. Da der Laptop bei unserer Variante nun mit dem gesamten Netzwerk des Instituts verbunden ist, könnte man als eine zusätzliche Sicherheit (neben dem benötigten Passwort) die Ordnerfreigabe auf einen Benutzer beschränken. Dies müsste noch einmal durch einen Administrator des Laptops geschehen. 
+
+\section{Hardwareentwicklung}
+\subsection{Steuerung der Motoren}
+\subsubsection{STorM32BGC und ESC}
 Da ein Gimbal sehr kleine und präzise Winkeländerungen durchführen kann schien auch der mitgelieferte Controller, ein STorM32BGC, als optimal. Er besteht aus einem 32Bit-Prozessor (STM32F103RC) und hat einen Mikrocontroller je Motor und Phase. Es wurde nun versucht, die Firmware den eigenen Bedürfnissen anzupassen. Jedoch mussten wir feststellen, dass die Firmware zwar Anpassungen und auch die aktive Steuerung zulässt, jedoch nicht ohne eine Grundkalibrierung funktioniert. Diese Grundkalibrierung verlangt die drehmomentfreie Ausrichtung aller Achsen und Schwenken auf jeder Achse in einer bestimmten Reihenfolge. Aufgrund des stehenden Aufbaus des Gestells für dieses Projekt war und ist dies nicht möglich.
 
 TODO Bild Storm
@@ -259,8 +284,12 @@ Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\t
 
 TODO Bild ESC
 
-\subsection{L293D}
+\subsubsection{L293D}
 Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. Der RaspberryPi2B kann maximal 5V ausgeben, da die Motoren keinesfalls direkt angeschlossen werden können wählten wir einen Mikrocontroller als Relais. Da der mit den BLDC mitgeliferte Controller STorM32BGC eine Stromstärke von 0,6A/Motor verarbeiten kann entschieden wir uns für L293D-Mikrocontroller. Diesr hat ebenfalls eine zulässige Dauerlast von 0,6A und eine Spitzenlast von 1,2A. Je einer dieser ICs steuert nun drei Phasen eines Motors.
+
+
+\subsection{Aufbau der Schaltung}
+Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke. Genutzt werden nur drei Ein- und Ausgänge, der vierte bleibt frei. Die Pins $1,2EN$ sowie $3,4EN$ schalten nur die entsprechenden Transistoren ein. $V_{CC1}$ ist für die Spannungsversorgung des IC selbst und wird mit 5V beaufschlagt, an $V_{CC2}$ liegt die Versorgungsspannung für die Motoren, 14V, an. Die Anschlüsse $1-4A$ und $1-4Y$ stellen die Ein- und Ausgänge dar. In \autoref{fig:mikrocontroller-schaltung} auf \autopageref{fig:mikrocontroller-schaltung} wird die Schaltung dargestellt. Hierbei sei angemerkt, dass sich die GPIO-Pinbelegung am RaspberryPi durch das Layout auf der Platine noch geändert hat.
 \begin{figure}[th]
 	\centering
 	\includegraphics[width=0.4\linewidth]{l293d_logik}
@@ -268,7 +297,6 @@ Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. 
 	\label{fig:l293dlogik}
 \end{figure}
 
-Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke. Genutzt werden nur drei Ein- und Ausgänge, der vierte bleibt frei. Die Pins $1,2EN$ sowie $3,4EN$ schalten nur die entsprechenden Transistoren ein. $V_{CC1}$ ist für die Spannungsversorgung des IC selbst und wird mit 5V beaufschlagt, an $V_{CC2}$ liegt die Versorgungsspannung für die Motoren, 14V, an. Die Anschlüsse $1-4A$ und $1-4Y$ stellen die Ein- und Ausgänge dar. In \autoref{fig:mikrocontroller-schaltung} auf \autopageref{fig:mikrocontroller-schaltung} wird die Schaltung dargestellt. Hierbei sei angemekrt, dass sich die GPIO-Pinbelegung am RaspberryPi durch das Layout auf der Latine noch geändert haben.
 \begin{figure}[th]
 	\centering
 	\includegraphics[width=0.6\linewidth]{l293d_pins}
@@ -276,7 +304,7 @@ Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke
 	\label{fig:l293dpins}
 \end{figure}
 
-\subsection{Layout}
+\subsubsection{Layout}
 Wie in \autoref{fig:platine} zu sehen ist, befinden sich neben den ICs und den Eingangswiderständen noch die Anschlüsse für $Ground$ und $14V$ (ganz links, von unten nach oben) und eine 40-polige Brücke für die GPIO-Pins des RaspberryPi auf der Platine.\\\\
 Die finale Pinbelegung am RaspberryPi ist wie folgt:
 
@@ -330,68 +358,57 @@ Die finale Pinbelegung am RaspberryPi ist wie folgt:
 \end{table}
 
 \begin{figure} 
+	\centering
 	\subfigure[Oberseite der Platine]{\includegraphics[width=0.49\textwidth]{platinevorn}} 
 	\subfigure[Unterseite der Platine]{\includegraphics[width=0.49\textwidth]{platinehinten}} 
 	\caption{Platine mit Brücke und Schaltung} 
 	\label{fig:platine}
 \end{figure} 
-\subsection{Ansteuerung der Motoren}
+\subsubsection{Ansteuerung der Motoren}
 Geplant war die Ansteuerung der Motoren mit PWM-Signalen, um so die Phasenverschiebung der Phasen des Motors nutzen zu können und ihn beliebig langsam drehen zu lassen. Mangels Zeit haben wir dies nicht verwirklichen können. Die Motoren werden nun wie Schrittmotoren angesteuert. Das heißt es werden die 3 Phasen der Reihe nach an- und abgeschalten. Dadurch ergibt sich folgende Sequenz:
 \begin{table}[htp] 
 	\centering 
-		\begin{tabular}{|c|c|c|c|}
-			\hline
-			0 & \textcolor{green}{an} & \textcolor{red}{aus} & \textcolor{red}{aus}  \\ 
-			\hline 
-			1 & \textcolor{green}{an} & \textcolor{green}{an} & \textcolor{red}{aus}  \\ 
-			\hline 
-			2 & \textcolor{red}{aus}  & \textcolor{green}{an} & \textcolor{red}{aus}  \\ 
-			\hline 
-			3 & \textcolor{red}{aus}  & \textcolor{green}{an} & \textcolor{green}{an} \\ 
-			\hline 
-			4 & \textcolor{red}{aus}  & \textcolor{red}{aus}  & \textcolor{green}{an} \\ 
-			\hline 
-			5 & \textcolor{green}{an} & \textcolor{red}{aus}  & \textcolor{green}{an} \\ 
-			\hline
-		\end{tabular} 
-\caption{Sequenztabelle für einen Phasenumlauf} 
-\label{tab:sequenz}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		0 & \textcolor{green}{an} & \textcolor{red}{aus} & \textcolor{red}{aus}  \\ 
+		\hline 
+		1 & \textcolor{green}{an} & \textcolor{green}{an} & \textcolor{red}{aus}  \\ 
+		\hline 
+		2 & \textcolor{red}{aus}  & \textcolor{green}{an} & \textcolor{red}{aus}  \\ 
+		\hline 
+		3 & \textcolor{red}{aus}  & \textcolor{green}{an} & \textcolor{green}{an} \\ 
+		\hline 
+		4 & \textcolor{red}{aus}  & \textcolor{red}{aus}  & \textcolor{green}{an} \\ 
+		\hline 
+		5 & \textcolor{green}{an} & \textcolor{red}{aus}  & \textcolor{green}{an} \\ 
+		\hline
+	\end{tabular} 
+	\caption{Sequenztabelle für einen Phasenumlauf} 
+	\label{tab:sequenz}
 \end{table}
 
 Wie aus \autoref{tab:sequenz} zu entnehmen ist, wird dadurch das Magnetfeld um jeweils einen halben Pol verschoben und der Motor dementsprechend bewegt. In Abschnitt \ref{berechnungSteps} wird die maximale Auflösung rechnerisch ermittelt.
-\section{Aufbau des Gesamtsystems}
-TO DO BILD \\ \\
-Folgende Geräte und Bauteile wurden verwendet
-\begin{itemize} 
-\item Kamera: Guppy F - 146
-\item Objektiv: Macro-CCD Lens 4x
-\item Laptop mit FireWire-Schnittstelle
-\item Raspberry Pi 2 Model B 
-\item Bildschirm, Tastatur, Maus (einschließlich Kabel zum Anschließen an den Raspberry Pi)
-\item Crossover-Kabel
-\item Motoren: 3 mal BGM4108-130
-\item Schaltung: Mikrocontroller: (L293D), Widerstände (1k Ohm), Brücken
-\end{itemize}
-TO DO vollständig und aktuell!! \\ \\
-Die Position der Kamera ist durch ein Gestell mit drei Motoren variabel, wodurch ihr Winkel so eingestellt werden kann, dass sich Werkzeug und Werkstück optimal im Bildausschnitt befinden. Das Gestell kann sowohl an der Werkzeughalterung, als auch über der Werkstückaufnahme montiert werden. Im Rahmen unseres Projektes konnten wir die Montage TO DO realisieren.
-Die Kamera ist über eine FireWire-Schnittstelle mit dem Laptop verbunden. Der Laptop speichert das Bildmaterial und stellt es per Ordnerfreigabe dem Raspberry Pi zur Verfügung. Bildschirm, Maus und Tastatur sind an dem Raspberry Pi angeschlossen, sodass der Benutzer mit Hilfe einer graphischen Oberfläche gewünschte Aktionen auswählen kann. Außerdem verfügt der Raspberry Pi über einen Algorithmus, der zusammenhängende Bereiche mit bestimmten Farbwerten erkennt, wodurch die Kamera automatisch dem Werkzeug folgen kann. (TO DO kann sie das?)
-
-\section{Datenübertragung}
-Die automatische Positionierung der Kamera setzt voraus, dass die Daten über den aktuellen Bildausschnitt bekannt sind. Die Kamera verfügt über eine FireWire-Schnittstelle. FireWire-Schnittstellen besitzen eine hohe Datendurchsatzrate, wodurch ein besonders schnelles Arbeiten möglich ist. FireWire 400 überträgt Datenströme und ist USB 2.0 daher besonders bei der Übertragung von kontinuierlichen Signalen zum Beispiel im Videobereich überlegen. Jedoch hat sich diese Schnittstelle auf dem Markt nicht durchgesetzt, weshalb viele aktuelle Geräte diese Schnittstelle gar nicht besitzen. USB bietet seit USB 3.0 eine so deutlich überlegene Übertragungsgeschwindigkeit, dass auch im Videobereich größere Datenraten übertragen werden können. \\ \\
-Zur Verfügung steht uns ein Laptop der Firma Toschiba mit dem Betriebssystem Windows XP. Dieser bietet einen FireWire-Anschluss, sodass wir die Kamera anschließen können. Das Bildmaterial der Kamera wird mit einer Software von MatLab auf dem Laptop angezeigt und abgespeichert. Da dieser Laptop jedoch sehr langsam arbeitet, wird die weitere Verarbeitung der Bilddaten auf einen Raspberry Pi 2 Model B ausgelagert. \\ \\
-Zur Übertragung der Bilddaten nutzen wir das Prinzip der Ordnerfreigabe. Das Betriebssystem Windows XP unterstützt Netzwerkfreigaben von sich aus, während der Raspberry Pi ein zusätzliches Programm für diese Funktion benötigt. Zum Einbinden der Windows-Freigabe nutzen wir das virtuelle Dateisystem \glqq cifs-vfs\grqq. Dazu wird das Paket \glqq cifs-utils\grqq auf dem Raspberry Pi installiert. Um den freigegebenen Ordner in das Dateisystem einzubinden nutzen wir den Befehl \glqq mount\grqq, wobei auch der Typ \glqq cifs\grqq und Angaben über den Ort des freigegebenen Ordners, sowie des Zielordners notwendig sind. Damit man den Ordner nicht bei jedem Neustart des Raspberry Pi's neu einbinden muss, hinterlegen wir alle Informationen für das Einbinden in der Konfigurations-Datei \glqq /etc/fstab\grqq. Nun werden beim Hochfahren des Raspberry Pi's alle Dateisysteme, die in \glqq /etc/fstab\grqq vermerkt sind und zu denen auch eine aktive Verbindung besteht, eingebunden. \\ \\
-Für die Verbindung zwischen Laptop und Raspberry Pi gibt es mehrere Möglichkeiten. Wir haben uns mit den folgenden zwei Möglichkeiten beschäftigt. \\ \\
- Die erste Möglichkeit ist die Verbindung über das Netzwerk im LFM. Beide Geräte sind durch ein Ethernet-Kabel mit dem Netzwerk verbunden. Ein Vorteil ist, dass die Geräte auch so Zugang zum Internet haben. Der Laptop benötigt den Zugang zum Internet um die notwendigen Lizenzen für MatLab laden zu können. Der freigegebene Ordner kann nun in dem Netzwerk durch Angabe der IP-Adresse des Laptops im Netzwerk und Angabe des Freigabenamens gefunden werden. Dieser Ordner ist nun mit jedem Gerät in dem Netzwerk auffindbar, jedoch ist der Zugriff durch das Passwort des Benutzerkontos von dem Laptop geschützt. \\ \\
-Die zweite Möglichkeit ist eine direkte Verbindung durch ein Crossover-Kabel. Diese Verbindung ist sicherer und die Daten können schneller übertragen werden. Jedoch ergibt sich das Problem, dass das Crossover-Kabel den gleichen Anschluss verwendet, wie das Ethernet-Kabel. So kann der Laptop nicht gleichzeitig mit dem Raspberry Pi verbunden sein und Zugang zum Internet haben. Den Internetzugang braucht er allerdings, um die MatLab-Lizenzen zu laden. So müsste zuerst das Ethernetkabel angeschlossen werde, sodass die Lizenzen laden können. Danach müsste man das Kabel entfernen und das Crossoverkabel anschließen, um die Verbindung zum Raspberry Pi herzustellen. Dies wäre nicht besonders anwenderfreundlich. Jedoch konnte diese Möglichkeit optimiert werden, indem durch einen Adapter ein zweiter Netzwerkanschluss an dem Laptop angebracht wurde. Dies ermöglicht Internetzugang mit einem Ethernet-Kabel und mit dem Crossoverkabel die Verbindung zum Raspberry Pi. Die IP-Adressen werden bei dieser Variante statisch gesetzt. So hat der Laptop die IP-Adresse \glqq 192.168.1.1\grqq und der Raspberry Pi die IP-Adresse  \glqq 192.168.1.2\grqq erhalten. Beiden wurde die gleiche Subnetzmaske  \glqq 255.255.0.0\grqq \\ übergeben. So kann der Ordner wieder durch die IP-Adresse des Laptops und den Freigabenamen gefunden und in das Dateisystem von dem Raspberry Pi einghängt werden. Mit dieser Variante wird nur ein LAN-Anschluss am Einsatzort des Systems benötigt und eine schnelle und sichere Datenübertragung ermöglicht, sodass wir uns für diese Variante entschieden haben. \\ \\
-Durch die Arbeit mit mehreren Raspberry Pis benötigten wir die Einstellung, dass der Ordner für alle Benutzer freigegeben ist. Da der Laptop bei unserer Variante nun mit dem gesamten Netzwerk des Instituts verbunden ist, könnte man als eine zusätzliche Sicherheit (neben dem benötigten Passwort) die Ordnerfreigabe auf einen Benutzer beschränken. Dies müsste noch einmal durch einen Administrator des Laptops geschehen. 
-
-\section{Hardwareentwicklung}
-\subsection{Aufbau der Schaltung}
-TO DO
-\subsection{Steuerung der Motoren}
-TO DO
 \subsection{Konstruktion des Gestells}
-TO DO
+TODO Fotos Achsenweise
+
+Das Gestell des gelieferten Gimbal-Bausatzes gibt vor, wie es zu montieren ist und ermöglicht die Rotation einer Kamera um alle drei Achsen. Für dieses Projekt muss sich die Kamera auch auf allen drei Achsen bewegen, jedoch soll sich, im Gegensatz zum Gimbal, hier auch der Bildausschnitt ändern.
+
+Daher ist der Aufbau im weitesten Sinne gedreht worden. Der erste Motor dreht das gesamte Gestell um die Vertikale, und ermöglicht so die Änderung der x-Koordinate im Bildausschnitt. Motor 2 ist versetzt zur Achse von Motor 1, Achsenparallel zur x-Achse montiert. Über diesem ist in gleicher Ausrichtung Motor 3, an dem die Kamera befestigt ist.
+
+Motor 2 ist somit in erster Linie für den Abstand der Kamera zum Werkzeug oder Werkstück zuständig, während Motor 3 vorrangig die z-Position der Kamera einstellt.
+
+Da die Kamera einen Fix-Focus hat und der Abstand zum Werkzeug oder Werkstück immer annähernd gleich sein muss, wird die Kreisbahn, auf der sich der Schärfebereich bewegt zum Problem, das mit Korrektureingriffen aller drei Motoren kompensiert werden muss. Die Zusammenhänge werden in Abschnitt \ref{abstandWinkel} erläutert, sowie die Herangehensweise zur Lösung beschrieben.\\\\
+Die Komponenten des Gestells ließen sich nicht in erforderlicher Weise montieren, so wurde ein Element so bearbeitet, dass ein Motor 90° gekippt montiert werden kann. Dies ist in \autoref{fig:gestellBearb} zu sehen. Durch die Bearbeitung des einen Teils konnten die andern Teile wiederverwendet werden und bedürfen keiner weiteren Bearbeitung.
+\begin{figure}
+	\centering
+	\subfigure[vor der Bearbeitung]{\includegraphics[height=6cm]{gestellvorbearb}} 
+	\subfigure[Teil herausgetrennt]{\includegraphics[height=6cm]{gestellwaehrendbearb}} 
+	\subfigure[Bohrungen zur Montage des Motors]{\includegraphics[height=6cm]{gestellnachbearb}} 
+	\caption{Bearbeitung des Gestell-Elementes} 
+	\label{fig:gestellBearb}
+\end{figure} 
+
+Da das Gestell mit Rändelschrauben und Schienen versehen ist, kann sowohl der Versatz von Motor 2 zu Motor 1, wie auch der Abstand von Motor 3 zu Motor 2 stufenlos eingestellt werden. Somit kann, je nach Einsatzzweck, der Wirkbereich der Kamera vergrößert oder der Raumbedarf des Aufbaus verringert werden.
 
 \section{Algorithmus zur Werkzeugerkennung}
 
@@ -409,11 +426,16 @@ Eine weiter wichtige Aufgabe ist das Anzeigen des aktuell aufgenommen Bildes der
 \subsection{Berechnungen}
 \subsubsection{Steps}
 \label{berechnungSteps}
-Steps pro Umdrehung: \\
-$22*3 = 66 $\\
-Winkel pro Step: \\
-$360/66 = 60/11 = 5.4545$\\
+Steps pro Umdrehung:
+\begin{align*}
+22*3 = 66
+\end{align*}
+Winkel pro Step:
+\begin{align*}
+\frac{360}{66} = \frac{60}{11} = 5,4545
+\end{align*}
 \subsection{Abstand und Winkel}
+\label{abstandWinkel}
 Das Gestell ist mit drei Motoren ausgestattet, um die Kamera richtig zu positionieren. Motor A bewegt die Kamera in aus der Draufsicht betrachtet in einer Kreisbahn, sodass die x-Position des Bildausschnittes verändert werden kann. Durch diese Kreisbahn ändert sich jedoch auch der Abstand von Kamera zu Werkstück. Um den genauen Abstand einzustellen wird die Kamera durch Motor B vor und zurück geschwenkt. Auch dies geschieht auf einer Kreisbahn. So verändert sich mit dem Abstand zum Werkstück auch die Höhe der Kamera. Mit Motor C kann die Kamera hoch und runter gekippt werden, wodurch die zuvor entstandene Höhendifferenz wieder ausgeglichen werden kann. Außerdem wird durch diesen Motor die y-Position des Bildausschnittes eingestellt.
 
 \begin{figure}[htbp]
