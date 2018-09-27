@@ -13,7 +13,7 @@
 \usepackage{setspace}
 \usepackage[right]{eurosym}
 \usepackage{acronym}
-\usepackage{subfig}
+\usepackage{subfigure}
 \usepackage{floatflt}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{colortbl}
@@ -153,35 +153,35 @@ In der Mikrostrukturierung optischer Bauteile werden Diamantwerkzeuge mit sehr k
 
 \section{Stand der Technik}
 Die automatische Werkzeug-Kontakt-Detektion dient zur Unterstützung der Werkzeug-Positionierung bei mehreren Prozessen. Im Folgenden werden zwei Prozesse vorgestellt, die durch die automatische Werkzeug-Kontakt-Detektion zeiteffizienter gestaltet werden können. \\ \\
-Zur Einordnung dieser Prozesse dient Abbildung 2.1. Es sind einige Verfahren zur Herstellung strukturierter optischer Komponenten nach ihrer Komplexität sortiert aufgeführt. Des Weiteren kann man der Abbildung ihre Dimensionen und Anwendungen entnehmen. \\ \\ 
+Zur Einordnung dieser Prozesse dient Abbildung 1. Es sind einige Verfahren zur Herstellung strukturierter optischer Komponenten nach ihrer Komplexität sortiert aufgeführt. Des Weiteren kann man der Abbildung ihre Dimensionen und Anwendungen entnehmen. \\ \\ 
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.8\textwidth]{Fertigungsverfahren.PNG}
-\caption{Werkzeug zum Mikroschneiden}
+\caption[Gla09]{Werkzeug zum Mikroschneiden}
 \label{fig:Bild1}
 \end{figure}
 \break
 
 \subsection{Diamant-Mikroschneiden}
 Das Diamant-Mikroschneiden dient zur Herstellung von prismatischen Mikrokavitäten mit scharfkantig aufeinandertreffenden Facettenflächen, wie sie zum Beispiel bei retroreflektierenden Strukturen erforderlich sind. Um retroreflektierende Strukturen zu fertigen werden aus glatten Oberflächen gezielt bestimmte Bereiche entfernt und die reflektierende Struktur bleibt stehen. Das Diamant-Mikroschneiden unterschiedet sich durch seine Werkzeuge und Kinematik grundlegend von anderen Fertigungsverfahren. \\ \\
-Abbildung 2.2 zeigt das Diamant-Werkzeug, welches sich dadurch auszeichnet, dass Span-und Freifläche gegeneinander vertauscht wurden. \\ \\
+Abbildung 2 zeigt das Diamant-Werkzeug, welches sich dadurch auszeichnet, dass Span-und Freifläche gegeneinander vertauscht wurden. \\ \\
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.3\textwidth]{Werkzeug.PNG}
-\caption{Werkzeug zum Mikroschneiden}
+\caption [Gla09]{Werkzeug zum Mikroschneiden}
 \label{fig:Bild2}
 \end{figure}
-\break
-Abbildung 2.3 zeigt die Kinematik des Mikroschneidens. Das Werkzeug schneidet zunächst in X,Y,-Z Richtung in das Werkstück und wird anschließend in \\-X,Y,Z Richtung zurückgeführt. Nachfolgend wird das Werkstück rotiert und der Schnittvorgang wiederholt sich. Durch diesen Vorgang können drei- bis sieben-seitige Kavitäten erstellt werden. \\ \\
+\pagebreak
+\\ \\
+Abbildung 3 zeigt die Kinematik des Mikroschneidens. Das Werkzeug schneidet zunächst in X,Y,-Z Richtung in das Werkstück und wird anschließend in \\-X,Y,Z Richtung zurückgeführt. Nachfolgend wird das Werkstück rotiert und der Schnittvorgang wiederholt sich. Durch diesen Vorgang können drei- bis sieben-seitige Kavitäten erstellt werden. \\ \\
 Außerdem ist die Herstellung von kubischen Retroreflektoren aus dreieckigen Einzelstrukturen abgebildet. \\ \\
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.7\textwidth]{Mikroschneiden_Kinematik.PNG}
-\caption{Kinematik des Mikroschneidens}
+\caption[Sch14]{Kinematik des Mikroschneidens}
 \label{fig:Bild3}
 \end{figure}
 \break
-\\ \\
 Besonders wichtig beim Mikroschneiden ist die richtige Justierung des Werkzeuges innerhalb der Maschine. Hier muss eine Genauigkeit von unter einem Mikrometer in allen Raumrichtungen erreicht werden. Sonst würden sich die einzelnen Spiegelflächen der Strukturen nicht präzise treffen und die gewünschte optische Funktion ließe sich nicht erreichen.
 
 
@@ -193,7 +193,7 @@ Die herzustellende Strukturgeometrie unterliegt sowohl den Anforderungen des opt
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.7\textwidth]{Blaze_Optik.PNG}
-\caption{Blaze-Struktur}
+\caption [Gla09]{Blaze-Struktur}
 \label{fig:Bild4}
 \end{figure}
 \break
@@ -201,10 +201,11 @@ Nachfolgend ist der Bearbeitungsprozess des nFTS zu sehen. Rechts ist das Diaman
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.6\textwidth]{nano.PNG}
-\caption{Bearbeitungsprozess}
+\caption [Gla09]{Bearbeitungsprozess}
 \label{fig:Bild5}
 \end{figure}
 \break
+\pagebreak
 \\ \\
 Beide Prozesse haben hohe Anforderungen an eine genaue Positionierung des Werkzeugs. Außerdem ist das Werkzeug in beiden Fällen aus Diamant, einem sehr teuren Werkstoff. Somit ist es besonders wichtig den Kontakt zwischen Werkzeug und Werkstück vorsichtig herzustellen, sodass es nicht zu Beschädigungen kommt. Dazu ist ein Kamerasystem mit starker Vergrößerung notwendig. Bisher wurde dies mit einer Kamera an der Werkzeughalterung realisiert. Diese musste manuell positioniert werden, wodurch viel Zeit in Anspruch genommen wurde. Während des Bearbeitungsprozesses kann es bei bestimmten Winkeln des Werkzeuges vorkommen, dass das Werkstück nicht mehr im Bildausschnitt zu sehen ist. Dies erfordert eine erneute manuelle Positionierung der Kamera und nimmt wieder Zeit in Anspruch. \\ \\
 
@@ -247,36 +248,117 @@ Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte
 Der Gimbal erschien uns als eine gute Grundlage für das Kamera-Positionierungssystem, da er leicht, schnell und preiswert ist. Der Gimbal enthält drei bürstenlose Motoren mit denen sehr kleine Winkeländerungen möglich sind. Den mechanischen Teil der Führung würden wir auf unsere Anforderungen anpassen. Wir haben uns also für diese Variante der Kameraführung entschieden.
 
 TO DO ÜBERARBEITUNG
+
 \section{Entwicklung der Motoransteuerng}
 \subsection{STorM32BGC und ESC}
 Da ein Gimbal sehr kleine und präzise Winkeländerungen durchführen kann schien auch der mitgelieferte Controller, ein STorM32BGC, als optimal. Er besteht aus einem 32Bit-Prozessor (STM32F103RC) und hat einen Mikrocontroller je Motor und Phase. Es wurde nun versucht, die Firmware den eigenen Bedürfnissen anzupassen. Jedoch mussten wir feststellen, dass die Firmware zwar Anpassungen und auch die aktive Steuerung zulässt, jedoch nicht ohne eine Grundkalibrierung funktioniert. Diese Grundkalibrierung verlangt die drehmomentfreie Ausrichtung aller Achsen und Schwenken auf jeder Achse in einer bestimmten Reihenfolge. Aufgrund des stehenden Aufbaus des Gestells für dieses Projekt war und ist dies nicht möglich.
 
 TODO Bild Storm
 
-Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\textit{ESC}). Diese sind speziell dafür entwickelt, bürstenlose Gleichstrommotoren (\textit{BDLC}) anzusteuern. Gemäß den Angaben zu Spannungsversorgung und anschließbaren Motoren haben wir \textit{F35A 3-6S BLHeli\_32} ESCs bestellt. Die Ansteuerung der Motoren mit diesen ESCs war völlig erfolglos. Da wir dann feststellten, dass ein anderer, sogar schwächerer ESC aber funktionierte, schlossen wir darauf, dass unsere ESCs wiederum ein Firmwareproblem hatten und/oder defekt sind.
+Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\textit{ESC}). Diese sind speziell dafür entwickelt, bürstenlose Gleichstrommotoren (\textit{BLDC}) anzusteuern. Gemäß den Angaben zu Spannungsversorgung und anschließbaren Motoren haben wir \textit{F35A 3-6S BLHeli\_32} ESCs bestellt. Die Ansteuerung der Motoren mit diesen ESCs war völlig erfolglos. Da wir dann feststellten, dass ein anderer, sogar schwächerer ESC aber funktionierte, schlossen wir darauf, dass unsere ESCs wiederum ein Firmwareproblem hatten und/oder defekt sind.
 
 TODO Bild ESC
 
 \subsection{L293D}
-Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. Der RaspberryPi2B kann maximal 5V ausgeben, da die Motoren keinesfalls dirket angeschlossen werden können wählten wir einen Mikrocontroller als Relais. Da der mit den BLDC mitgeliferte Controller STorM32BGC eine Stromstärke von 0,6A/Motor verarbeiten kann entschieden wir uns für L293D-Mikrocontroller. Je einer dieser ICs steuert nun drei Phasen eines Motors.
+Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. Der RaspberryPi2B kann maximal 5V ausgeben, da die Motoren keinesfalls direkt angeschlossen werden können wählten wir einen Mikrocontroller als Relais. Da der mit den BLDC mitgeliferte Controller STorM32BGC eine Stromstärke von 0,6A/Motor verarbeiten kann entschieden wir uns für L293D-Mikrocontroller. Diesr hat ebenfalls eine zulässige Dauerlast von 0,6A und eine Spitzenlast von 1,2A. Je einer dieser ICs steuert nun drei Phasen eines Motors.
 \begin{figure}[th]
 	\centering
 	\includegraphics[width=0.4\linewidth]{l293d_logik}
-	\caption[Logik des L293D-Mikrocontrollers, \url{http://www.ti.com/lit/ds/symlink/l293.pdf}, letzter Aufruf am 19.08.18, 12:51]{Logik des L293D-Mikrocontrollers}
+	\caption{Logik des L293D-Mikrocontrollers \cite{l293d}}
 	\label{fig:l293dlogik}
 \end{figure}
 
 Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke. Genutzt werden nur drei Ein- und Ausgänge, der vierte bleibt frei. Die Pins $1,2EN$ sowie $3,4EN$ schalten nur die entsprechenden Transistoren ein. $V_{CC1}$ ist für die Spannungsversorgung des IC selbst und wird mit 5V beaufschlagt, an $V_{CC2}$ liegt die Versorgungsspannung für die Motoren, 14V, an. Die Anschlüsse $1-4A$ und $1-4Y$ stellen die Ein- und Ausgänge dar. In \autoref{fig:mikrocontroller-schaltung} auf \autopageref{fig:mikrocontroller-schaltung} wird die Schaltung dargestellt. Hierbei sei angemekrt, dass sich die GPIO-Pinbelegung am RaspberryPi durch das Layout auf der Latine noch geändert haben.
-
-\subsection{Layout}
-
 \begin{figure}[th]
 	\centering
 	\includegraphics[width=0.6\linewidth]{l293d_pins}
-	\caption[Pinbelegung des L293D-Mikrocontrollers, \url{http://www.ti.com/lit/ds/symlink/l293.pdf}, letzter Aufruf am 19.08.18, 12:51]{Pinbelegung des L293D-Mikrocontrollers}
+	\caption{Pinbelegung des L293D-Mikrocontrollers \cite{l293d}}
 	\label{fig:l293dpins}
 \end{figure}
 
+\subsection{Layout}
+Wie in \autoref{fig:platine} zu sehen ist, befinden sich neben den ICs und den Eingangswiderständen noch die Anschlüsse für $Ground$ und $14V$ (ganz links, von unten nach oben) und eine 40-polige Brücke für die GPIO-Pins des RaspberryPi auf der Platine.\\\\
+Die finale Pinbelegung am RaspberryPi ist wie folgt:
+
+\begin{table}[htp] 
+	\centering 
+	\begin{tabular}{|c||c|c|c||c|}
+		\hline 
+		& 3,3V &  & 5V & alle $V_{CC1}$ und $xxEN$ \\ 
+		\hline 
+		& GPIO2 &  & 5V &  \\ 
+		\hline 
+		& GPIO3 &  & GND &  \\ 
+		\hline 
+		& GPIO4 &  & GPIO14 & Motor A Phase 3 \\ 
+		\hline 
+		GND 14V& GND &  & GPIO15 & Motor A Phase 1 \\ 
+		\hline 
+		& GPIO17 &  & GPIO18 & Motor A Phase 2 \\ 
+		\hline 
+		& GPIO27 &  & GND & GND $IC_{MotorA}$ \\ 
+		\hline 
+		& GPIO22 &  & GPIO23 &  \\ 
+		\hline 
+		& 3,3V &  & GPIO24 &  \\ 
+		\hline 
+		& GPIO10 &  & GND &  \\ 
+		\hline 
+		& GPIO9 &  & GPIO25 &  \\ 
+		\hline 
+		& GPIO11 &  & GPIO8 &  \\ 
+		\hline 
+		& GND &  & GPIO7 & Motor B Phase 3 \\ 
+		\hline 
+		& ID\_SD &  & ID\_SC &  \\ 
+		\hline 
+		& GPIO5 &  & GND &  \\ 
+		\hline 
+		& GPIO6 &  & GPIO12 & Motor B Phase 1 \\ 
+		\hline 
+		& GPIO13 &  & GND & GND $IC_{MotorB}$ \\ 
+		\hline 
+		Motor C Phase 2& GPIO19 &  & GPIO16 & Motor B Phase 2 \\ 
+		\hline 
+		Motor C Phase 1& GPIO26 &  & GPIO20 &  \\ 
+		\hline 
+		GND $IC_{MotorC}$& GND &  & GPIO21 & Motor C Phase 3 \\ 
+		\hline 
+	\end{tabular} 
+	\caption{Pinbelegung am RaspberryPi} 
+	\label{tab:pins}
+\end{table}
+
+\begin{figure} 
+	\subfigure[Oberseite der Platine]{\includegraphics[width=0.49\textwidth]{platinevorn}} 
+	\subfigure[Unterseite der Platine]{\includegraphics[width=0.49\textwidth]{platinehinten}} 
+	\caption{Platine mit Brücke und Schaltung} 
+	\label{fig:platine}
+\end{figure} 
+\subsection{Ansteuerung der Motoren}
+Geplant war die Ansteuerung der Motoren mit PWM-Signalen, um so die Phasenverschiebung der Phasen des Motors nutzen zu können und ihn beliebig langsam drehen zu lassen. Mangels Zeit haben wir dies nicht verwirklichen können. Die Motoren werden nun wie Schrittmotoren angesteuert. Das heißt es werden die 3 Phasen der Reihe nach an- und abgeschalten. Dadurch ergibt sich folgende Sequenz:
+\begin{table}[htp] 
+	\centering 
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			0 & \textcolor{green}{an} & \textcolor{red}{aus} & \textcolor{red}{aus}  \\ 
+			\hline 
+			1 & \textcolor{green}{an} & \textcolor{green}{an} & \textcolor{red}{aus}  \\ 
+			\hline 
+			2 & \textcolor{red}{aus}  & \textcolor{green}{an} & \textcolor{red}{aus}  \\ 
+			\hline 
+			3 & \textcolor{red}{aus}  & \textcolor{green}{an} & \textcolor{green}{an} \\ 
+			\hline 
+			4 & \textcolor{red}{aus}  & \textcolor{red}{aus}  & \textcolor{green}{an} \\ 
+			\hline 
+			5 & \textcolor{green}{an} & \textcolor{red}{aus}  & \textcolor{green}{an} \\ 
+			\hline
+		\end{tabular} 
+\caption{Sequenztabelle für einen Phasenumlauf} 
+\label{tab:sequenz}
+\end{table}
+
+Wie aus \autoref{tab:sequenz} zu entnehmen ist, wird dadurch das Magnetfeld um jeweils einen halben Pol verschoben und der Motor dementsprechend bewegt. In Abschnitt \ref{berechnungSteps} wird die maximale Auflösung rechnerisch ermittelt.
 \section{Aufbau des Gesamtsystems}
 TO DO BILD \\ \\
 Folgende Geräte und Bauteile wurden verwendet
@@ -286,9 +368,8 @@ Folgende Geräte und Bauteile wurden verwendet
 \item Laptop mit FireWire-Schnittstelle
 \item Raspberry Pi 2 Model B 
 \item Bildschirm, Tastatur, Maus (einschließlich Kabel zum Anschließen an den Raspberry Pi)
-\item  Crossover-Kabel
+\item Crossover-Kabel
 \item Motoren: 3 mal BGM4108-130
-%\item Steuergerät für die Motoren: STorM32BGC F35A 3-6S BLHeli\_32...
 \item Schaltung: Mikrocontroller: (L293D), Widerstände (1k Ohm), Brücken
 \end{itemize}
 TO DO vollständig und aktuell!! \\ \\
@@ -327,20 +408,22 @@ Eine weiter wichtige Aufgabe ist das Anzeigen des aktuell aufgenommen Bildes der
 
 \subsection{Berechnungen}
 \subsubsection{Steps}
+\label{berechnungSteps}
 Steps pro Umdrehung: \\
 $22*3 = 66 $\\
 Winkel pro Step: \\
 $360/66 = 60/11 = 5.4545$\\
 \subsection{Abstand und Winkel}
+Das Gestell ist mit drei Motoren ausgestattet, um die Kamera richtig zu positionieren. Motor A bewegt die Kamera in aus der Draufsicht betrachtet in einer Kreisbahn, sodass die x-Position des Bildausschnittes verändert werden kann. Durch diese Kreisbahn ändert sich jedoch auch der Abstand von Kamera zu Werkstück. Um den genauen Abstand einzustellen wird die Kamera durch Motor B vor und zurück geschwenkt. Auch dies geschieht auf einer Kreisbahn. So verändert sich mit dem Abstand zum Werkstück auch die Höhe der Kamera. Mit Motor C kann die Kamera hoch und runter gekippt werden, wodurch die zuvor entstandene Höhendifferenz wieder ausgeglichen werden kann. Außerdem wird durch diesen Motor die y-Position des Bildausschnittes eingestellt.
 
 \begin{figure}[htbp]
 \centering 
-\includegraphics[width=0.8\textwidth]{Motoren.PNG}
+\includegraphics[width=0.5\textwidth]{Motoren.PNG}
 \caption{Gestell mit den drei Motoren}
 \label{fig:Bild6}
 \end{figure}
 \break
-
+In Abbildung 7 ist die Bahn, entlang der sich die Kamera durch Motor A bewegt, in der Draufsicht zu sehen. Ausgehend von der Position mittig auf dem Halbkreis kann die Kamera zu beiden Seiten geschwenkt werden. Während sie mittig den größten Abstand zum Werkstück hat, wird der Abstand beim Schwenken zu den Seiten geringer. Zu dem Abstand zwischen Motor A und Werkstück wird dann $cos(\alpha) * Radius A$ gerechnet. Der Cosinus beträgt bei 0$^\circ$ 1, dies entspricht genau der Position mittig auf dem Halbkreis, da in dem Fall der Abstand mit Abstand zwischen Motor A und Werkstück + Radius A am größten ist. 
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.8\textwidth]{Motor_A.PNG}
@@ -348,7 +431,7 @@ $360/66 = 60/11 = 5.4545$\\
 \label{fig:Bild7}
 \end{figure}
 \break
-
+In Abbildung 8 erkennt man nun die Bahn, entlang der sich die Kamera durch Motor B bewegt aus seitlicher Ansicht. Der Abstand zum Werkstück soll hier korrigiert werden. Die Kamera kann auf der Kreisbahn näher zum Werkstück hingeführt werden. Von dem ursprünglichen Abstand wird dann $Sin(\beta)*Radius B$ subtrahiert, da der Abstand kleiner wird. Schwenkt man die Kamera nach hinten wird der genannte Therm addiert, da sich der Abstand vergrößert. Jedoch bewegt sich die Kamera entlang dieser Kreisbahn auch in ihrer Höhe. Die Höhe ändert sich um den Therm $Radius B - Cos(\beta) *Radius B$. Sowohl dieser Höhenunterschied muss durch den Motor C ausgeglichen werden, als auch der Winkel, den Motor B verstellt. Wird die Kamera beispielsweise durch Motor B etwas nach unten gekippt, neigt Motor C die Kamera wieder um dieses Winkel nach oben. Außerdem wird die Höhendifferenz auf dem Bildausschnitt berechnet und die Kamera wird so weit nach oben geneigt, bis sie wieder den richtigen Bildausschnitt zeigt.
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.8\textwidth]{Motor_B.PNG}
@@ -356,7 +439,7 @@ $360/66 = 60/11 = 5.4545$\\
 \label{fig:Bild8}
 \end{figure}
 \break
-
+Bei den Berechnungen wurde die Annahme getroffen, dass die Distanzänderung, die nur durch den Winkel des Motors C entsteht vernachlässigt werden kann. Es ist anzunehmen, dass die Winkeländerungen von Motor C im Vergleich zu dem Abstand zum Werkstück so gering sind, dass sich die Distanz nur minimal ändert. Sollte es trotzdem zu unscharfen Bildern kommen, kann man die Motorpositionen durch ein iteratives Verfahren optimieren. In diesem Verfahren würde die Abstandsdifferenz zwischen angenommenem Abstand und wahrem Abstand mit Hilfe von Cosinus berechnet. Der Abstand würde durch Motor B angepasst und anschließend würde der Winkel von Motor C entsprechend den Änderungen durch Motor B wieder angepasst. Durch mehrfaches Ausführen dieser Schritte könnte man den Abstand optimieren. Jedoch haben wir uns gegen eine solche Optimierung entschieden, da zunächst die grundlegenden Funktionen unserer Positionierung im Vordergrund stehen sollten. 
 
 \section{Bedienungsanleitung}
 TO DO (finale Version)
@@ -418,7 +501,7 @@ TO DO (was funktioniert und Aussicht wie System optimiert werden kann)
 \begin{figure}[th]
 	\centering
 	\includegraphics[width=0.7\linewidth]{ICschaltung.PNG}
-	\caption[Schaltplan der Steuerung, erstellt von Erik Rother, 03.09.2018]{Schaltplan der Steuerung}
+	\caption{Schaltplan der Steuerung}
 	\label{fig:mikrocontroller-schaltung}
 \end{figure}
 % Literatur
