@@ -1,9 +1,12 @@
 \babel@toc {ngerman}{}
-\contentsline {figure}{\numberline {1}{\ignorespaces Werkzeug zum Mikroschneiden\relax }}{1}{figure.caption.3}
-\contentsline {figure}{\numberline {2}{\ignorespaces Werkzeug zum Mikroschneiden\relax }}{2}{figure.caption.4}
-\contentsline {figure}{\numberline {3}{\ignorespaces Kinematik des Mikroschneidens\relax }}{3}{figure.caption.5}
-\contentsline {figure}{\numberline {4}{\ignorespaces Blaze-Struktur\relax }}{4}{figure.caption.6}
-\contentsline {figure}{\numberline {5}{\ignorespaces Bearbeitungsprozess\relax }}{4}{figure.caption.7}
-\contentsline {figure}{\numberline {6}{\ignorespaces Gestell mit den drei Motoren\relax }}{11}{figure.caption.9}
-\contentsline {figure}{\numberline {7}{\ignorespaces Positions\IeC {\"a}nderung der Kamera durch Motor A\relax }}{12}{figure.caption.10}
-\contentsline {figure}{\numberline {8}{\ignorespaces Positions\IeC {\"a}nderung der Kamera durch Motor B\relax }}{13}{figure.caption.11}
+\contentsline {figure}{\numberline {1}{\ignorespaces Gla09}}{1}{figure.caption.3}
+\contentsline {figure}{\numberline {2}{\ignorespaces Gla09}}{2}{figure.caption.4}
+\contentsline {figure}{\numberline {3}{\ignorespaces Sch14}}{3}{figure.caption.5}
+\contentsline {figure}{\numberline {4}{\ignorespaces Gla09}}{4}{figure.caption.6}
+\contentsline {figure}{\numberline {5}{\ignorespaces Gla09}}{4}{figure.caption.7}
+\contentsline {figure}{\numberline {6}{\ignorespaces Logik des L293D-Mikrocontrollers, \url {http://www.ti.com/lit/ds/symlink/l293.pdf}, letzter Aufruf am 19.08.18, 12:51}}{7}{figure.caption.9}
+\contentsline {figure}{\numberline {7}{\ignorespaces Pinbelegung des L293D-Mikrocontrollers, \url {http://www.ti.com/lit/ds/symlink/l293.pdf}, letzter Aufruf am 19.08.18, 12:51}}{8}{figure.caption.10}
+\contentsline {figure}{\numberline {8}{\ignorespaces Gestell mit den drei Motoren\relax }}{13}{figure.caption.11}
+\contentsline {figure}{\numberline {9}{\ignorespaces Positions\IeC {\"a}nderung der Kamera durch Motor A\relax }}{14}{figure.caption.12}
+\contentsline {figure}{\numberline {10}{\ignorespaces Positions\IeC {\"a}nderung der Kamera durch Motor B\relax }}{15}{figure.caption.13}
+\contentsline {figure}{\numberline {11}{\ignorespaces Schaltplan der Steuerung, erstellt von Erik Rother, 03.09.2018}}{20}{figure.caption.14}
