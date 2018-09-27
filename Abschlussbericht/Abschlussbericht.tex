@@ -225,28 +225,33 @@ Beide Prozesse haben hohe Anforderungen an eine genaue Positionierung des Werkze
 \section{Konzeptentwicklung}
 
 Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeug-kontakt-Detektion beschäftigt haben, wurden erste Lösungsansätze erarbeitet. Die grundlegende Fragestellung befasste sich damit, welche Art der Kameraführung am besten für das gegebene Problem geeignet ist. Bei der Beurteilung galt es zu überprüfen, ob die Grundstrukturen die gegebenen Anforderungen erfüllen und dabei gleichzeitig wirtschaftlich sind. In der nachfolgenden Tabelle sind vier Grundstrukturen der Kameraführung mit ihren Vor- und Nachteilen aufgelistet. \\ \\
-
-\begin{tabular}{lll}
- 
-Grundstruktur der Kameraführung & pro & contra \\
- \hline
- \hline
-Raumportal & schnell & groß \\
- & präzise & schwer \\
-& größere Lasten möglich &\\
-  \hline
-Gimbal & leicht & Änderung der Führung notwendig \\
- & schnell & \\
-& preiswert & \\
- \hline
-Parallelkinematik & sehr präzise & sehr teuer\\
-&  enorm flexibel & zweite Führung notwendig \\
-  \hline
-Tragarm & sehr günstig  & Hebelwirkung vermindert Stabilität\\
-
-\end{tabular}
-\\ \\
-\\ \\
+\begin{table}[htp] 
+	\centering 
+	% Einrahmung der Minipage
+	\fbox{%
+		% erste Minipage mit einer Breite von 80% der Textbreite
+		\begin{minipage}[t]{0.95\textwidth}
+			\begin{tabular}{p{0.3\textwidth}p{0.3\textwidth}p{0.3\textwidth}}
+				Grundstruktur der Kameraführung & pro & contra \\
+				\hline
+				\hline
+				Raumportal & schnell & groß \\
+				& präzise & schwer \\
+				& größere Lasten möglich &\\
+				\hline
+				Gimbal & leicht & Änderung der Führung notwendig \\
+				& schnell & \\
+				& preiswert & \\
+				\hline
+				Parallelkinematik & sehr präzise & sehr teuer\\
+				&  enorm flexibel & zweite Führung notwendig \\
+				\hline
+				Tragarm & sehr günstig  & Hebelwirkung vermindert Stabilität\\	
+			\end{tabular}
+		\end{minipage}
+	}
+	\caption{Vor- und Nachteile der in Erwägung gezogenen Kameraführungen} 
+\end{table}
 Das Raumportal bietet zwar viele Vorteile um eine Kamera genau und schnell im Raum auszurichten, ist jedoch für unsere Anforderungen nicht optimal, da es sehr viel Platz einnimmt. Es ist wichtig, dass unsere Kameraführung die Arbeit der Maschine nicht beeinträchtigt, sodass wir uns gegen das Raumportal entschieden haben. \\ \\
  Die Parallelkinematik bietet eine sehr präzise Ausrichtung der Position und kann eine Beweglichkeit in allen sechs Freiheitsgraden ermöglichen zum Beispiel in Form eines Hexapods. Die Bewegungen sind jedoch auch sehr klein, sodass wahrscheinlich eine zweite Führung notwendig wäre, um die Position der Kamera zunächst grob einzustellen. Die Parallelkinematik ist auch sehr teuer, sodass wir diese Lösung nicht als wirtschaftlich ansehen. \\ \\
 Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte es zu Problemen in der Stabilität kommen, wenn die Hebelwirkung an dem Tragarm zu groß wird. Außerdem sind preiswerte Tragarme manuell einzustellen, was nicht den Anforderungen entspricht. \\ \\
