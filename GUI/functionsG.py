@@ -123,6 +123,11 @@ def motor_c(y_pixel, delay):       # distance,
 def correction_b(steps):
 	x = (((-1 * distance) - (radius_a * math.cos(alpha)) + target_distance) / (radius_b))
    	beta = math.asin(x)
+	new_position = angle_to_steps(beta)
+
+	read_save_position.save_position(a, new_position, c)
+
+	return new_position
 
 
 def correction_c(steps):
@@ -197,9 +202,12 @@ def opposite(image_name):
     a, b, c = read_save_position.read_position()
     new_position = -1 * int(a)
     print(new_position)
-    # print("illegal type")
+	
+	motor((2*new_position), 1, 'a')
+	read_save_position.save_position_delay((2*new_position), b, c)
+	
+	correction_b((2*new_position))
+	correction_c((2*new_position))
 
-    # TODO
-    # Motoren ansteuern
 
 
