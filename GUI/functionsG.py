@@ -38,8 +38,10 @@ def angle_to_steps(angle):
 	angle_per_step = 5.4545
 	if 0.005 < angle < 5.54545:
 		return 1
-	elif angle < 0.005:
+	elif -0.00115 < angle < 0.005:
 		return 0
+	elif -0.00115 > angle > -5.54545:
+		return -1
 	else:
 		steps = float(angle) / float(angle_per_step)
 		return int(steps)
@@ -181,7 +183,7 @@ def define_target_distance(alpha, beta):
 
 def reference_point():
 	global a, b, c
-	set_cuurent_position()
+	set_current_position()
 	
 	motor((-1 * a), 100, 'a')
 	motor((-1 * b), 100, 'b')
@@ -208,57 +210,57 @@ def latest_position():
 def automatic(x_dist, z_dist):
 	global old_a, old_b, old_c, a, b, c
 
-	new_a = motor_a(x_dist, 1)
-	new_c = motor_c(z_dist, 1)
+	steps_a = motor_a(x_dist, 1)
+	steps_c = motor_c(z_dist, 1)
 	
-	steps_a = int(old_a) - int(new_a)
-	steps_b = int(old_b) - int(b)
-	steps_c = int(old_c) - int(new_c)
-	read_save_position.save_position(new_a, b, new_c)
+	new_a = int(old_a) + int(steps_a)
+	new_b = int(old_b) - int(b)		# TODO
+	new_c = int(old_c) + int(steps_c)
+	read_save_position.save_position(new_a, new_b, new_c)
 	
 	motor(steps_a, 1, 'a')
-	motor(steps_b, 1, 'b')
+	motor(1, 1, 'b')
 	motor(steps_c, 1, 'c')
 
-	print(steps_a, steps_b, steps_c)
+	print(steps_a, 1, steps_c)
     
 
 def tracking(x_dist, z_dist):
 	global old_a, old_b, old_c, a, b, c
 
-	new_a = motor_a(x_dist, 1)
-	new_c = motor_c(z_dist, 1)
+	steps_a = motor_a(x_dist, 1)
+	steps_c = motor_c(z_dist, 1)
 	
-	steps_a = (int(new_a) - int(old_a))
-	steps_b = (int(b) - int(old_b))
-	steps_c = (int(new_c) - int(old_c))
-	read_save_position.save_position(new_a, b, new_c)
+	new_a = int(old_a) + int(steps_a)
+	new_b = int(old_b) - int(b)		# TODO
+	new_c = int(old_c) + int(steps_c)
+	read_save_position.save_position(new_a, new_b, new_c)
 	
 	motor(steps_a, 1, 'a')
-	motor(steps_b, 1, 'b')
+	motor(1, 1, 'b')
 	motor(steps_c, 1, 'c')
 
-	print(steps_a, steps_b, steps_c)
+	print(steps_a, 1, steps_c)
     
 
 
-def coordinate1(x, y, delay):
+def coordinate1(x, z, delay):
     global old_a, old_b, old_c, a, b, c
     
-    new_a = motor_a(x_dist, 1)
-    new_c = motor_c(z_dist, 1)
+    steps_a = motor_a(int(x), 1)
+    steps_c = motor_c(int(z), 1)
     
-    steps_a = (int(new_a) - int(old_a))
-    steps_b = (int(b) - int(old_b))
-    steps_c = (int(new_c) - int(old_c))
-    read_save_position.save_position(new_a, b, new_c)
+    new_a = int(old_a) + int(steps_a)
+    new_b = int(old_b) - int(b)		# TODO
+    new_c = int(old_c) + int(steps_c)
+    read_save_position.save_position(new_a, new_b, new_c)
     
-    motor(steps_a, delay, 'a')
-    motor(steps_b, delay, 'b')
-    motor(steps_c, delay, 'c')
+    motor(steps_a, 1, 'a')
+    motor(1, 1, 'b')
+    motor(steps_c, 1, 'c')
     
-    print(steps_a, steps_b, steps_c)
-	
+    print(steps_a, 1, steps_c)
+
 	
 def coordinate2(a, b, c, delay):
 	global old_a, old_b, old_c
@@ -281,39 +283,40 @@ def coordinate2(a, b, c, delay):
 # delay mit übergeben
 def up():
     global old_a, old_b, old_c, a, b, c, delay
-    # a, b, c = read_save_position.read_position()
-    update_position(old_a, old_b, old_c)
+    a, b, c = read_save_position.read_position()
+    # update_position(old_a, old_b, old_c)
     c += 1
-    read_save_position.save_position(a, b, c)
+    read_save_position.save_position_delay(a, b, c, delay)
 
     motor(1, delay, 'c')
 
 
 def left():
 	global old_a, old_b, old_c, a, b, c, delay
-    # a, b, c = read_save_position.read_position()
-    a -= 1
-    read_save_position.save_position(a, b, c)
-
-    motor(-1, delay, 'a')
+	a, b, c = read_save_position.read_position()
+	# update_position(old_a, old_b, old_c)
+	a -= 1
+	read_save_position.save_position_delay(a, b, c, delay)
+	
+	motor(-1, delay, 'a')
 
 
 def right():
 	global old_a, old_b, old_c, a, b, c, delay
-    # a, b, c = read_save_position.read_position()
-    update_position(old_a, old_b, old_c)
-    a += 1
-    read_save_position.save_position(a, b, c)
-
-    motor(1, delay, 'a')
+	a, b, c = read_save_position.read_position()
+	# update_position(old_a, old_b, old_c)
+	a += 1
+	read_save_position.save_position_delay(a, b, c, delay)
+	
+	motor(1, delay, 'a')
 
 
 def down():
     global old_a, old_b, old_c, a, b, c, delay
-    # a, b, c = read_save_position.read_position()
-    update_position(old_a, old_b, old_c)
+    a, b, c = read_save_position.read_position()
+    # update_position(old_a, old_b, old_c)
     c -= 1
-    read_save_position.save_position(a, b, c)
+    read_save_position.save_position_delay(a, b, c,delay)
 
     motor(-1, delay, 'c')
 

@@ -17,7 +17,7 @@ import detection
 import motor_controlG
 
 
-fields = 'x-coordinate:', 'y-coordinate:', 'delay:'
+fields = 'x-coordinate:', 'z-coordinate:', 'delay:'
 fields_angle = 'Motor a:', 'Motor b:', 'Motor c:', 'delay:'
 images = []
 image = None            # aktuelles Bild
@@ -1014,6 +1014,8 @@ def bu2_onclick():
 def get_blocked(ind):
     global bu2_blocked
     if not bu2_blocked:     # == False
+    	functionsG.set_old_position(image_na)
+    	# functionsG.set_current_position()
         if ind == 0:
             functionsG.up()
         elif ind == 1:
@@ -1026,6 +1028,7 @@ def get_blocked(ind):
             functionsG.set_delay(1)
         elif ind == 5:
             functionsG.set_delay(2)
+            time.sleep(2)
         read('neue Position:')
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     else:
