@@ -119,7 +119,7 @@ def coordinate(x, y, wait):
 # TODO
 # delay mit übergeben
 def up():
-    global old_a, old_b, old_c
+    global old_a, old_b, old_c, a, b, c
     # a, b, c = read_save_position.read_position()
     update_position(old_a, old_b, old_c)
     c += 1
