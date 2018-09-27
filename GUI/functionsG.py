@@ -161,7 +161,7 @@ def motor_c(z_pixel, delay):       # distance,
 
 def correction_b(steps_a):
 	alpha = steps_to_angle(steps_a)
-	x = (((-1 * distance) - (radius_a * math.cos(alpha)) + target_distance) / (radius_b))
+	x = (((-1 * distance) - (radius_a * math.degrees(math.cos(alpha))) + target_distance) / (radius_b))
    	beta = math.asin(x)
    	beta = math.degrees(beta)
 	new_position = angle_to_steps(beta)
@@ -172,13 +172,18 @@ def correction_b(steps_a):
 
 
 def correction_c(steps_b):
-    steps_c = steps_b * (-1)  
-    # TODO
+	steps_c1 = steps_b * (-1)
+	beta = steps_to_angle(steps_b)
+	steps_c2 = radius_b - ((math.degrees(math.acos(beta)) * radius_b))
+	steps_c = steps_c1 + steps_c2
+	
+	print('Korrektur c: ' + str(steps_c))
+	return steps_c
 
 
 def define_target_distance(alpha, beta):
 	global target_distance, distance, radius_a, radius_b
-	target_distance = distance + (radius_a * math.cos(alpha)) + (radius_b * math.sin(beta))
+	target_distance = distance + (radius_a * math.degrees(math.cos(alpha))) + (radius_b * math.degrees(math.sin(beta)))
 
 
 def reference_point():
@@ -215,7 +220,11 @@ def automatic(x_dist, z_dist):
 	
 	new_a = int(old_a) + int(steps_a)
 	new_b = int(old_b) - int(b)		# TODO
+	# steps_b = int(correction_b(steps_a)
+	# new_b = int(old_b) + )
 	new_c = int(old_c) + int(steps_c)
+	# steps_c = (int(steps_c) + int(correction_c(steps_b))
+	# new_c = int(old_c) + int(steps_c)
 	read_save_position.save_position(new_a, new_b, new_c)
 	
 	motor(steps_a, 1, 'a')
