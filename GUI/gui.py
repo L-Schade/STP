@@ -59,8 +59,8 @@ def click1(event):
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)    #
         output_lab.place(x=225, y=475, width=600)
 
-		functionsG.set_old_position(image_na)
         old_posi = read_save_position.read_old_position(image_na)
+        functionsG.set_old_position(image_na)
         a_posi = old_posi[0]
         b_posi = old_posi[1]
         c_posi = old_posi[2]
@@ -132,8 +132,8 @@ def button_click():
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=225, y=450, width=600, height=200)
 
-	functionsG.set_old_position(image_na)
     functionsG.set_current_position()
+    functionsG.set_old_position(image_na)
     old_posi = read_save_position.read_old_position(image_na)
     a_posi = old_posi[0]
     b_posi = old_posi[1]
@@ -290,11 +290,11 @@ def button21_click():
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
-					functionsG.set_old_position(image_na)
                     old_posi = read_save_position.read_old_position(image_na)
                     a_posi = old_posi[0]
                     b_posi = old_posi[1]
                     c_posi = old_posi[2]
+                    functionsG.set_old_position(image_na)
 
                     # TODO
                     # Motoren ansteuern
@@ -380,7 +380,7 @@ def button22_click():
                 if not bu2_blocked:         # False
 					# TODO
                     functionsG.set_current_position()
-					functionsG.set_old_position(image_na)
+                    functionsG.set_old_position(image_na)
                     functionsG.motor(m_a, delay, 'a')
                     functionsG.motor(m_b, delay, 'b')
                     functionsG.motor(m_c, delay, 'c')
@@ -437,7 +437,7 @@ def button3_click():
     label_img_coord2.place_forget()
 
 	# TODO
-	functionsG.set_old_position(image_na)
+    functionsG.set_old_position(image_na)
 
     read_coordinates('alte Daten:')
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
@@ -565,7 +565,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         # labelImg1.Image = imageNavigate
         # labelImg1.bind("<Button-1>", click2)
 
-		functionsG.set_old_position(image_na)
+        functionsG.set_old_position(image_na)
         old_posi = read_save_position.read_old_position(image_na)
         a_posi = old_posi[0]
         b_posi = old_posi[1]

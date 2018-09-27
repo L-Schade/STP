@@ -46,8 +46,8 @@ def set_distance(dstnc):
 
 
 def set_old_position(file_name):
-	global old_a, old_b, old_c
-	old_a, old_b, old_c = read_save_postion.read_old_position(file_name)
+    global old_a, old_b, old_c
+    old_a, old_b, old_c = read_save_position.read_old_position(file_name)
 
 
 def set_current_position():
