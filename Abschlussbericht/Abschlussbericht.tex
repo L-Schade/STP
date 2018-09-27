@@ -19,7 +19,6 @@
 \usepackage{colortbl}
 \usepackage{paralist}
 \usepackage{array}
-\usepackage{titlesec}
 \usepackage{parskip}
 \usepackage[right]{eurosym}
 \usepackage[subfigure,titles]{tocloft}
@@ -39,7 +38,6 @@
 	colorlinks=true,linkcolor=black,citecolor=black,filecolor=magenta,urlcolor=black}
 
 \begin{document}
-\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
 
 % Kopf- und Fusszeile
 \renewcommand{\sectionmark}[1]{\markright{#1}}
@@ -123,7 +121,6 @@ Hiermit versichere ich, dass ich die vorliegende schriftliche Hausarbeit selbst�
 % ----------------------------------------------------------------------------------------------------------
 \setcounter{page}{1}
 \onehalfspacing
-\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
 \pagebreak
 
 % ----------------------------------------------------------------------------------------------------------
@@ -135,7 +132,6 @@ Hiermit versichere ich, dass ich die vorliegende schriftliche Hausarbeit selbst�
 \settowidth{\cfttabnumwidth}{Abb. 10\quad}
 \settowidth{\cftfignumwidth}{Abb. 10\quad}
 
-\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt}
 \singlespacing
 \rhead{INHALTSVERZEICHNIS}
 \tableofcontents
@@ -143,10 +139,7 @@ Hiermit versichere ich, dass ich die vorliegende schriftliche Hausarbeit selbst�
 % ----------------------------------------------------------------------------------------------------------
 % Inhalt
 % ----------------------------------------------------------------------------------------------------------
-% Abstände Überschrift
-\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-\titlespacing{\subsubsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+
 
 % Kopfzeile
 \renewcommand{\sectionmark}[1]{\markright{#1}}
@@ -250,7 +243,7 @@ Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeug-kontak
 			\end{tabular}
 		\end{minipage}
 	}
-	\caption{Vor- und Nachteile der in Erwägung gezogenen Kameraführungen} 
+	\caption{Vor- und Nachteile der in Erwägung gezogenen Kameraf} 
 \end{table}
 Das Raumportal bietet zwar viele Vorteile um eine Kamera genau und schnell im Raum auszurichten, ist jedoch für unsere Anforderungen nicht optimal, da es sehr viel Platz einnimmt. Es ist wichtig, dass unsere Kameraführung die Arbeit der Maschine nicht beeinträchtigt, sodass wir uns gegen das Raumportal entschieden haben. \\ \\
  Die Parallelkinematik bietet eine sehr präzise Ausrichtung der Position und kann eine Beweglichkeit in allen sechs Freiheitsgraden ermöglichen zum Beispiel in Form eines Hexapods. Die Bewegungen sind jedoch auch sehr klein, sodass wahrscheinlich eine zweite Führung notwendig wäre, um die Position der Kamera zunächst grob einzustellen. Die Parallelkinematik ist auch sehr teuer, sodass wir diese Lösung nicht als wirtschaftlich ansehen. \\ \\
