@@ -210,7 +210,7 @@ Beide Prozesse haben hohe Anforderungen an eine genaue Positionierung des Werkze
 
 \section{Konzeptentwicklung}
 
-Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeug-kontakt-Detektion beschäftigt haben, wurden erste Lösungsansätze erarbeitet. Die grundlegende Fragestellung befasste sich damit, welche Art der Kameraführung am besten für das gegebene Problem geeignet ist. Bei der Beurteilung galt es zu überprüfen, ob die Grundstrukturen die gegebenen Anforderungen erfüllen und dabei gleichzeitig wirtschaftlich sind. In der nachfolgenden Tabelle sind vier Grundstrukturen der Kameraführung mit ihren Vor- und Nachteilen aufgelistet. \\ \\
+Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeug-Kontakt-Detektion beschäftigt haben, wurden erste Lösungsansätze erarbeitet. Die grundlegende Fragestellung befasste sich damit, welche Art der Kameraführung am besten für das gegebene Problem geeignet ist. Bei der Beurteilung galt es zu überprüfen, ob die Grundstrukturen die gegebenen Anforderungen erfüllen und dabei gleichzeitig wirtschaftlich sind. In der nachfolgenden Tabelle sind vier Grundstrukturen der Kameraführung mit ihren Vor- und Nachteilen aufgelistet. \\ \\
 \begin{table}[htp] 
 	\centering 
 	% Einrahmung der Minipage
@@ -238,12 +238,44 @@ Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeug-kontak
 	}
 	\caption{Vor- und Nachteile der in Erwägung gezogenen Kameraf} 
 \end{table}
-Das Raumportal bietet zwar viele Vorteile um eine Kamera genau und schnell im Raum auszurichten, ist jedoch für unsere Anforderungen nicht optimal, da es sehr viel Platz einnimmt. Es ist wichtig, dass unsere Kameraführung die Arbeit der Maschine nicht beeinträchtigt, sodass wir uns gegen das Raumportal entschieden haben. \\ \\
- Die Parallelkinematik bietet eine sehr präzise Ausrichtung der Position und kann eine Beweglichkeit in allen sechs Freiheitsgraden ermöglichen zum Beispiel in Form eines Hexapods. Die Bewegungen sind jedoch auch sehr klein, sodass wahrscheinlich eine zweite Führung notwendig wäre, um die Position der Kamera zunächst grob einzustellen. Die Parallelkinematik ist auch sehr teuer, sodass wir diese Lösung nicht als wirtschaftlich ansehen. \\ \\
-Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte es zu Problemen in der Stabilität kommen, wenn die Hebelwirkung an dem Tragarm zu groß wird. Außerdem sind preiswerte Tragarme manuell einzustellen, was nicht den Anforderungen entspricht. \\ \\
-Der Gimbal erschien uns als eine gute Grundlage für das Kamera-Positionierungssystem, da er leicht, schnell und preiswert ist. Der Gimbal enthält drei bürstenlose Motoren mit denen sehr kleine Winkeländerungen möglich sind. Den mechanischen Teil der Führung würden wir auf unsere Anforderungen anpassen. Wir haben uns also für diese Variante der Kameraführung entschieden. \\ \\
+Das Raumportal bietet zwar viele Vorteile um eine Kamera genau und schnell im Raum auszurichten, ist jedoch für unsere Anforderungen nicht optimal, da es sehr viel Platz einnimmt. Es ist wichtig, dass unsere Kameraführung die Arbeit der Maschine nicht beeinträchtigt, sodass wir uns gegen das Raumportal entschieden haben.
+
+ Die Parallelkinematik bietet eine sehr präzise Ausrichtung der Position und kann eine Beweglichkeit in allen sechs Freiheitsgraden ermöglichen zum Beispiel in Form eines Hexapods. Die Bewegungen sind jedoch auch sehr klein, sodass wahrscheinlich eine zweite Führung notwendig wäre, um die Position der Kamera zunächst grob einzustellen. Die Parallelkinematik ist auch sehr teuer, sodass wir diese Lösung nicht als wirtschaftlich ansehen.
+ 
+Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte es zu Problemen mit der Stabilität kommen, wenn die Hebelwirkung am Tragarm zu groß wird. Außerdem sind preiswerte Tragarme manuell einzustellen, was nicht den Anforderungen entspricht.
+
+Der Gimbal erschien uns als eine gute Grundlage für das Kamera-Positionierungssystem, da er leicht, schnell und preiswert ist. Der Gimbal enthält drei bürstenlose Motoren mit denen sehr kleine Winkeländerungen möglich sind. Den mechanischen Teil der Führung würden wir auf unsere Anforderungen anpassen. Wir haben uns also für diese Variante der Kameraführung entschieden.
 
 TO DO ÜBERARBEITUNG
+\section{Entwicklung der Motoransteuerng}
+\subsection{STorM32BGC und ESC}
+Da ein Gimbal sehr kleine und präzise Winkeländerungen durchführen kann schien auch der mitgelieferte Controller, ein STorM32BGC, als optimal. Er besteht aus einem 32Bit-Prozessor (STM32F103RC) und hat einen Mikrocontroller je Motor und Phase. Es wurde nun versucht, die Firmware den eigenen Bedürfnissen anzupassen. Jedoch mussten wir feststellen, dass die Firmware zwar Anpassungen und auch die aktive Steuerung zulässt, jedoch nicht ohne eine Grundkalibrierung funktioniert. Diese Grundkalibrierung verlangt die drehmomentfreie Ausrichtung aller Achsen und Schwenken auf jeder Achse in einer bestimmten Reihenfolge. Aufgrund des stehenden Aufbaus des Gestells für dieses Projekt war und ist dies nicht möglich.
+
+TODO Bild Storm
+
+Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\textit{ESC}). Diese sind speziell dafür entwickelt, bürstenlose Gleichstrommotoren (\textit{BDLC}) anzusteuern. Gemäß den Angaben zu Spannungsversorgung und anschließbaren Motoren haben wir \textit{F35A 3-6S BLHeli\_32} ESCs bestellt. Die Ansteuerung der Motoren mit diesen ESCs war völlig erfolglos. Da wir dann feststellten, dass ein anderer, sogar schwächerer ESC aber funktionierte, schlossen wir darauf, dass unsere ESCs wiederum ein Firmwareproblem hatten und/oder defekt sind.
+
+TODO Bild ESC
+
+\subsection{L293D}
+Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. Der RaspberryPi2B kann maximal 5V ausgeben, da die Motoren keinesfalls dirket angeschlossen werden können wählten wir einen Mikrocontroller als Relais. Da der mit den BLDC mitgeliferte Controller STorM32BGC eine Stromstärke von 0,6A/Motor verarbeiten kann entschieden wir uns für L293D-Mikrocontroller. Je einer dieser ICs steuert nun drei Phasen eines Motors.
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.4\linewidth]{l293d_logik}
+	\caption[Logik des L293D-Mikrocontrollers, \url{http://www.ti.com/lit/ds/symlink/l293.pdf}, letzter Aufruf am 19.08.18, 12:51]{Logik des L293D-Mikrocontrollers}
+	\label{fig:l293dlogik}
+\end{figure}
+
+Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke. Genutzt werden nur drei Ein- und Ausgänge, der vierte bleibt frei. Die Pins $1,2EN$ sowie $3,4EN$ schalten nur die entsprechenden Transistoren ein. $V_{CC1}$ ist für die Spannungsversorgung des IC selbst und wird mit 5V beaufschlagt, an $V_{CC2}$ liegt die Versorgungsspannung für die Motoren, 14V, an. Die Anschlüsse $1-4A$ und $1-4Y$ stellen die Ein- und Ausgänge dar. In \autoref{fig:mikrocontroller-schaltung} auf \autopageref{fig:mikrocontroller-schaltung} wird die Schaltung dargestellt. Hierbei sei angemekrt, dass sich die GPIO-Pinbelegung am RaspberryPi durch das Layout auf der Latine noch geändert haben.
+
+\subsection{Layout}
+
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.6\linewidth]{l293d_pins}
+	\caption[Pinbelegung des L293D-Mikrocontrollers, \url{http://www.ti.com/lit/ds/symlink/l293.pdf}, letzter Aufruf am 19.08.18, 12:51]{Pinbelegung des L293D-Mikrocontrollers}
+	\label{fig:l293dpins}
+\end{figure}
 
 \section{Aufbau des Gesamtsystems}
 TO DO BILD \\ \\
@@ -255,7 +287,8 @@ Folgende Geräte und Bauteile wurden verwendet
 \item Raspberry Pi 2 Model B 
 \item Bildschirm, Tastatur, Maus (einschließlich Kabel zum Anschließen an den Raspberry Pi)
 \item  Crossover-Kabel
-\item  Motoren: BGM4108-130, ESC: STorM32BGC, F35A 3-6S BLHeli\_32...
+\item Motoren: 3 mal BGM4108-130
+%\item Steuergerät für die Motoren: STorM32BGC F35A 3-6S BLHeli\_32...
 \item Schaltung: Mikrocontroller: (L293D), Widerstände (1k Ohm), Brücken
 \end{itemize}
 TO DO vollständig und aktuell!! \\ \\
@@ -382,6 +415,13 @@ TO DO (was funktioniert und Aussicht wie System optimiert werden kann)
 %Nummerierung in Buchstaben statt Zahlen
 \appendix
 
+\section{Schaltplan}
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.7\linewidth]{ICschaltung.PNG}
+	\caption[Schaltplan der Steuerung, erstellt von Erik Rother, 03.09.2018]{Schaltplan der Steuerung}
+	\label{fig:mikrocontroller-schaltung}
+\end{figure}
 % Literatur
 \renewcommand\refname{Literaturverzeichnis}
 \addtocontents{toc}{\vspace{-0.5em}}

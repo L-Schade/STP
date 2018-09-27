@@ -60,11 +60,13 @@ def click1(event):
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)    #
         output_lab.place(x=225, y=475, width=600)
 
-        old_posi = read_save_position.read_old_position(image_na)
+        # old_posi = read_save_position.read_old_position(image_na)
         functionsG.set_old_position(image_na)
-        a_posi = old_posi[0]
-        b_posi = old_posi[1]
-        c_posi = old_posi[2]
+        functionsG.set_current_position()
+        functionsG.automatic(dist[0], dist[1])
+        # a_posi = old_posi[0]
+        # b_posi = old_posi[1]
+        # c_posi = old_posi[2]
 
         # TODO
         # Pixel = 0,001149425 mm Höhe sowie Breite
@@ -133,18 +135,22 @@ def button_click():
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=225, y=450, width=600, height=200)
 
-    functionsG.set_current_position()
-    functionsG.set_old_position(image_na)
-    old_posi = read_save_position.read_old_position(image_na)
-    a_posi = old_posi[0]
-    b_posi = old_posi[1]
-    c_posi = old_posi[2]
+    # functionsG.set_current_position()
+    # functionsG.set_old_position(image_na)
+    # old_posi = read_save_position.read_old_position(image_na)
+    # a_posi = old_posi[0]
+    # b_posi = old_posi[1]
+    # c_posi = old_posi[2]
     # print(a_posi, b_posi, c_posi)
     if not bu2_blocked:     # False
-        functionsG.motor(a_posi, 1, 'a')
-        functionsG.motor(a_posi, 1, 'b')
-        functionsG.motor(a_posi, 1, 'c')
-        read_save_position.save_position(a_posi, b_posi, c_posi)
+        # functionsG.motor(a_posi, 1, 'a')
+        # functionsG.motor(a_posi, 1, 'b')
+        # functionsG.motor(a_posi, 1, 'c')
+        # read_save_position.save_position(a_posi, b_posi, c_posi)
+        
+        functionsG.set_current_position()
+    	functionsG.set_old_position(image_na)
+        functionsG.latest_position()
 
     else:
         print("Motoren sind gesperrt")
@@ -258,8 +264,6 @@ def button2_click():
 
 def button21_click():
     hide_coordinate_buttons()
-    # TODO
-    # Textfeld anpassen an moegliche Werte
     output('Geben Sie die gewünschten Koordinaten ein, '
            'die Werte dürfen zwischen x[0-500] & y[0-250] liegen')
     output_label_coord()
@@ -291,16 +295,13 @@ def button21_click():
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
-                    old_posi = read_save_position.read_old_position(image_na)
-                    a_posi = old_posi[0]
-                    b_posi = old_posi[1]
-                    c_posi = old_posi[2]
+                    # old_posi = read_save_position.read_old_position(image_na)
+                    # a_posi = old_posi[0]
+                    # b_posi = old_posi[1]
+                    # c_posi = old_posi[2]
                     functionsG.set_old_position(image_na)
-
-                    # TODO
-                    # Motoren ansteuern
-                    # noch Funktion zum "Umrechnen" einbauen
-                    functionsG.coordinate(x, y, delay)
+                    functionsG.set_current_position()
+                    functionsG.coordinate1(x, y, delay)
 
                     # read_coordinates('neue Koordinaten:')
                     read('')
@@ -345,7 +346,7 @@ def button21_click():
 def button22_click():
     hide_coordinate_buttons()
     output('Geben Sie die gewünschte Position der einzelnen Motoren ein, '
-           'der Wert entspricht einzelnen Steps und darf zwischen -30 & 30 liegen')
+           'der Wert entspricht einzelnen Steps und darf zwischen -33 & 33 liegen')
     output_label_coord()
 
     ind = Image.open("angle.jpeg")
@@ -380,12 +381,9 @@ def button22_click():
 
                 if not bu2_blocked:         # False
 					# TODO
-                    functionsG.set_current_position()
+                    # functionsG.set_current_position()
                     functionsG.set_old_position(image_na)
-                    functionsG.motor(m_a, delay, 'a')
-                    functionsG.motor(m_b, delay, 'b')
-                    functionsG.motor(m_c, delay, 'c')
-                    read_save_position.save_position_delay(m_a, m_b, m_c, delay)
+                    functionsG.coordinate2(m_a, m_b, m_c, delay)
 
                     # read_coordinates('neue Koordinaten:')
                     read('new angle position:')
@@ -538,20 +536,20 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
 
     img_name = "../Matlab/Bilder/" + image_na + ".png"
     # img_name = "Bilder/" + image_na + ".png"
-    x_dist, y_dist = detection.algorithm(img_name, color_rng, color, x_coord, y_coord)          # , new_img
-    # x_dist, y_dist = detection.algorithm('schwarz_weiss.jpeg', color_rng, color, x_coord, y_coord)  # zum Testen
-    print(x_dist, y_dist)
+    x_dist, z_dist = detection.algorithm(img_name, color_rng, color, x_coord, y_coord)          # , new_img
+    # x_dist, z_dist = detection.algorithm('schwarz_weiss.jpeg', color_rng, color, x_coord, y_coord)  # zum Testen
+    print(x_dist, z_dist)
 
     # TODO
     # geht nur wenn das Bild bei draw nicht angezeigt wird
-    if x_dist is None and y_dist is None:
+    if x_dist is None and z_dist is None:
         print("keine Bereich gefunden")
         output('kein passenden Bereich gefunden')
         output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
         output_lab.place(x=600, y=460, width=170, height=150)
-    elif x_dist is not None and y_dist is not None:
-        print(x_dist, y_dist)
-        output('x-Abstand: {} \nz-Abstand: {}'.format(x_dist, y_dist))
+    elif x_dist is not None and z_dist is not None:
+        print(x_dist, z_dist)
+        output('x-Abstand: {} \nz-Abstand: {}'.format(x_dist, z_dist))
         output_lab.config(text=text, bg='#E0ECF8', anchor=NW, font=('times', 16, 'italic'))
         output_lab.place(x=600, y=460, width=170, height=150)
 
@@ -566,11 +564,15 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         # labelImg1.Image = imageNavigate
         # labelImg1.bind("<Button-1>", click2)
 
+        # functionsG.set_old_position(image_na)
+        # old_posi = read_save_position.read_old_position(image_na)
+        # a_posi = old_posi[0]
+        # b_posi = old_posi[1]
+        # c_posi = old_posi[2]
+        
         functionsG.set_old_position(image_na)
-        old_posi = read_save_position.read_old_position(image_na)
-        a_posi = old_posi[0]
-        b_posi = old_posi[1]
-        c_posi = old_posi[2]
+        functionsG.set_current_position()
+        functionsG.automatic(x_dist, z_dist)
 
         # TODO
         # Pixel = 0,001149425 mm Höhe sowie Breite
@@ -1021,9 +1023,9 @@ def get_blocked(ind):
         elif ind == 3:
             functionsG.down()
         elif ind == 4:
-            functionsG.delay(1)
+            functionsG.set_delay(1)
         elif ind == 5:
-            functionsG.delay(2)
+            functionsG.set_delay(2)
         read('neue Position:')
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     else:
