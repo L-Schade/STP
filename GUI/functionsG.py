@@ -4,11 +4,15 @@ import math
 # import motor_controlG
 import read_save_position
 
-
 distance = None
 a = None
 b = None
 c = None
+
+def pixel_resize():
+	org_width = 1390
+	org_height = 1040
+
 
 def pixel_distance(pixel):
     dstnc = pixel * 0.0011465
@@ -27,7 +31,7 @@ def angle_to_steps(angle):
 
 def update_position():
     print("")
-    # a, b, c = motion_control_scriptG.read_position()
+    # a, b, c =read_save_position.read_position()
     # update a, b, c
     # motion_control_scriptG.save_position(a, b, c)
 
@@ -38,9 +42,12 @@ def set_distance(dstnc):
     print(distance)
 
 
+def set_old_position():
+	old_a, old_b, old_c = read_save_postion.read_old_position()
+
+
 def set_current_position():
     a, b, c = read_save_position.read_position()
-    print("test")
     print(a, b, c)
 
 
