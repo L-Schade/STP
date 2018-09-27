@@ -36,6 +36,12 @@ def angle_to_steps(angle):
     return steps
 
 
+def steps_to_angle(steps):
+	angle = steps * 5.4545
+
+	return angle
+
+
 # update
 def update_position(new_a, new_b, new_c):
     global a, b, c
@@ -115,12 +121,17 @@ def motor_c(y_pixel, delay):       # distance,
 
 
 def correction_b(steps):
-    # TODO
-    print("")
+	x = (((-1 * distance) - (radius_a * math.cos(alpha)) + target_distance) / (radius_b))
+   	beta = math.asin(x)
 
 
 def correction_c(steps):
     steps_c = steps * (-1)  # TODO
+
+
+def define_target_distance(alpha, beta):
+	global target_distance, distance, radius_a, radius_b
+	target_distance = distance + (radius_a * math.cos(alpha)) + (radius_b * math.sin(beta))
 
 
 
@@ -163,7 +174,7 @@ def right():
     a += 1
     read_save_position.save_position(a, b, c)
 
-    motor(1, 1, 'c')
+    motor(1, 1, 'a')
 
 
 def down():
