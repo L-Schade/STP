@@ -8,15 +8,15 @@ import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-coil_1A_pin = 4  # gelb
-coil_1B_pin = 23  # gruen
-coil_1C_pin = 24  # blau
-# coil_2A_pin = 4  # gelb
-# coil_2B_pin = 23  # gruen
-# coil_2C_pin = 24  # blau
-# coil_3A_pin = 4  # gelb
-# coil_3B_pin = 23  # gruen
-# coil_3C_pin = 24  # blau
+coil_1A_pin = 15  # gelb
+coil_2A_pin = 18  # gruen
+coil_3A_pin = 14  # blau
+# coil_1B_pin = 12  # gelb
+# coil_2B_pin = 16  # gruen
+# coil_3B_pin = 7  # blau
+# coil_1C_pin = 26  # gelb
+# coil_2C_pin = 19  # gruen
+# coil_3C_pin = 21  # blau
 
 # Sequenz
 ind_a = 0
@@ -48,15 +48,15 @@ Seq[5] = [1, 0, 1]
 def setup():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(coil_1A_pin, GPIO.OUT)
-    GPIO.setup(coil_1B_pin, GPIO.OUT)
-    GPIO.setup(coil_1C_pin, GPIO.OUT)
+    GPIO.setup(coil_2A_pin, GPIO.OUT)
+    GPIO.setup(coil_3A_pin, GPIO.OUT)
 
-    # GPIO.setup(coil_2A_pin, GPIO.OUT)
+    # GPIO.setup(coil_1B_pin, GPIO.OUT)
     # GPIO.setup(coil_2B_pin, GPIO.OUT)
-    # GPIO.setup(coil_2C_pin, GPIO.OUT)
-    #
-    # GPIO.setup(coil_3A_pin, GPIO.OUT)
     # GPIO.setup(coil_3B_pin, GPIO.OUT)
+    #
+    # GPIO.setup(coil_1C_pin, GPIO.OUT)
+    # GPIO.setup(coil_2C_pin, GPIO.OUT)
     # GPIO.setup(coil_3C_pin, GPIO.OUT)
 
 # GPIO.output(enable_pin, 1)
@@ -102,6 +102,13 @@ def forward(delay, steps, motor):
         print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
         set_step(motor, Seq[ind][0], Seq[ind][1], Seq[ind][2])
         time.sleep(delay)
+        
+   	if motor == 'a':
+        ind_a = ind 
+    elif motor == 'b':
+        ind_b = ind
+    elif motor == 'c':
+        ind_c = ind
 
 
 def backwards(delay, steps, motor):
@@ -121,6 +128,13 @@ def backwards(delay, steps, motor):
         print(Seq[ind][0], Seq[ind][1], Seq[ind][2])
         set_step(motor, Seq[ind][0], Seq[ind][1], Seq[ind][2])
         time.sleep(delay)
+        
+  	if motor == 'a':
+        ind_a = ind 
+    elif motor == 'b':
+        ind_b = ind
+    elif motor == 'c':
+        ind_c = ind
 
 
 def get_direction(delay, steps, motor):
