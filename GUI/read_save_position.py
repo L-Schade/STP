@@ -55,7 +55,7 @@ def read_old_position(file_name):
         elif index == 2:
             c = line.rstrip()
         index += 1
-    # save_position(x, y, z)
+    # save_position(a, b, c)
     return a, b, c
 
 
@@ -68,7 +68,7 @@ def save_position(a, b, c,):
     filename.write(str(1) + '\n')           # auto delay
     filename.write(str(datetime.datetime.now()))
     filename.close()
-    print("save to file")
+    print("save to file: position.txt")
 
 
 def save_position_delay(a, b, c, delay):
@@ -79,4 +79,5 @@ def save_position_delay(a, b, c, delay):
     filename.write(str(delay) + '\n')
     filename.write(str(datetime.datetime.now()))
     filename.close()
-    print("save to file")
+    print("save to file: position.txt")
+
