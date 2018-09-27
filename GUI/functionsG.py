@@ -8,6 +8,9 @@ distance = None
 a = None
 b = None
 c = None
+old_a = None
+old_b = None
+old_c = None
 
 def pixel_resize():
 	org_width = 1390
@@ -42,8 +45,9 @@ def set_distance(dstnc):
     print(distance)
 
 
-def set_old_position():
-	old_a, old_b, old_c = read_save_postion.read_old_position()
+def set_old_position(file_name):
+	global old_a, old_b, old_c
+	old_a, old_b, old_c = read_save_postion.read_old_position(file_name)
 
 
 def set_current_position():

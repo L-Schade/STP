@@ -59,6 +59,7 @@ def click1(event):
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)    #
         output_lab.place(x=225, y=475, width=600)
 
+		functionG.set_old_position(image_na)
         old_posi = read_save_position.read_old_position(image_na)
         a_posi = old_posi[0]
         b_posi = old_posi[1]
@@ -131,6 +132,7 @@ def button_click():
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     output_lab.place(x=225, y=450, width=600, height=200)
 
+	functionG.set_old_position(image_na)functionG.set_old_position(image_na)
     functionsG.set_current_position()
     old_posi = read_save_position.read_old_position(image_na)
     a_posi = old_posi[0]
@@ -288,6 +290,7 @@ def button21_click():
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
+					functionG.set_old_position(image_na)
                     old_posi = read_save_position.read_old_position(image_na)
                     a_posi = old_posi[0]
                     b_posi = old_posi[1]
@@ -375,7 +378,9 @@ def button22_click():
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
+					# TODO
                     functionsG.set_current_position()
+					functionG.set_old_position(image_na)
                     functionsG.motor(m_a, delay, 'a')
                     functionsG.motor(m_b, delay, 'b')
                     functionsG.motor(m_c, delay, 'c')
@@ -430,6 +435,9 @@ def button3_click():
     labelImg.place_forget()
     label_img_coord1.place_forget()
     label_img_coord2.place_forget()
+
+	# TODO
+	functionG.set_old_position(image_na)
 
     read_coordinates('alte Daten:')
     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
@@ -557,6 +565,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         # labelImg1.Image = imageNavigate
         # labelImg1.bind("<Button-1>", click2)
 
+		functionG.set_old_position(image_na)
         old_posi = read_save_position.read_old_position(image_na)
         a_posi = old_posi[0]
         b_posi = old_posi[1]
