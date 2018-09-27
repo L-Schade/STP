@@ -260,7 +260,7 @@ Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\t
 TODO Bild ESC
 
 \subsection{L293D}
-Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. Der RaspberryPi2B kann maximal 5V ausgeben, da die Motoren keinesfalls dirket angeschlossen werden können wählten wir einen Mikrocontroller als Relais. Da der mit den BLDC mitgeliferte Controller STorM32BGC eine Stromstärke von 0,6A/Motor verarbeiten kann entschieden wir uns für L293D-Mikrocontroller. Je einer dieser ICs steuert nun drei Phasen eines Motors.
+Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. Der RaspberryPi2B kann maximal 5V ausgeben, da die Motoren keinesfalls direkt angeschlossen werden können wählten wir einen Mikrocontroller als Relais. Da der mit den BLDC mitgeliferte Controller STorM32BGC eine Stromstärke von 0,6A/Motor verarbeiten kann entschieden wir uns für L293D-Mikrocontroller. Diesr hat ebenfalls eine zulässige Dauerlast von 0,6A und eine Spitzenlast von 1,2A. Je einer dieser ICs steuert nun drei Phasen eines Motors.
 \begin{figure}[th]
 	\centering
 	\includegraphics[width=0.4\linewidth]{l293d_logik}
