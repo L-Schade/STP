@@ -4,13 +4,17 @@ import math
 # import motor_controlG
 import read_save_position
 
-distance = None
 a = None
 b = None
 c = None
 old_a = None
 old_b = None
 old_c = None
+distance = None
+target_distance = None
+radius_a = None
+radius_b = None
+
 
 def pixel_resize():
 	org_width = 1390
@@ -24,8 +28,8 @@ def pixel_distance(pixel):
 
 
 def angle_to_steps(angle):
-    angle_per_step = 6
-    if angle < 6:
+    angle_per_step = 5.4545
+    if angle < 5.54545:
         return 1
     steps = float(angle) / float(angle_per_step)
 
@@ -36,15 +40,9 @@ def angle_to_steps(angle):
 def update_position(new_a, new_b, new_c):
     global a, b, c
     read_save_position.save_position(new_a, new_b, new_c)
-    a = new_a
-    b = new_b
-    c = new_c
-
-
-def set_distance(dstnc):
-    global distance
-    distance = dstnc
-    print(distance)
+    a = int(new_a)
+    b = int(new_b)
+    c = int(new_c)
 
 
 def set_old_position(file_name):
@@ -55,6 +53,30 @@ def set_old_position(file_name):
 def set_current_position():
     a, b, c = read_save_position.read_position()
     print(a, b, c)
+
+
+def set_distance(value):
+    global distance
+    distance = value
+    print('distance: '+ str(distance))
+
+
+def set_target_distance(value):
+    global target_distance
+    target_distance = value
+    print('target_distance: '+ str(target_distance))
+
+
+def set_radius_a(value):
+    global radius_a
+    radius_a = value
+    print('radius_a: '+ str(radius_a))
+
+
+def set_radius_b(value):
+    global radius_b
+    radius_b = value
+    print('radius_b: '+ str(radius_b))
 
 
 def motor(steps, delay, motor):

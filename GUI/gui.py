@@ -31,7 +31,7 @@ x = None
 y = None
 center = None
 
-ind = 0
+counter = 0
 bu1_blocked = False       # Motoren sind frei
 bu2_blocked = False       # Motoren koennen bewegt werden
 
@@ -924,27 +924,28 @@ def close_stop():
 
 
 def distance_input(value):
-	global ind
-	if ind == 0:
+	global counter
+	if int(counter) == 0:
 		functionsG.set_distance(value)
-		comment('Abstand\nKamera &\nWST: ' +str(value)+ ' mm')
-		ind == 1
+		comment('Abstand\nKamera &\nWST = ' +str(value)+ ' mm')
+		counter += 1
 		txt_box_label.config(text='Soll-Abstand (Y) Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)
-	elif ind == 1:
-		functionsG.set_distance(value)
-		comment('Soll-Abstand\nKamera &\nWST: ' +str(value)+ ' mm')
-		ind == 2
+	elif counter == 1:
+		functionsG.set_target_distance(value)
+		comment('Soll-Abstand\nKamera &\nWST = ' +str(value)+ ' mm')
+		counter += 1
 		txt_box_label.config(text='Radius von Motor a[mm]:', font=('times', 9, 'italic'), aspect=120)
-	elif ind == 2:
-		functionsG.set_distance(value)
-		comment('Radius von Motor a[mm]: ' +str(value)+ ' mm')
-		ind == 2
+	elif counter == 2:
+		functionsG.set_radius_a(value)
+		comment('Radius von Motor a = ' +str(value)+ ' mm')
+		counter += 1
 		txt_box_label.config(text='Radius von Motor b[mm]: ', font=('times', 9, 'italic'), aspect=120)
-	elif ind == 3:
-		functionsG.set_distance(value)
-		comment('Radius von Motor b[mm]: ' +str(value)+ ' mm')
-		ind == 0
-		txt_box_label.config(text='Abstand (Y) Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)		
+	elif counter == 3:
+		functionsG.set_radius_b(value)
+		comment('Radius von Motor b =' +str(value)+ ' mm')
+		counter -= 3
+		txt_box_label.config(text='Abstand (Y) Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)	
+	print(counter)	
 
 
 
