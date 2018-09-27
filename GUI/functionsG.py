@@ -16,12 +16,14 @@ radius_a = 0
 radius_b = 0
 
 
-def pixel_resize(x_dist, z_dist):
+def pixel_resize(dist, axis):
 	org_width = 1390
 	org_height = 1040
-	org_x_dist = (org_width, x_dist) / 500
-	org_z_dist = (org_height, z_dist) / 250
-	return org_x_dist, org_z_dist
+	if axis == 'x':
+		org_dist = (org_width, dist) / 500
+	elif axis == 'z':
+		org_dist = (org_height, dist) / 250
+	return org_dist
 
 
 def pixel_distance(pixel):
@@ -101,8 +103,10 @@ def motor(steps, delay, motor):
 
 def motor_a(x_pixel, delay):        # distance,
     global distance
-    x_distance = pixel_distance(x_pixel)
-    alpha = math.atan2(x_distance/distance)
+    x_distance = pixel_distance(x_pixel,'x')
+    org_x_distance = pixel_distance(x_distance)
+    
+    alpha = math.atan2(org_x_distance/distance)
     a_steps = angle_to_steps(alpha)
     # motor_controlG.get_direction(delay, a_steps, a):
 
@@ -116,10 +120,12 @@ def motor_b(delay):
     # motor_controlG.get_direction(delay, b_steps, b):
 
 
-def motor_c(y_pixel, delay):       # distance,
+def motor_c(z_pixel, delay):       # distance,
     global distance
-    y_distance = pixel_distance(y_pixel)
-    gamma = math.atan2(y_distance / distance)
+    z_distance = pixel_distance(z_pixel, 'z')
+    org_z_distance = pixel_distance(z_distance)
+    
+    gamma = math.atan2(org_z_distance / distance)
     c_steps = angle_to_steps(gamma)
     # motor_controlG.get_direction(delay, c_steps, c):
 
@@ -136,7 +142,8 @@ def correction_b(steps):
 
 
 def correction_c(steps):
-    steps_c = steps * (-1)  # TODO
+    steps_c = steps * (-1)  
+    # TODO
 
 
 def define_target_distance(alpha, beta):
@@ -188,7 +195,9 @@ def right():
 
 
 def down():
-    a, b, c = read_save_position.read_position()
+    global old_a, old_b, old_c, a, b, c
+    # a, b, c = read_save_position.read_position()
+    update_position(old_a, old_b, old_c)
     c -= 1
     read_save_position.save_position(a, b, c)
 

@@ -140,8 +140,10 @@ def backwards(delay, steps, motor):
 def get_direction(delay, steps, motor):
     if steps > 0:
         forward((float(delay) / 1000.0), int(steps), motor)
+        print("vorwärts" + str(steps))
     elif steps < 0:
-        backwards((float(delay) / 1000.0), int(steps), motor)
+        backwards((float(delay) / 1000.0), int(-1 * steps), motor)
+        print("rückwärts" + str(steps))
 
 
 if __name__ == '__main__':
