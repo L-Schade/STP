@@ -34,11 +34,11 @@ def angle_to_steps(angle):
 
 # update
 def update_position(new_a, new_b, new_c):
-	global a, b, c
+    global a, b, c
     read_save_position.save_position(new_a, new_b, new_c)
-	a = new_a
-	b = new_b
-	c = new_c
+    a = new_a
+    b = new_b
+    c = new_c
 
 
 def set_distance(dstnc):
@@ -119,9 +119,9 @@ def coordinate(x, y, wait):
 # TODO
 # delay mit übergeben
 def up():
-	global old_a, old_b, old_c
+    global old_a, old_b, old_c
     # a, b, c = read_save_position.read_position()
-	update_position(old_a, old_b, old_c)
+    update_position(old_a, old_b, old_c)
     c += 1
     read_save_position.save_position(a, b, c)
 
