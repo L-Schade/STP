@@ -427,33 +427,46 @@ def button22_click():
 
 # navigate
 def button3_click():
-    hide_focus_windows()
-    hide_tracking_buttons()
-    hide_coordinate_buttons()
-    hide_images_buttons()
-    labelImg.place_forget()
-    label_img_coord1.place_forget()
-    label_img_coord2.place_forget()
+	global bu2_blocked, text
+	
+	hide_focus_windows()
+	hide_tracking_buttons()
+	hide_coordinate_buttons()
+	hide_images_buttons()
+	labelImg.place_forget()
+	label_img_coord1.place_forget()
+	label_img_coord2.place_forget()
 
 	# TODO
-    functionsG.set_old_position(image_na)
-
-    read_coordinates('alte Daten:')
-    output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-    output_lab.place(x=225, y=425, width=600, height=200)
-
-    button1.place(x=250, y=140, width=100, height=20)
-    button2.place(x=175, y=180, width=100, height=20)
-    button3.place(x=325, y=180, width=100, height=20)
-    button4.place(x=250, y=220, width=100, height=20)
-    button5.place(x=235, y=260, width=40, height=20)
-    button6.place(x=325, y=260, width=40, height=20)
-    # button7.place(x=585, y=325, width=180, height=20)
-    labelImg2.config(image=imageNavigate)
-    labelImg2.place(x=500, y=110, width=350, height=190)
-
-    # read_coordinates('')
-    # output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+	functionsG.set_old_position(image_na)
+	
+	read_coordinates('alte Daten:')
+	output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+	output_lab.place(x=225, y=425, width=600, height=200)
+	
+	button1.place(x=250, y=140, width=100, height=20)
+	button2.place(x=175, y=180, width=100, height=20)
+	button3.place(x=325, y=180, width=100, height=20)
+	button4.place(x=250, y=220, width=100, height=20)
+	button5.place(x=235, y=260, width=40, height=20)
+	button6.place(x=325, y=260, width=40, height=20)
+	# button7.place(x=585, y=325, width=180, height=20)
+	labelImg2.config(image=imageNavigate)
+	labelImg2.place(x=500, y=110, width=350, height=190)
+	
+	# read_coordinates('')
+	# output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+	
+	if not bu2_blocked:     # False
+		functionsG.set_current_position()
+		functionsG.latest_position()
+		
+	else:
+		print("Motoren sind gesperrt")
+		output("Motoren sind gesperrt")
+		output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
+		output_lab.place(x=225, y=450, width=600, height=200)
+		stop()
 
 
 # images
