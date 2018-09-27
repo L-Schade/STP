@@ -1,33 +1,157 @@
-\documentclass[a4paper]{report}
-
-\usepackage[utf8]{inputenc}
+\documentclass[12pt,a4paper,bibliography=totocnumbered,listof=totocnumbered]{scrartcl}
 \usepackage[ngerman]{babel}
-
+\usepackage[utf8]{inputenc}
+\usepackage[numbers,square]{natbib}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
 \usepackage{graphicx}
-\usepackage{color}
+\usepackage[export]{adjustbox}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage[right]{eurosym}
+\usepackage{acronym}
+\usepackage{subfig}
+\usepackage{floatflt}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{colortbl}
+\usepackage{paralist}
+\usepackage{array}
+\usepackage[right]{eurosym}
+\usepackage[subfigure,titles]{tocloft}
+\usepackage[pdfpagelabels=true]{hyperref}
+\usepackage{listings}
+\usepackage{eurosym}
+\usepackage{textcomp}
+\usepackage{pdfpages} 
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage{hyperref}
 
+\geometry{a4paper, top=27mm, left=30mm, right=20mm, bottom=35mm, headsep=10mm, footskip=12mm}
 
-
-\title{Abschlussbericht des Systemtechnikprojektes im Studiengang Systems Engineering}
-\author{
-  Erik Rother\\
-  \and
-  Lisa Schade\\
-  \and
-  Kira Löper\\
-}
-\date{28.09.2018}
+\hypersetup{unicode=false, pdftoolbar=true, pdfmenubar=true, pdffitwindow=false, pdfstartview={FitH},
+	colorlinks=true,linkcolor=black,citecolor=black,filecolor=magenta,urlcolor=black}
 
 \begin{document}
 
-\maketitle
+% Kopf- und Fusszeile
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\renewcommand{\leftmark}{\rightmark}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{\thesection\space\contentsname}
+\lfoot{Abschlussbericht\newline Automatische Werkzeug-Kontakt Detektion}
+\cfoot{}
+\rfoot{\ \linebreak Seite \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
 
+% Vorspann 
+\pagenumbering{Roman}
+
+% ----------------------------------------------------------------------------------------------------------
+% Titelseite
+% ----------------------------------------------------------------------------------------------------------
+\thispagestyle{empty}
+\begin{center}
+	\vspace*{2cm}
+	\Large
+	\textbf{Fachbereich 4}\\
+	\textbf{Produktionstechnik -Maschinenbau \& Verfahrenstechnik}\\
+	\vspace*{2cm}
+	\Huge
+	\textbf{Abschlussbericht des Systemtechnikprojektes im Studiengang Systems Engineering}\\
+	\vspace*{0.5cm}
+	\Large
+	Automatische Werkzeug-Kontakt Detektion\\
+	
+	\vfill
+	\normalsize
+	\newcolumntype{x}[1]{>{\raggedleft\arraybackslash\hspace{0pt}}p{#1}}
+	\begin{tabular}{x{6cm}p{7.5cm}}
+		\rule{0mm}{5ex}\textbf{Autoren:} & Kira Löper\\ 
+		& Erik Rother\\
+		& Lisa Schade
+		\\
+		\rule{0mm}{5ex}\textbf{Lehrender:} & Prof. Dr. Ekkard Brinksmeier \\ 
+		\rule{0mm}{5ex}\textbf{Tutoren:} & M. Sc Timo Dörgeloh\\&M. Sc Ann-Katrin Holthusen \\ 
+		\rule{0mm}{5ex}\textbf{Abgabedatum:} & \today \\ 
+	\end{tabular} 
+\end{center}
+\pagebreak
+%eidesstattliche
+\newpage
+\section*{Erklärung}
+\thispagestyle{empty}
+\vspace{2em}
+\justifying
+Hiermit versichere ich, dass ich die vorliegende schriftliche Hausarbeit selbständig angefertigt habe. Alle Stellen, die dem Wortlaut oder dem Sinn nach anderen Werken (einschließlich elektronischer Quellen) entnommen sind, habe ich in jedem einzelnen Fall unter genauer Angabe der Quelle deutlich gekennzeichnet.\\
+
+\vspace{1cm}
+\begin{minipage}{\linewidth}
+	\begin{tabular}{p{15em}p{15em}}
+		Datum: .........................&  .......................................................\\
+		& Kira Löper
+	\end{tabular}
+\end{minipage}\vspace{0.5cm}
+
+\vspace{1cm}
+\begin{minipage}{\linewidth}
+	\begin{tabular}{p{15em}p{15em}}
+		Datum: .........................&  .......................................................\\
+		& Erik Rother
+	\end{tabular}
+\end{minipage}\vspace{0.5cm}
+
+\vspace{1cm}
+\begin{minipage}{\linewidth}
+	\begin{tabular}{p{15em}p{15em}}
+		Datum: .........................&  .......................................................\\
+		& Lisa Schade
+	\end{tabular}
+\end{minipage}\vspace{0.5cm}
+\newpage
+% ----------------------------------------------------------------------------------------------------------
+% Verzeichnisse
+% ----------------------------------------------------------------------------------------------------------
+% TODO Typ vor Nummer
+\renewcommand{\cfttabpresnum}{Tab. }
+\renewcommand{\cftfigpresnum}{Abb. }
+\settowidth{\cfttabnumwidth}{Abb. 10\quad}
+\settowidth{\cftfignumwidth}{Abb. 10\quad}
+
+\singlespacing
+\rhead{INHALTSVERZEICHNIS}
 \tableofcontents
+\pagebreak
+% ----------------------------------------------------------------------------------------------------------
+% Inhalt
+% ----------------------------------------------------------------------------------------------------------
 
-\chapter{Einleitung}
+
+% Kopfzeile
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\renewcommand{\subsectionmark}[1]{}
+\renewcommand{\subsubsectionmark}[1]{}
+\lhead{Kapitel \thesection}
+\rhead{\rightmark}
+
+\onehalfspacing
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\theHsection}{\arabic{section}}
+\setcounter{section}{0}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Einleitung}
 In der Mikrostrukturierung optischer Bauteile werden Diamantwerkzeuge mit sehr kleinen Schneidenradien eingesetzt. Die Detektion des Werkzeugkontaktes kann nur durch eine Kamera realisiert werden. Die genau Positionierung der Kamera und die Veränderung der Position sind sehr zeitaufwändig. Während unseres Projektes haben wir uns mit diesem Problem beschäftigt und als Lösung eine elektrisch gesteuerte Kameraführung mit automatischer Werkzeugdetektion entwickelt. In diesem Bericht möchten wir den Prozess der Entwicklung und unsere Resultate beschreiben. 
 
-\chapter{Stand der Technik}
+\section{Stand der Technik}
 Die automatische Werkzeug-Kontakt-Detektion dient zur Unterstützung der Werkzeug-Positionierung bei mehreren Prozessen. Im Folgenden werden zwei Prozesse vorgestellt, die durch die automatische Werkzeug-Kontakt-Detektion zeiteffizienter gestaltet werden können. \\ \\
 Zur Einordnung dieser Prozesse dient Abbildung 2.1. Es sind einige Verfahren zur Herstellung strukturierter optischer Komponenten nach ihrer Komplexität sortiert aufgeführt. Des Weiteren kann man der Abbildung ihre Dimensionen und Anwendungen entnehmen. \\ \\ 
 \begin{figure}[htbp]
@@ -38,7 +162,7 @@ Zur Einordnung dieser Prozesse dient Abbildung 2.1. Es sind einige Verfahren zur
 \end{figure}
 \break
 
-\section{Diamant-Mikroschneiden}
+\subsection{Diamant-Mikroschneiden}
 Das Diamant-Mikroschneiden dient zur Herstellung von prismatischen Mikrokavitäten mit scharfkantig aufeinandertreffenden Facettenflächen, wie sie zum Beispiel bei retroreflektierenden Strukturen erforderlich sind. Um retroreflektierende Strukturen zu fertigen werden aus glatten Oberflächen gezielt bestimmte Bereiche entfernt und die reflektierende Struktur bleibt stehen. Das Diamant-Mikroschneiden unterschiedet sich durch seine Werkzeuge und Kinematik grundlegend von anderen Fertigungsverfahren. \\ \\
 Abbildung 2.2 zeigt das Diamant-Werkzeug, welches sich dadurch auszeichnet, dass Span-und Freifläche gegeneinander vertauscht wurden. \\ \\
 \begin{figure}[htbp]
@@ -63,7 +187,7 @@ Besonders wichtig beim Mikroschneiden ist die richtige Justierung des Werkzeuges
 
 
 
-\section{Nano Fast Tool Servos (nFTS)}
+\subsection{Nano Fast Tool Servos (nFTS)}
 Das Verfahren nano Fast Tool Servos dient zur Herstellung diffraktiver optischer Komponenten, welche ihre Anwendung beispielsweise in der Sicherheitstechnik finden. Dieses Verfahren arbeitet mit einer speziellen piezoelektrischen Keramik, welche sich durch eine hohe Linearität und geringe Hysterese auszeichnet. Darauf befindet sich eine Montageplatte für das Diamantwerkzeug. \\ \\
 Die herzustellende Strukturgeometrie unterliegt sowohl den Anforderungen des optischen Designs als auch denen der Bearbeitungstechnologie. Um beide möglichst gut zu berücksichtigen wird eine so genannte Blaze-Struktur verwendet. In der folgenden Abbildung 2.4 ist links die Geometrie einer Blaze-Optik zu sehen. Rechts ist eine diffraktive Umsetzung zur Fertigung mit Diamantwerkzeugen abgebildet. Strukturdaten werden als Höhenmodulation in die Flanken eingeschrieben. 
 \begin{figure}[htbp]
@@ -84,39 +208,76 @@ Nachfolgend ist der Bearbeitungsprozess des nFTS zu sehen. Rechts ist das Diaman
 \\ \\
 Beide Prozesse haben hohe Anforderungen an eine genaue Positionierung des Werkzeugs. Außerdem ist das Werkzeug in beiden Fällen aus Diamant, einem sehr teuren Werkstoff. Somit ist es besonders wichtig den Kontakt zwischen Werkzeug und Werkstück vorsichtig herzustellen, sodass es nicht zu Beschädigungen kommt. Dazu ist ein Kamerasystem mit starker Vergrößerung notwendig. Bisher wurde dies mit einer Kamera an der Werkzeughalterung realisiert. Diese musste manuell positioniert werden, wodurch viel Zeit in Anspruch genommen wurde. Während des Bearbeitungsprozesses kann es bei bestimmten Winkeln des Werkzeuges vorkommen, dass das Werkstück nicht mehr im Bildausschnitt zu sehen ist. Dies erfordert eine erneute manuelle Positionierung der Kamera und nimmt wieder Zeit in Anspruch. \\ \\
 
-\chapter{Konzeptentwicklung}
+\section{Konzeptentwicklung}
 
-Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeug-kontakt-Detektion beschäftigt haben, wurden erste Lösungsansätze erarbeitet. Die grundlegende Fragestellung befasste sich damit, welche Art der Kameraführung am besten für das gegebene Problem geeignet ist. Bei der Beurteilung galt es zu überprüfen, ob die Grundstrukturen die gegebenen Anforderungen erfüllen und dabei gleichzeitig wirtschaftlich sind. In der nachfolgenden Tabelle sind vier Grundstrukturen der Kameraführung mit ihren Vor- und Nachteilen aufgelistet. \\ \\
+Nachdem wir uns mit der Problematik der Kamerapositionierung zur Werkzeug-Kontakt-Detektion beschäftigt haben, wurden erste Lösungsansätze erarbeitet. Die grundlegende Fragestellung befasste sich damit, welche Art der Kameraführung am besten für das gegebene Problem geeignet ist. Bei der Beurteilung galt es zu überprüfen, ob die Grundstrukturen die gegebenen Anforderungen erfüllen und dabei gleichzeitig wirtschaftlich sind. In der nachfolgenden Tabelle sind vier Grundstrukturen der Kameraführung mit ihren Vor- und Nachteilen aufgelistet. \\ \\
+\begin{table}[htp] 
+	\centering 
+	% Einrahmung der Minipage
+	\fbox{%
+		% erste Minipage mit einer Breite von 80% der Textbreite
+		\begin{minipage}[t]{0.95\textwidth}
+			\begin{tabular}{p{0.3\textwidth}p{0.3\textwidth}p{0.3\textwidth}}
+				Grundstruktur der Kameraführung & pro & contra \\
+				\hline
+				\hline
+				Raumportal & schnell & groß \\
+				& präzise & schwer \\
+				& größere Lasten möglich &\\
+				\hline
+				Gimbal & leicht & Änderung der Führung notwendig \\
+				& schnell & \\
+				& preiswert & \\
+				\hline
+				Parallelkinematik & sehr präzise & sehr teuer\\
+				&  enorm flexibel & zweite Führung notwendig \\
+				\hline
+				Tragarm & sehr günstig  & Hebelwirkung vermindert Stabilität\\	
+			\end{tabular}
+		\end{minipage}
+	}
+	\caption{Vor- und Nachteile der in Erwägung gezogenen Kameraf} 
+\end{table}
+Das Raumportal bietet zwar viele Vorteile um eine Kamera genau und schnell im Raum auszurichten, ist jedoch für unsere Anforderungen nicht optimal, da es sehr viel Platz einnimmt. Es ist wichtig, dass unsere Kameraführung die Arbeit der Maschine nicht beeinträchtigt, sodass wir uns gegen das Raumportal entschieden haben.
 
-\begin{tabular}{lll}
+ Die Parallelkinematik bietet eine sehr präzise Ausrichtung der Position und kann eine Beweglichkeit in allen sechs Freiheitsgraden ermöglichen zum Beispiel in Form eines Hexapods. Die Bewegungen sind jedoch auch sehr klein, sodass wahrscheinlich eine zweite Führung notwendig wäre, um die Position der Kamera zunächst grob einzustellen. Die Parallelkinematik ist auch sehr teuer, sodass wir diese Lösung nicht als wirtschaftlich ansehen.
  
-Grundstruktur der Kameraführung & pro & contra \\
- \hline
- \hline
-Raumportal & schnell & groß \\
- & präzise & schwer \\
-& größere Lasten möglich &\\
-  \hline
-Gimbal & leicht & Änderung der Führung notwendig \\
- & schnell & \\
-& preiswert & \\
- \hline
-Parallelkinematik & sehr präzise & sehr teuer\\
-&  enorm flexibel & zweite Führung notwendig \\
-  \hline
-Tragarm & sehr günstig  & Hebelwirkung vermindert Stabilität\\
+Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte es zu Problemen mit der Stabilität kommen, wenn die Hebelwirkung am Tragarm zu groß wird. Außerdem sind preiswerte Tragarme manuell einzustellen, was nicht den Anforderungen entspricht.
 
-\end{tabular}
-\\ \\
-\\ \\
-Das Raumportal bietet zwar viele Vorteile um eine Kamera genau und schnell im Raum auszurichten, ist jedoch für unsere Anforderungen nicht optimal, da es sehr viel Platz einnimmt. Es ist wichtig, dass unsere Kameraführung die Arbeit der Maschine nicht beeinträchtigt, sodass wir uns gegen das Raumportal entschieden haben. \\ \\
- Die Parallelkinematik bietet eine sehr präzise Ausrichtung der Position und kann eine Beweglichkeit in allen sechs Freiheitsgraden ermöglichen zum Beispiel in Form eines Hexapods. Die Bewegungen sind jedoch auch sehr klein, sodass wahrscheinlich eine zweite Führung notwendig wäre, um die Position der Kamera zunächst grob einzustellen. Die Parallelkinematik ist auch sehr teuer, sodass wir diese Lösung nicht als wirtschaftlich ansehen. \\ \\
-Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte es zu Problemen in der Stabilität kommen, wenn die Hebelwirkung an dem Tragarm zu groß wird. Außerdem sind preiswerte Tragarme manuell einzustellen, was nicht den Anforderungen entspricht. \\ \\
-Der Gimbal erschien uns als eine gute Grundlage für das Kamera-Positionierungssystem, da er leicht, schnell und preiswert ist. Der Gimbal enthält drei bürstenlose Motoren mit denen sehr kleine Winkeländerungen möglich sind. Den mechanischen Teil der Führung würden wir auf unsere Anforderungen anpassen. Wir haben uns also für diese Variante der Kameraführung entschieden. \\ \\
+Der Gimbal erschien uns als eine gute Grundlage für das Kamera-Positionierungssystem, da er leicht, schnell und preiswert ist. Der Gimbal enthält drei bürstenlose Motoren mit denen sehr kleine Winkeländerungen möglich sind. Den mechanischen Teil der Führung würden wir auf unsere Anforderungen anpassen. Wir haben uns also für diese Variante der Kameraführung entschieden.
 
 TO DO ÜBERARBEITUNG
+\section{Entwicklung der Motoransteuerng}
+\subsection{STorM32BGC und ESC}
+Da ein Gimbal sehr kleine und präzise Winkeländerungen durchführen kann schien auch der mitgelieferte Controller, ein STorM32BGC, als optimal. Er besteht aus einem 32Bit-Prozessor (STM32F103RC) und hat einen Mikrocontroller je Motor und Phase. Es wurde nun versucht, die Firmware den eigenen Bedürfnissen anzupassen. Jedoch mussten wir feststellen, dass die Firmware zwar Anpassungen und auch die aktive Steuerung zulässt, jedoch nicht ohne eine Grundkalibrierung funktioniert. Diese Grundkalibrierung verlangt die drehmomentfreie Ausrichtung aller Achsen und Schwenken auf jeder Achse in einer bestimmten Reihenfolge. Aufgrund des stehenden Aufbaus des Gestells für dieses Projekt war und ist dies nicht möglich.
 
-\chapter{Aufbau des Gesamtsystems}
+TODO Bild Storm
+
+Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\textit{ESC}). Diese sind speziell dafür entwickelt, bürstenlose Gleichstrommotoren (\textit{BDLC}) anzusteuern. Gemäß den Angaben zu Spannungsversorgung und anschließbaren Motoren haben wir \textit{F35A 3-6S BLHeli\_32} ESCs bestellt. Die Ansteuerung der Motoren mit diesen ESCs war völlig erfolglos. Da wir dann feststellten, dass ein anderer, sogar schwächerer ESC aber funktionierte, schlossen wir darauf, dass unsere ESCs wiederum ein Firmwareproblem hatten und/oder defekt sind.
+
+TODO Bild ESC
+
+\subsection{L293D}
+Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. Der RaspberryPi2B kann maximal 5V ausgeben, da die Motoren keinesfalls dirket angeschlossen werden können wählten wir einen Mikrocontroller als Relais. Da der mit den BLDC mitgeliferte Controller STorM32BGC eine Stromstärke von 0,6A/Motor verarbeiten kann entschieden wir uns für L293D-Mikrocontroller. Je einer dieser ICs steuert nun drei Phasen eines Motors.
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.4\linewidth]{l293d_logik}
+	\caption[Logik des L293D-Mikrocontrollers, \url{http://www.ti.com/lit/ds/symlink/l293.pdf}, letzter Aufruf am 19.08.18, 12:51]{Logik des L293D-Mikrocontrollers}
+	\label{fig:l293dlogik}
+\end{figure}
+
+Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke. Genutzt werden nur drei Ein- und Ausgänge, der vierte bleibt frei. Die Pins $1,2EN$ sowie $3,4EN$ schalten nur die entsprechenden Transistoren ein. $V_{CC1}$ ist für die Spannungsversorgung des IC selbst und wird mit 5V beaufschlagt, an $V_{CC2}$ liegt die Versorgungsspannung für die Motoren, 14V, an. Die Anschlüsse $1-4A$ und $1-4Y$ stellen die Ein- und Ausgänge dar. In \autoref{fig:mikrocontroller-schaltung} auf \autopageref{fig:mikrocontroller-schaltung} wird die Schaltung dargestellt. Hierbei sei angemekrt, dass sich die GPIO-Pinbelegung am RaspberryPi durch das Layout auf der Latine noch geändert haben.
+
+\subsection{Layout}
+
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.6\linewidth]{l293d_pins}
+	\caption[Pinbelegung des L293D-Mikrocontrollers, \url{http://www.ti.com/lit/ds/symlink/l293.pdf}, letzter Aufruf am 19.08.18, 12:51]{Pinbelegung des L293D-Mikrocontrollers}
+	\label{fig:l293dpins}
+\end{figure}
+
+\section{Aufbau des Gesamtsystems}
 TO DO BILD \\ \\
 Folgende Geräte und Bauteile wurden verwendet
 \begin{itemize} 
@@ -126,14 +287,15 @@ Folgende Geräte und Bauteile wurden verwendet
 \item Raspberry Pi 2 Model B 
 \item Bildschirm, Tastatur, Maus (einschließlich Kabel zum Anschließen an den Raspberry Pi)
 \item  Crossover-Kabel
-\item  Motoren: BGM4108-130, ESC: STorM32BGC, F35A 3-6S BLHeli\_32...
+\item Motoren: 3 mal BGM4108-130
+%\item Steuergerät für die Motoren: STorM32BGC F35A 3-6S BLHeli\_32...
 \item Schaltung: Mikrocontroller: (L293D), Widerstände (1k Ohm), Brücken
 \end{itemize}
 TO DO vollständig und aktuell!! \\ \\
 Die Position der Kamera ist durch ein Gestell mit drei Motoren variabel, wodurch ihr Winkel so eingestellt werden kann, dass sich Werkzeug und Werkstück optimal im Bildausschnitt befinden. Das Gestell kann sowohl an der Werkzeughalterung, als auch über der Werkstückaufnahme montiert werden. Im Rahmen unseres Projektes konnten wir die Montage TO DO realisieren.
 Die Kamera ist über eine FireWire-Schnittstelle mit dem Laptop verbunden. Der Laptop speichert das Bildmaterial und stellt es per Ordnerfreigabe dem Raspberry Pi zur Verfügung. Bildschirm, Maus und Tastatur sind an dem Raspberry Pi angeschlossen, sodass der Benutzer mit Hilfe einer graphischen Oberfläche gewünschte Aktionen auswählen kann. Außerdem verfügt der Raspberry Pi über einen Algorithmus, der zusammenhängende Bereiche mit bestimmten Farbwerten erkennt, wodurch die Kamera automatisch dem Werkzeug folgen kann. (TO DO kann sie das?)
 
-\chapter{Datenübertragung}
+\section{Datenübertragung}
 Die automatische Positionierung der Kamera setzt voraus, dass die Daten über den aktuellen Bildausschnitt bekannt sind. Die Kamera verfügt über eine FireWire-Schnittstelle. FireWire-Schnittstellen besitzen eine hohe Datendurchsatzrate, wodurch ein besonders schnelles Arbeiten möglich ist. FireWire 400 überträgt Datenströme und ist USB 2.0 daher besonders bei der Übertragung von kontinuierlichen Signalen zum Beispiel im Videobereich überlegen. Jedoch hat sich diese Schnittstelle auf dem Markt nicht durchgesetzt, weshalb viele aktuelle Geräte diese Schnittstelle gar nicht besitzen. USB bietet seit USB 3.0 eine so deutlich überlegene Übertragungsgeschwindigkeit, dass auch im Videobereich größere Datenraten übertragen werden können. \\ \\
 Zur Verfügung steht uns ein Laptop der Firma Toschiba mit dem Betriebssystem Windows XP. Dieser bietet einen FireWire-Anschluss, sodass wir die Kamera anschließen können. Das Bildmaterial der Kamera wird mit einer Software von MatLab auf dem Laptop angezeigt und abgespeichert. Da dieser Laptop jedoch sehr langsam arbeitet, wird die weitere Verarbeitung der Bilddaten auf einen Raspberry Pi 2 Model B ausgelagert. \\ \\
 Zur Übertragung der Bilddaten nutzen wir das Prinzip der Ordnerfreigabe. Das Betriebssystem Windows XP unterstützt Netzwerkfreigaben von sich aus, während der Raspberry Pi ein zusätzliches Programm für diese Funktion benötigt. Zum Einbinden der Windows-Freigabe nutzen wir das virtuelle Dateisystem \glqq cifs-vfs\grqq. Dazu wird das Paket \glqq cifs-utils\grqq auf dem Raspberry Pi installiert. Um den freigegebenen Ordner in das Dateisystem einzubinden nutzen wir den Befehl \glqq mount\grqq, wobei auch der Typ \glqq cifs\grqq und Angaben über den Ort des freigegebenen Ordners, sowie des Zielordners notwendig sind. Damit man den Ordner nicht bei jedem Neustart des Raspberry Pi's neu einbinden muss, hinterlegen wir alle Informationen für das Einbinden in der Konfigurations-Datei \glqq /etc/fstab\grqq. Nun werden beim Hochfahren des Raspberry Pi's alle Dateisysteme, die in \glqq /etc/fstab\grqq vermerkt sind und zu denen auch eine aktive Verbindung besteht, eingebunden. \\ \\
@@ -142,24 +304,24 @@ Für die Verbindung zwischen Laptop und Raspberry Pi gibt es mehrere Möglichkei
 Die zweite Möglichkeit ist eine direkte Verbindung durch ein Crossover-Kabel. Diese Verbindung ist sicherer und die Daten können schneller übertragen werden. Jedoch ergibt sich das Problem, dass das Crossover-Kabel den gleichen Anschluss verwendet, wie das Ethernet-Kabel. So kann der Laptop nicht gleichzeitig mit dem Raspberry Pi verbunden sein und Zugang zum Internet haben. Den Internetzugang braucht er allerdings, um die MatLab-Lizenzen zu laden. So müsste zuerst das Ethernetkabel angeschlossen werde, sodass die Lizenzen laden können. Danach müsste man das Kabel entfernen und das Crossoverkabel anschließen, um die Verbindung zum Raspberry Pi herzustellen. Dies wäre nicht besonders anwenderfreundlich. Jedoch konnte diese Möglichkeit optimiert werden, indem durch einen Adapter ein zweiter Netzwerkanschluss an dem Laptop angebracht wurde. Dies ermöglicht Internetzugang mit einem Ethernet-Kabel und mit dem Crossoverkabel die Verbindung zum Raspberry Pi. Die IP-Adressen werden bei dieser Variante statisch gesetzt. So hat der Laptop die IP-Adresse \glqq 192.168.1.1\grqq und der Raspberry Pi die IP-Adresse  \glqq 192.168.1.2\grqq erhalten. Beiden wurde die gleiche Subnetzmaske  \glqq 255.255.0.0\grqq \\ übergeben. So kann der Ordner wieder durch die IP-Adresse des Laptops und den Freigabenamen gefunden und in das Dateisystem von dem Raspberry Pi einghängt werden. Mit dieser Variante wird nur ein LAN-Anschluss am Einsatzort des Systems benötigt und eine schnelle und sichere Datenübertragung ermöglicht, sodass wir uns für diese Variante entschieden haben. \\ \\
 Durch die Arbeit mit mehreren Raspberry Pis benötigten wir die Einstellung, dass der Ordner für alle Benutzer freigegeben ist. Da der Laptop bei unserer Variante nun mit dem gesamten Netzwerk des Instituts verbunden ist, könnte man als eine zusätzliche Sicherheit (neben dem benötigten Passwort) die Ordnerfreigabe auf einen Benutzer beschränken. Dies müsste noch einmal durch einen Administrator des Laptops geschehen. 
 
-\chapter{Hardwareentwicklung}
-\section{Aufbau der Schaltung}
+\section{Hardwareentwicklung}
+\subsection{Aufbau der Schaltung}
 TO DO
-\section{Steuerung der Motoren}
+\subsection{Steuerung der Motoren}
 TO DO
-\section{Konstruktion des Gestells}
+\subsection{Konstruktion des Gestells}
 TO DO
 
-\chapter{Algorithmus zur Werkzeugerkennung}
+\section{Algorithmus zur Werkzeugerkennung}
 
 Um die Werkzeugposition im aktuell ausgewählten Bild definieren zu können, haben wir uns überlegt, dies anhand von Pixelfarben zu realisieren. Denn man kann davon ausgehen, dass das Werkzeug in dem aufgenommen Bild größtenteils die gleiche Farbe hat oder nur kleine Farbabweichungen aufweist. Die Abweichungen können im Algorithmus kompensiert werden, je nach gegebenen Bedarf. \\  
 Das von der Kamera aufgenommene Bild repräsentiert in Wirklichkeit nur einen ganz kleinen Ausschnitt, der keine weiteren größeren Objekte mit genau dieser Farbe enthalten dürfte. Aus diesem Grund nehmen wir an, dass das größte Objekt in dem Bild mit der ausgewählten Pixelfarbe dem Werkzeug entsprechen muss.
 
-\section{Funktionsweise}
+\subsection{Funktionsweise}
 Um das Werkzeug in dem von der Kamera aufgenommen Bild zu finden, muss eine bestimmte Pixelfarbe ausgewählt werden.  Dem User werden bestimmte Farbe schon in der GUI vorgegeben, die der Werkzeugfarbe entsprechen könnten. Des Weiteren kann er jedoch auch eine Farbe selber auswählen, in dem er diese anhand von RGB-Werten eingibt oder mithilfe von einem Klick in das aktuell ausgewählte Bild die gewünschte Farbe definiert. Nun durchsucht der Algorithmus das komplette Bild nach dieser Farbe. Zuvor kann noch entschieden werden, ob nur nach genau dieser Farbe gesucht werden soll oder man einen gewissen Wertebereich zulassen möchte, den man dann selber angeben kann. Beim Durchsuchen des Bildes wird jede Zeile von links nach rechts durchsucht und es werden sogenannte Segmente gebildet, wenn die übergebene Farbe gefunden wurde. Ein Segment besteht dabei aus einem Start- sowie einem Endpunkt und der dazugehörigen Y-Koordinate. Wenn das Segment die angeklickte Position im Bild enthält, wird noch ein Merker gesetzt um dieses Segment als Werkzeug zu markieren. Im nächsten Schritt werden nun die Segmente, die zusammenhängen, miteinander verbunden. Segmente gehören zusammen wenn sie über- oder untereinander liegen und sich mit mindestens einem Pixel überlappen. Aus diesen zusammenhängenden Segmenten werden dann Bereiche gebildet. Wenn bei einem Segment aus diesem Bereich der Merker gesetzt ist, wird auch für den ganzen Bereich der Merker gesetzt, denn dann ist der ganze Bereich das Werkzeug. Wurde jedoch die Farbe durch eine Eingabe definiert oder eine der vorgegeben Farben ausgewählt, so werden die verschiedenen Bereiche durchlaufen und der mit der größten Anzahl an Pixeln, wird als Werkzeug definiert. Denn es ist davon auszugehen, dass es in dem kleinen Bildausschnitt nicht noch ein weiteres Objekt gibt, welches genau die gleiche Farbe hat.
 
 
-\chapter{Graphische Oberfläche}
+\section{Graphische Oberfläche}
 In der GUI werden dem User verschiedene Möglichkeiten geboten, die Motoren einfach ansteuern zu können oder sogar automatisch an eine gewünschte Position verfahren zu lassen.  Des Weiteren ist die graphische Oberfläche dazu da, um Berechnungen, die im Hintergrund ausgeführt werden, zu starten und deren Ergebnisse wiederum an andere Funktionen weiterzuleiten, die die zuvor berechneten Werte als Eingabe benötigen.
 Eine weiter wichtige Aufgabe ist das Anzeigen des aktuell aufgenommen Bildes der Kamera, welches das Werkzeug sowie Werkstück enthält. Jedoch besteht nicht nur die Möglichkeit sich das aktuelle Bild anzusehen, man kann sich auch noch zuvor aufgenommen Bilder anschauen, um Einstellungen zu vergleichen oder um doch mit früheren Positionen weiterarbeiten zu können.
 
@@ -169,9 +331,34 @@ Steps pro Umdrehung: \\
 $22*3 = 66 $\\
 Winkel pro Step: \\
 $360/66 = 60/11 = 5.4545$\\
+\subsection{Abstand und Winkel}
+
+\begin{figure}[htbp]
+\centering 
+\includegraphics[width=0.8\textwidth]{Motoren.PNG}
+\caption{Gestell mit den drei Motoren}
+\label{fig:Bild6}
+\end{figure}
+\break
+
+\begin{figure}[htbp]
+\centering 
+\includegraphics[width=0.8\textwidth]{Motor_A.PNG}
+\caption{Positionsänderung der Kamera durch Motor A}
+\label{fig:Bild7}
+\end{figure}
+\break
+
+\begin{figure}[htbp]
+\centering 
+\includegraphics[width=0.8\textwidth]{Motor_B.PNG}
+\caption{Positionsänderung der Kamera durch Motor B}
+\label{fig:Bild8}
+\end{figure}
+\break
 
 
-\chapter{Bedienungsanleitung}
+\section{Bedienungsanleitung}
 TO DO (finale Version)
 \renewcommand{\labelitemi}{$\bullet$}
 \renewcommand{\labelitemii}{$\bullet$}
@@ -215,12 +402,38 @@ Die Python Datei locate.py muss vom Anwender jedes mal als erstes gestartet und 
 \end{itemize}
 \end{itemize}
 
-
-\chapter{Schlusswort}
+\section{Schlusswort}
 TO DO (was funktioniert und Aussicht wie System optimiert werden kann)
 
-\chapter{Literaturverzeichnis}
-Veröffentlichungen... 
+%-----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------
+%ANHANG
+%-----------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------
+\newpage
+%Nummerierung in Buchstaben statt Zahlen
+\appendix
 
+\section{Schaltplan}
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.7\linewidth]{ICschaltung.PNG}
+	\caption[Schaltplan der Steuerung, erstellt von Erik Rother, 03.09.2018]{Schaltplan der Steuerung}
+	\label{fig:mikrocontroller-schaltung}
+\end{figure}
+% Literatur
+\renewcommand\refname{Literaturverzeichnis}
+\addtocontents{toc}{\vspace{-0.5em}}
+
+\bibliographystyle{alphadin}
+
+\newpage
+\bibliography{literatur}
+
+%Abbildungen
+\listoffigures
+
+%Tabellen
+\listoftables
 
 \end{document}

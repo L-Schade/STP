@@ -1,0 +1,21 @@
+\BOOKMARK [1][-]{section.1}{Einleitung}{}% 1
+\BOOKMARK [1][-]{section.2}{Stand der Technik}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Diamant-Mikroschneiden}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Nano Fast Tool Servos \(nFTS\)}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Konzeptentwicklung}{}% 5
+\BOOKMARK [1][-]{section.4}{Aufbau des Gesamtsystems}{}% 6
+\BOOKMARK [1][-]{section.5}{Daten\374bertragung}{}% 7
+\BOOKMARK [1][-]{section.6}{Hardwareentwicklung}{}% 8
+\BOOKMARK [2][-]{subsection.6.1}{Aufbau der Schaltung}{section.6}% 9
+\BOOKMARK [2][-]{subsection.6.2}{Steuerung der Motoren}{section.6}% 10
+\BOOKMARK [2][-]{subsection.6.3}{Konstruktion des Gestells}{section.6}% 11
+\BOOKMARK [1][-]{section.7}{Algorithmus zur Werkzeugerkennung}{}% 12
+\BOOKMARK [2][-]{subsection.7.1}{Funktionsweise}{section.7}% 13
+\BOOKMARK [1][-]{section.8}{Graphische Oberfl\344che}{}% 14
+\BOOKMARK [2][-]{subsection.8.1}{Berechnungen}{section.8}% 15
+\BOOKMARK [3][-]{subsubsection.8.1.1}{Steps}{subsection.8.1}% 16
+\BOOKMARK [2][-]{subsection.8.2}{Abstand und Winkel}{section.8}% 17
+\BOOKMARK [1][-]{section.9}{Bedienungsanleitung}{}% 18
+\BOOKMARK [1][-]{section.10}{Schlusswort}{}% 19
+\BOOKMARK [1][-]{appendix.A}{Abbildungsverzeichnis}{}% 20
+\BOOKMARK [1][-]{appendix.B}{Tabellenverzeichnis}{}% 21

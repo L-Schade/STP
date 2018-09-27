@@ -1,0 +1,23 @@
+\babel@toc {ngerman}{}
+\contentsline {section}{\numberline {1}Einleitung}{1}{section.1}
+\contentsline {section}{\numberline {2}Stand der Technik}{1}{section.2}
+\contentsline {subsection}{\numberline {2.1}Diamant-Mikroschneiden}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Nano Fast Tool Servos (nFTS)}{3}{subsection.2.2}
+\contentsline {section}{\numberline {3}Konzeptentwicklung}{5}{section.3}
+\contentsline {section}{\numberline {4}Aufbau des Gesamtsystems}{6}{section.4}
+\contentsline {section}{\numberline {5}Daten\IeC {\"u}bertragung}{7}{section.5}
+\contentsline {section}{\numberline {6}Hardwareentwicklung}{9}{section.6}
+\contentsline {subsection}{\numberline {6.1}Aufbau der Schaltung}{9}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Steuerung der Motoren}{9}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Konstruktion des Gestells}{9}{subsection.6.3}
+\contentsline {section}{\numberline {7}Algorithmus zur Werkzeugerkennung}{9}{section.7}
+\contentsline {subsection}{\numberline {7.1}Funktionsweise}{10}{subsection.7.1}
+\contentsline {section}{\numberline {8}Graphische Oberfl\IeC {\"a}che}{10}{section.8}
+\contentsline {subsection}{\numberline {8.1}Berechnungen}{11}{subsection.8.1}
+\contentsline {subsubsection}{\numberline {8.1.1}Steps}{11}{subsubsection.8.1.1}
+\contentsline {subsection}{\numberline {8.2}Abstand und Winkel}{11}{subsection.8.2}
+\contentsline {section}{\numberline {9}Bedienungsanleitung}{14}{section.9}
+\contentsline {section}{\numberline {10}Schlusswort}{17}{section.10}
+\vspace {-0.5em}
+\contentsline {section}{\numberline {A}Abbildungsverzeichnis}{18}{appendix.A}
+\contentsline {section}{\numberline {B}Tabellenverzeichnis}{18}{appendix.B}
