@@ -11,12 +11,12 @@ GPIO.setwarnings(False)
 coil_1A_pin = 15  # gelb
 coil_2A_pin = 18  # gruen
 coil_3A_pin = 14  # blau
-# coil_1B_pin = 12  # gelb
-# coil_2B_pin = 16  # gruen
-# coil_3B_pin = 7  # blau
-# coil_1C_pin = 26  # gelb
-# coil_2C_pin = 19  # gruen
-# coil_3C_pin = 21  # blau
+coil_1B_pin = 12  # gelb
+coil_2B_pin = 16  # gruen
+coil_3B_pin = 7  # blau
+coil_1C_pin = 26  # gelb
+coil_2C_pin = 19  # gruen
+coil_3C_pin = 21  # blau
 
 # Sequenz
 ind_a = 0
@@ -51,13 +51,13 @@ def setup():
     GPIO.setup(coil_2A_pin, GPIO.OUT)
     GPIO.setup(coil_3A_pin, GPIO.OUT)
 
-    # GPIO.setup(coil_1B_pin, GPIO.OUT)
-    # GPIO.setup(coil_2B_pin, GPIO.OUT)
-    # GPIO.setup(coil_3B_pin, GPIO.OUT)
-    #
-    # GPIO.setup(coil_1C_pin, GPIO.OUT)
-    # GPIO.setup(coil_2C_pin, GPIO.OUT)
-    # GPIO.setup(coil_3C_pin, GPIO.OUT)
+    GPIO.setup(coil_1B_pin, GPIO.OUT)
+    GPIO.setup(coil_2B_pin, GPIO.OUT)
+    GPIO.setup(coil_3B_pin, GPIO.OUT)
+   
+    GPIO.setup(coil_1C_pin, GPIO.OUT)
+    GPIO.setup(coil_2C_pin, GPIO.OUT)
+    GPIO.setup(coil_3C_pin, GPIO.OUT)
 
 # GPIO.output(enable_pin, 1)
 
@@ -65,16 +65,16 @@ def setup():
 def set_step(motor, w1, w2, w3):
     if motor == 'a':
         GPIO.output(coil_1A_pin, w1)
-        GPIO.output(coil_1B_pin, w2)
-        GPIO.output(coil_1C_pin, w3)
-    # elif motor == 'b':
-    #     GPIO.output(coil_2A_pin, w1)
-    #     GPIO.output(coil_2B_pin, w2)
-    #     GPIO.output(coil_2C_pin, w3)
-    # elif motor == 'c':
-    #     GPIO.output(coil_3A_pin, w1)
-    #     GPIO.output(coil_3B_pin, w2)
-    #     GPIO.output(coil_33C_pin, w3)
+        GPIO.output(coil_2A_pin, w2)
+        GPIO.output(coil_3A_pin, w3)
+    elif motor == 'b':
+        GPIO.output(coil_1B_pin, w1)
+        GPIO.output(coil_2B_pin, w2)
+        GPIO.output(coil_3B_pin, w3)
+    elif motor == 'c':
+        GPIO.output(coil_1C_pin, w1)
+        GPIO.output(coil_2C_pin, w2)
+        GPIO.output(coil_3C_pin, w3)
     else:
         print('')
 
@@ -104,11 +104,11 @@ def forward(delay, steps, motor):
         time.sleep(delay)
         
    	if motor == 'a':
-        ind_a = ind 
-    elif motor == 'b':
-        ind_b = ind
-    elif motor == 'c':
-        ind_c = ind
+		ind_a = ind
+	elif motor == 'b':
+		ind_b = ind
+	elif motor == 'c':
+		ind_c = ind
 
 
 def backwards(delay, steps, motor):
@@ -130,11 +130,11 @@ def backwards(delay, steps, motor):
         time.sleep(delay)
         
   	if motor == 'a':
-        ind_a = ind 
-    elif motor == 'b':
-        ind_b = ind
-    elif motor == 'c':
-        ind_c = ind
+  		ind_a = ind
+	elif motor == 'b':
+		ind_b = ind
+	elif motor == 'c':
+		ind_c = ind
 
 
 def get_direction(delay, steps, motor):

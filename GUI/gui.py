@@ -14,7 +14,7 @@ import distance_calculator
 import functionsG
 import imagesG
 import detection
-# import motor_controlG
+import motor_controlG
 
 
 fields = 'x-coordinate:', 'y-coordinate:', 'delay:'

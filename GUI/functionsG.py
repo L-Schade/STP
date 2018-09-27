@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import math
-# import motor_controlG
+import motor_controlG
 import read_save_position
 
 a = None
@@ -16,13 +16,16 @@ radius_a = 0
 radius_b = 0
 
 
-def pixel_resize():
+def pixel_resize(x_dist, z_dist):
 	org_width = 1390
 	org_height = 1040
+	org_x_dist = (org_width, x_dist) / 500
+	org_z_dist = (org_height, z_dist) / 250
+	return org_x_dist, org_z_dist
 
 
 def pixel_distance(pixel):
-    dstnc = pixel * 0.0011465
+    dstnc = pixel * 0.00115
 
     return dstnc
 
@@ -87,12 +90,13 @@ def set_radius_b(value):
 
 def motor(steps, delay, motor):
     print("")
-    # motor_controlG.get_direction(delay, steps, a):
-    if motor == 'a':
-        correction_b(steps)
-        correction_c(steps)
-    elif motor == 'b':
-        correction_c(steps)
+    motor_controlG.setup()
+    motor_controlG.get_direction(delay, steps, motor)
+    # if motor == 'a':
+    #     correction_b(steps)
+    #     correction_c(steps)
+    # elif motor == 'b':
+    #     correction_c(steps)
 
 
 def motor_a(x_pixel, delay):        # distance,
@@ -121,6 +125,7 @@ def motor_c(y_pixel, delay):       # distance,
 
 
 def correction_b(steps):
+	alpha = steps_to_angle(steps)
 	x = (((-1 * distance) - (radius_a * math.cos(alpha)) + target_distance) / (radius_b))
    	beta = math.asin(x)
 	new_position = angle_to_steps(beta)
