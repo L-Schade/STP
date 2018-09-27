@@ -10,10 +10,10 @@ c = None
 old_a = None
 old_b = None
 old_c = None
-distance = None
-target_distance = None
-radius_a = None
-radius_b = None
+distance = 0
+target_distance = 0
+radius_a = 0
+radius_b = 0
 
 
 def pixel_resize():
@@ -196,18 +196,18 @@ def delay(time):
     read_save_position.save_position_delay(a, b, c, delay)
 
 
-def opposite(image_name):
-    print(image_name)
-    print("Positionen/"+image_name)
-    a, b, c = read_save_position.read_position()
-    new_position = -1 * int(a)
-    print(new_position)
-	
-	motor((2*new_position), 1, 'a')
-	read_save_position.save_position_delay((2*new_position), b, c)
-	
-	correction_b((2*new_position))
-	correction_c((2*new_position))
+# def opposite(image_name):
+    # print(image_name)
+    # print("Positionen/"+image_name)
+    # a, b, c = read_save_position.read_position()
+    # new_position = -2 * int(a)
+    # print(new_position)
+    
+    # motor((new_position), 1, 'a')
+    # read_save_position.save_position_delay((new_position), b, c)
+    
+    # correction_b((2*new_position))
+    # correction_c((2*new_position))
 
 
 

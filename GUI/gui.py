@@ -450,7 +450,7 @@ def button3_click():
     button4.place(x=250, y=220, width=100, height=20)
     button5.place(x=235, y=260, width=40, height=20)
     button6.place(x=325, y=260, width=40, height=20)
-    button7.place(x=585, y=325, width=180, height=20)
+    # button7.place(x=585, y=325, width=180, height=20)
     labelImg2.config(image=imageNavigate)
     labelImg2.place(x=500, y=110, width=350, height=190)
 
