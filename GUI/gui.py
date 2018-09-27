@@ -31,6 +31,7 @@ x = None
 y = None
 center = None
 
+ind = 0
 bu1_blocked = False       # Motoren sind frei
 bu2_blocked = False       # Motoren koennen bewegt werden
 
@@ -259,8 +260,8 @@ def button21_click():
     hide_coordinate_buttons()
     # TODO
     # Textfeld anpassen an moegliche Werte
-    output('Geben Sie die gewuenschten Koordinaten ein, '
-           'der Wert darf zwischen ??? liegen')
+    output('Geben Sie die gewünschten Koordinaten ein, '
+           'die Werte dürfen zwischen x[0-500] & y[0-250] liegen')
     output_label_coord()
 
     ind = Image.open("coordinates.jpeg")
@@ -922,9 +923,29 @@ def close_stop():
     img_stop.place_forget()
 
 
-def distance_input(distance):
-    functionsG.set_distance(distance)
-    comment('Abstand\nKamera &\nWST: ' +str(distance)+ ' mm')
+def distance_input(value):
+	global ind
+	if ind == 0:
+		functionsG.set_distance(value)
+		comment('Abstand\nKamera &\nWST: ' +str(value)+ ' mm')
+		ind == 1
+		txt_box_label.config(text='Soll-Abstand (Y) Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)
+	elif ind == 1:
+		functionsG.set_distance(value)
+		comment('Soll-Abstand\nKamera &\nWST: ' +str(value)+ ' mm')
+		ind == 2
+		txt_box_label.config(text='Radius von Motor a[mm]:', font=('times', 9, 'italic'), aspect=120)
+	elif ind == 2:
+		functionsG.set_distance(value)
+		comment('Radius von Motor a[mm]: ' +str(value)+ ' mm')
+		ind == 2
+		txt_box_label.config(text='Radius von Motor b[mm]: ', font=('times', 9, 'italic'), aspect=120)
+	elif ind == 3:
+		functionsG.set_distance(value)
+		comment('Radius von Motor b[mm]: ' +str(value)+ ' mm')
+		ind == 0
+		txt_box_label.config(text='Abstand (Y) Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)		
+
 
 
 # hold position
@@ -1002,7 +1023,7 @@ def get_blocked(ind):
             functionsG.delay(1)
         elif ind == 5:
             functionsG.delay(2)
-        read('neue Koordinaten:')
+        read('neue Position:')
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
     else:
         print(ind)  # index
