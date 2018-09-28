@@ -1037,10 +1037,15 @@ def get_blocked(ind):
         # comment("Motoren sind gesperrt!")
         stop()
         
+        
+def start_position():
+	functionsG.update_position(0, 0, 0)
+	functionsG.set_current_position()
+	functionsG.start_position()
 
-# reset position
-functionsG.update_position(0, 0, 0)
-functionsG.set_current_position()
+# start position
+start_position()
+
 
 # create the window
 tk_fenster = Tk()
