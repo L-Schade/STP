@@ -271,18 +271,18 @@ def coordinate1(x, z, delay):
     print(steps_a, 1, steps_c)
 
 	
-def coordinate2(a, b, c, delay):
-	global old_a, old_b, old_c
+def coordinate2(m_a, m_b, m_c, delay):
+	global a, b, c
 	print(old_a, old_b, old_c, a, b, c)
-	steps_a = (int(a) - int(old_a))
-	steps_b = (int(b) - int(old_b))
-	steps_c = (int(c) - int(old_c))
+	steps_a = (int(m_a) - int(a))
+	steps_b = (int(m_b) - int(b))
+	steps_c = (int(m_c) - int(c))
 	
 	motor(int(steps_a), delay, 'a')
 	motor(int(steps_b), delay, 'b')
 	motor(int(steps_c), delay, 'c')
 
-	read_save_position.save_position(a, b, c)
+	read_save_position.save_position(m_a, m_b, m_c)
 	print('steps: '+ str(steps_a) +' '+ str(steps_b) +' '+ str(steps_c))
 
 

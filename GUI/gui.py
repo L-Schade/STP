@@ -61,20 +61,13 @@ def click1(event):
         output_lab.place(x=225, y=475, width=600)
 
         # old_posi = read_save_position.read_old_position(image_na)
-        functionsG.set_old_position(image_na)
-        functionsG.set_current_position()
-        functionsG.latest_position()
+        # functionsG.set_old_position(image_na)
+        # functionsG.set_current_position()
+        # functionsG.latest_position()
         functionsG.automatic(dist[0], dist[1])
         # a_posi = old_posi[0]
         # b_posi = old_posi[1]
         # c_posi = old_posi[2]
-
-        # TODO
-        # Pixel = 0,001149425 mm Höhe sowie Breite
-        # gewuenschte Position berechnen
-        # Motoren ansteuern
-        # Bildgroesse beachten 500,250
-
 
     else:
         output("Motoren sind gesperrt!")
@@ -153,6 +146,7 @@ def button_click():
     	functionsG.set_old_position(image_na)
         functionsG.latest_position()
 
+
     else:
         print("Motoren sind gesperrt")
         output("Motoren sind gesperrt")
@@ -189,6 +183,10 @@ def button11_click():
 
     # global text
     # text = "Abstand von {} zum Mittelpunkt: {}".format(point,dist)
+    
+    functionsG.set_current_position()
+    functionsG.set_old_position(image_na)
+    functionsG.latest_position()
 
 
 # tracking
@@ -225,24 +223,12 @@ def button12_click():
     text_box3.place(x=400, y=580, width=140, height=30)
     text_box_button.place(x=370, y=640, width=170, height=30)
 
-    # global bu2_blocked
-    # if not bu2_blocked:  # False
-    #     print("kd")
-    #     # comment("Tracking-\nModus")
-    #     # output('Tracking-Modus ...')
-    #     # output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'), aspect=800)
-    #     # output_lab.place(x=225, y=475, width=600)
-    #
-    #     # TODO
-    #     # WZ-Detektion
-    #     # Motoren ansteuern
-    #
-    # else:
-    #     output("Motoren sind gesperrt!")
-    #     output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
-    #     output_lab.place(x=600, y=460, width=170, height=150)
-    #     stop()
-
+    global bu2_blocked
+    if not bu2_blocked:  # False		
+    	functionsG.set_old_position(image_na)
+    	functionsG.set_current_position()
+    	functionsG.latest_position()
+    	
 
 # coordinate
 def button2_click():
@@ -275,6 +261,12 @@ def button21_click():
     # img.place(x=150, y=325, width=750, height=100)
     label_img_coord1.config(image=pht)
     label_img_coord1.place(x=250, y=350, width=550, height=260)
+    
+    global bu2_blocked
+    if not bu2_blocked:
+    	functionsG.set_old_position(image_na)
+    	functionsG.set_current_position()
+    	functionsG.latest_position()
 
     def fetch(entries):
         global bu2_blocked, text
@@ -284,13 +276,13 @@ def button21_click():
             text = entry[1].get()
             print('%s: "%s"' % (field, text))
             if ind == 0:
-                x = entry[1].get()
+                x = int(entry[1].get())
                 ind += 1
             elif ind == 1 :
-                y = entry[1].get()
+                y = int(entry[1].get())
                 ind += 1
             elif ind == 2:
-                delay = entry[1].get()
+                delay = int(entry[1].get())
                 ind = 0
                 # TODO
                 # wait wird falsch uebertragen
@@ -300,9 +292,9 @@ def button21_click():
                     # a_posi = old_posi[0]
                     # b_posi = old_posi[1]
                     # c_posi = old_posi[2]
-                    functionsG.set_old_position(image_na)
-                    functionsG.set_current_position()
-                    functionsG.latest_position()
+                    # functionsG.set_old_position(image_na)
+                    # functionsG.set_current_position()
+                    # functionsG.latest_position()
                     functionsG.coordinate1(x, y, delay)
 
                     # read_coordinates('neue Koordinaten:')
@@ -367,25 +359,24 @@ def button22_click():
             text = entry[1].get()
             print('%s: "%s"' % (field, text))
             if ind == 0:
-                m_a = entry[1].get()
+                m_a = int(entry[1].get())
                 ind += 1
             elif ind == 1:
-                m_b = entry[1].get()
+                m_b = int(entry[1].get())
                 ind += 1
             elif ind == 2:
-                m_c = entry[1].get()
+                m_c = int(entry[1].get())
                 ind += 1
             elif ind == 3:
-                delay = entry[1].get()
+                delay = int(entry[1].get())
                 print(delay)
                 ind = 0
                 # TODO
                 # wait wird falsch uebertragen
 
                 if not bu2_blocked:         # False
-					# TODO
-                    # functionsG.set_current_position()
-                    functionsG.set_old_position(image_na)
+                    functionsG.set_current_position()
+                    # functionsG.set_old_position(image_na)
                     functionsG.coordinate2(m_a, m_b, m_c, delay)
 
                     # read_coordinates('neue Koordinaten:')
@@ -586,9 +577,9 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         # b_posi = old_posi[1]
         # c_posi = old_posi[2]
         
-        functionsG.set_old_position(image_na)
-        functionsG.set_current_position()
-        functionsG.latest_position()
+        # functionsG.set_old_position(image_na)
+        # functionsG.set_current_position()
+        # functionsG.latest_position()
         functionsG.automatic(x_dist, z_dist)
 
     # else:
@@ -936,7 +927,7 @@ def distance_input(value):
 		functionsG.set_distance(value)
 		comment('Abstand\nKamera &\nWST = ' +str(value)+ ' mm')
 		counter += 1
-		txt_box_label.config(text='Soll-Abstand (Y) Kamera WST [mm]:', font=('times', 9, 'italic'), aspect=120)
+		txt_box_label.config(text='Soll-Abstand (Y) Kamera WST (optimal: 75) [mm]:', font=('times', 8, 'italic'), aspect=120)
 	elif counter == 1:
 		functionsG.set_target_distance(value)
 		comment('Soll-Abstand\nKamera &\nWST = ' +str(value)+ ' mm')
@@ -1042,7 +1033,11 @@ def get_blocked(ind):
         output_lab.config(text=str(text), bg='#E0ECF8', anchor=NW, font=('times', 20, 'italic'))
         # comment("Motoren sind gesperrt!")
         stop()
+        
 
+# reset position
+functionsG.update_position(0, 0, 0)
+functionsG.set_current_position()
 
 # create the window
 tk_fenster = Tk()
@@ -1118,7 +1113,7 @@ buttonMode12.place(x=25, y=180, width=100, height=20)
 buttonMode2 = Button(master=toolbar_y, text='Koordination', command=button2_click)
 buttonMode2.place(x=25, y=220, width=100, height=20)
 buttonMode21 = Button(master=frameGui, text='Koordinaten: x, y', command=button21_click)
-buttonMode22 = Button(master=frameGui, text='Winkel: Motoren a, b, c', command=button22_click)
+buttonMode22 = Button(master=frameGui, text='Position: Motoren a, b, c', command=button22_click)
 buttonMode3 = Button(master=toolbar_y, text='Navigation', command=button3_click)
 buttonMode3.place(x=25, y=260, width=100, height=20)
 buttonMode4 = Button(master=toolbar_y, text='Bilder', command=button4_click)
