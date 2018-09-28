@@ -63,6 +63,7 @@ def click1(event):
         # old_posi = read_save_position.read_old_position(image_na)
         functionsG.set_old_position(image_na)
         functionsG.set_current_position()
+        functionsG.latest_position()
         functionsG.automatic(dist[0], dist[1])
         # a_posi = old_posi[0]
         # b_posi = old_posi[1]
@@ -301,6 +302,7 @@ def button21_click():
                     # c_posi = old_posi[2]
                     functionsG.set_old_position(image_na)
                     functionsG.set_current_position()
+                    functionsG.latest_position()
                     functionsG.coordinate1(x, y, delay)
 
                     # read_coordinates('neue Koordinaten:')
@@ -586,6 +588,7 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         
         functionsG.set_old_position(image_na)
         functionsG.set_current_position()
+        functionsG.latest_position()
         functionsG.automatic(x_dist, z_dist)
 
     # else:
