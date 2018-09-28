@@ -166,22 +166,22 @@ Zur Einordnung dieser Prozesse dient Abbildung 1. Es sind einige Verfahren zur H
 
 \subsection{Diamant-Mikroschneiden}
 Das Diamant-Mikroschneiden dient zur Herstellung von prismatischen Mikrokavitäten mit scharfkantig aufeinandertreffenden Facettenflächen, wie sie zum Beispiel bei retroreflektierenden Strukturen erforderlich sind. Um retroreflektierende Strukturen zu fertigen werden aus glatten Oberflächen gezielt bestimmte Bereiche entfernt und die reflektierende Struktur bleibt stehen. Das Diamant-Mikroschneiden unterschiedet sich durch seine Werkzeuge und Kinematik grundlegend von anderen Fertigungsverfahren. \\ \\
-Abbildung 2 zeigt das Diamant-Werkzeug, welches sich dadurch auszeichnet, dass Span-und Freifläche gegeneinander vertauscht wurden. \\ \\
+\autoref{fig:wz} zeigt das Diamant-Werkzeug, welches sich dadurch auszeichnet, dass Span-und Freifläche gegeneinander vertauscht wurden. \\ \\
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.3\textwidth]{Werkzeug.PNG}
 \caption [Gla09]{Werkzeug zum Mikroschneiden}
-\label{fig:Bild2}
+\label{fig:wz}
 \end{figure}
 \pagebreak
 \\ \\
-Abbildung 3 zeigt die Kinematik des Mikroschneidens. Das Werkzeug schneidet zunächst in X,Y,-Z Richtung in das Werkstück und wird anschließend in \\-X,Y,Z Richtung zurückgeführt. Nachfolgend wird das Werkstück rotiert und der Schnittvorgang wiederholt sich. Durch diesen Vorgang können drei- bis sieben-seitige Kavitäten erstellt werden. \\ \\
+\autoref{fig:ms} zeigt die Kinematik des Mikroschneidens. Das Werkzeug schneidet zunächst in X,Y,-Z Richtung in das Werkstück und fährt anschließend in \\-X,Y,Z Richtung wieder heraus. Nachfolgend wird das Werkstück rotiert und der Schnittvorgang wiederholt sich. Das Werkzeug fährt also auf einer diskontinuierlichen Werkzeugbahn in das Werkstück und wieder raus. Durch diesen Vorgang können drei- bis sieben-seitige Kavitäten erstellt werden. \\ \\
 Außerdem ist die Herstellung von kubischen Retroreflektoren aus dreieckigen Einzelstrukturen abgebildet. \\ \\
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.7\textwidth]{Mikroschneiden_Kinematik.PNG}
 \caption[Sch14]{Kinematik des Mikroschneidens}
-\label{fig:Bild3}
+\label{fig:ms}
 \end{figure}
 \break
 Besonders wichtig beim Mikroschneiden ist die richtige Justierung des Werkzeuges innerhalb der Maschine. Hier muss eine Genauigkeit von unter einem Mikrometer in allen Raumrichtungen erreicht werden. Sonst würden sich die einzelnen Spiegelflächen der Strukturen nicht präzise treffen und die gewünschte optische Funktion ließe sich nicht erreichen.
@@ -190,25 +190,17 @@ Besonders wichtig beim Mikroschneiden ist die richtige Justierung des Werkzeuges
 
 
 \subsection{Nano Fast Tool Servos (nFTS)}
-Das Verfahren nano Fast Tool Servos dient zur Herstellung diffraktiver optischer Komponenten, welche ihre Anwendung beispielsweise in der Sicherheitstechnik finden. Dieses Verfahren arbeitet mit einer speziellen piezoelektrischen Keramik, welche sich durch eine hohe Linearität und geringe Hysterese auszeichnet. Darauf befindet sich eine Montageplatte für das Diamantwerkzeug. \\ \\
-Die herzustellende Strukturgeometrie unterliegt sowohl den Anforderungen des optischen Designs als auch denen der Bearbeitungstechnologie. Um beide möglichst gut zu berücksichtigen wird eine so genannte Blaze-Struktur verwendet. In der folgenden Abbildung 2.4 ist links die Geometrie einer Blaze-Optik zu sehen. Rechts ist eine diffraktive Umsetzung zur Fertigung mit Diamantwerkzeugen abgebildet. Strukturdaten werden als Höhenmodulation in die Flanken eingeschrieben. 
+Das Verfahren nano Fast Tool Servos dient zur Herstellung diffraktiver optischer Komponenten. Mit diesem Verfahren sind hohe Flexibilität und Genauigkeit für die Fertigung komplexer Geometrien möglich. 
+Während bei dem Diamantdrehprozess bereits ultrapräzise optische Komponenten gefertigt werden können, ermöglicht eine zusätzliche dynamische Achse in Form von Fast-Tool-Servos oder Slow-Tool-Servos auch die Herstellung von Mikrostrukturen. Das Werkzeug wird dann senkrecht zur Werkstückoberfläche und in Abhängigkeit des Winkellage des Werkstücks bewegt. Es wurden eine Vielzahl solcher Systeme für unterschiedliche Anwendungen entwickelt, die sich in ihrem Hub, der maximalen Bandbreite sowie in der Art ihres Antriebs unterscheiden. Der nano Fast Tool Servo zeichnet sich durch seinen geringen Hub von maximal 350 nm aus, mit dem die Schnitttiefe moduliert werden kann. Die maximale Bandbreite beträgt 10 kHz. Die hochfrequente Variation der Schnitttiefe wird über einen Piezoaktor realisiert, der sich durch seine geringe Hysterese auszeichnet. So können auf dem spiralförmigen Bearbeitungspfad Höhenunterschiede generiert werden. Links in \autoref{fig:nFTS} ist dieses Prinzip abgebildet. Rechts in der Abbildung ist die Form der Schneide des Diamantwerkzeugs zu sehen. Durch diese Form und die Kinematik des Drehprozesses entsteht unten in der Abbildung dargestellte Grundstruktur, welche Blazestruktur genannt wird. 
 \begin{figure}[htbp]
 \centering 
-\includegraphics[width=0.7\textwidth]{Blaze_Optik.PNG}
-\caption [Gla09]{Blaze-Struktur}
-\label{fig:Bild4}
+\includegraphics[width=0.7\textwidth]{nFTS.PNG}
+\caption [Gla09]{Funktionsprinzip des nFTS}
+\label{fig:nFTS}
 \end{figure}
 \break
-Nachfolgend ist der Bearbeitungsprozess des nFTS zu sehen. Rechts ist das Diamantwerkzeug, welches bei diesem Verfahren verwendet wird, abgebildet. \\ \\ 
-\begin{figure}[htbp]
-\centering 
-\includegraphics[width=0.6\textwidth]{nano.PNG}
-\caption [Gla09]{Bearbeitungsprozess}
-\label{fig:Bild5}
-\end{figure}
-\break
+Eine aktuelle Anwendung dieses Prozesses im Labor für Mikrozerspanung sind Hologramme für die UV Lithographie. Diese dienen als reflektierende Phasenmasken zur definierten Belichtung von Photoresisten. \\ \\
 \pagebreak
-\\ \\
 Beide Prozesse haben hohe Anforderungen an eine genaue Positionierung des Werkzeugs. Außerdem ist das Werkzeug in beiden Fällen aus Diamant, einem sehr teuren Werkstoff. Somit ist es besonders wichtig den Kontakt zwischen Werkzeug und Werkstück vorsichtig herzustellen, sodass es nicht zu Beschädigungen kommt. Dazu ist ein Kamerasystem mit starker Vergrößerung notwendig. Bisher wurde dies mit einer Kamera an der Werkzeughalterung realisiert. Diese musste manuell positioniert werden, wodurch viel Zeit in Anspruch genommen wurde. Während des Bearbeitungsprozesses kann es bei bestimmten Winkeln des Werkzeuges vorkommen, dass das Werkstück nicht mehr im Bildausschnitt zu sehen ist. Dies erfordert eine erneute manuelle Positionierung der Kamera und nimmt wieder Zeit in Anspruch. \\ \\
 
 \section{Konzeptentwicklung}
@@ -453,20 +445,20 @@ Das Gestell ist mit drei Motoren ausgestattet, um die Kamera richtig zu position
 \label{fig:Bild6}
 \end{figure}
 \break
-In Abbildung 7 ist die Bahn, entlang der sich die Kamera durch Motor A bewegt, in der Draufsicht zu sehen. Ausgehend von der Position mittig auf dem Halbkreis kann die Kamera zu beiden Seiten geschwenkt werden. Während sie mittig den größten Abstand zum Werkstück hat, wird der Abstand beim Schwenken zu den Seiten geringer. Zu dem Abstand zwischen Motor A und Werkstück wird dann $cos(\alpha) * Radius A$ gerechnet. Der Cosinus beträgt bei 0$^\circ$ 1, dies entspricht genau der Position mittig auf dem Halbkreis, da in dem Fall der Abstand mit Abstand zwischen Motor A und Werkstück + Radius A am größten ist. 
+In \autoref{fig:A} ist die Bahn, entlang der sich die Kamera durch Motor A bewegt, in der Draufsicht zu sehen. Ausgehend von der Position mittig auf dem Halbkreis kann die Kamera zu beiden Seiten geschwenkt werden. Während sie mittig den größten Abstand zum Werkstück hat, wird der Abstand beim Schwenken zu den Seiten geringer. Zu dem Abstand zwischen Motor A und Werkstück wird dann $cos(\alpha) * Radius A$ gerechnet. Der Cosinus beträgt bei 0$^\circ$ 1, dies entspricht genau der Position mittig auf dem Halbkreis, da in dem Fall der Abstand mit Abstand zwischen Motor A und Werkstück + Radius A am größten ist. 
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.8\textwidth]{Motor_A.PNG}
 \caption{Positionsänderung der Kamera durch Motor A}
-\label{fig:Bild7}
+\label{fig:A}
 \end{figure}
 \break
-In Abbildung 8 erkennt man nun die Bahn, entlang der sich die Kamera durch Motor B bewegt aus seitlicher Ansicht. Der Abstand zum Werkstück soll hier korrigiert werden. Die Kamera kann auf der Kreisbahn näher zum Werkstück hingeführt werden. Von dem ursprünglichen Abstand wird dann $Sin(\beta)*Radius B$ subtrahiert, da der Abstand kleiner wird. Schwenkt man die Kamera nach hinten wird der genannte Therm addiert, da sich der Abstand vergrößert. Jedoch bewegt sich die Kamera entlang dieser Kreisbahn auch in ihrer Höhe. Die Höhe ändert sich um den Therm $Radius B - Cos(\beta) *Radius B$. Sowohl dieser Höhenunterschied muss durch den Motor C ausgeglichen werden, als auch der Winkel, den Motor B verstellt. Wird die Kamera beispielsweise durch Motor B etwas nach unten gekippt, neigt Motor C die Kamera wieder um dieses Winkel nach oben. Außerdem wird die Höhendifferenz auf dem Bildausschnitt berechnet und die Kamera wird so weit nach oben geneigt, bis sie wieder den richtigen Bildausschnitt zeigt.
+In \autoref{fig:B} erkennt man nun die Bahn, entlang der sich die Kamera durch Motor B bewegt aus seitlicher Ansicht. Der Abstand zum Werkstück soll hier korrigiert werden. Die Kamera kann auf der Kreisbahn näher zum Werkstück hingeführt werden. Von dem ursprünglichen Abstand wird dann $Sin(\beta)*Radius B$ subtrahiert, da der Abstand kleiner wird. Schwenkt man die Kamera nach hinten wird der genannte Therm addiert, da sich der Abstand vergrößert. Jedoch bewegt sich die Kamera entlang dieser Kreisbahn auch in ihrer Höhe. Die Höhe ändert sich um den Therm $Radius B - Cos(\beta) *Radius B$. Sowohl dieser Höhenunterschied muss durch den Motor C ausgeglichen werden, als auch der Winkel, den Motor B verstellt. Wird die Kamera beispielsweise durch Motor B etwas nach unten gekippt, neigt Motor C die Kamera wieder um dieses Winkel nach oben. Außerdem wird die Höhendifferenz auf dem Bildausschnitt berechnet und die Kamera wird so weit nach oben geneigt, bis sie wieder den richtigen Bildausschnitt zeigt.
 \begin{figure}[htbp]
 \centering 
 \includegraphics[width=0.8\textwidth]{Motor_B.PNG}
 \caption{Positionsänderung der Kamera durch Motor B}
-\label{fig:Bild8}
+\label{fig:B}
 \end{figure}
 \break
 Bei den Berechnungen wurde die Annahme getroffen, dass die Distanzänderung, die nur durch den Winkel des Motors C entsteht vernachlässigt werden kann. Es ist anzunehmen, dass die Winkeländerungen von Motor C im Vergleich zu dem Abstand zum Werkstück so gering sind, dass sich die Distanz nur minimal ändert. Sollte es trotzdem zu unscharfen Bildern kommen, kann man die Motorpositionen durch ein iteratives Verfahren optimieren. In diesem Verfahren würde die Abstandsdifferenz zwischen angenommenem Abstand und wahrem Abstand mit Hilfe von Cosinus berechnet. Der Abstand würde durch Motor B angepasst und anschließend würde der Winkel von Motor C entsprechend den Änderungen durch Motor B wieder angepasst. Durch mehrfaches Ausführen dieser Schritte könnte man den Abstand optimieren. Jedoch haben wir uns gegen eine solche Optimierung entschieden, da zunächst die grundlegenden Funktionen unserer Positionierung im Vordergrund stehen sollten. 
