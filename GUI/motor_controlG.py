@@ -80,9 +80,8 @@ def set_step(motor, w1, w2, w3):
 
 
 def reference_point():
-    # TODO
-    # Warnung das nichts im Weg steht
-    GPIO.cleanup()  # move to reference point
+    GPIO.cleanup()  
+    print("GPIO cleanup")
 
 
 def forward(delay, steps, motor):

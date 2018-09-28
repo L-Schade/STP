@@ -185,6 +185,10 @@ def define_target_distance(alpha, beta):
 	global target_distance, distance, radius_a, radius_b
 	target_distance = distance + (radius_a * math.degrees(math.cos(alpha))) + (radius_b * math.degrees(math.sin(beta)))
 
+def start_position():
+	global a, b, c
+	motor((17), 100, 'b')
+
 
 def reference_point():
 	global a, b, c
@@ -194,6 +198,7 @@ def reference_point():
 	motor((-1 * c), 100, 'c')
 	
 	read_save_position.save_position(0, 0, 0)
+	# motor_controlG.reference_point()
 
 
 def latest_position():
