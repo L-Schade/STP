@@ -14,7 +14,7 @@ import distance_calculator
 import functionsG
 import imagesG
 import detection
-import motor_controlG
+# import motor_controlG     # raspi
 
 
 fields = 'x-coordinate:', 'z-coordinate:', 'delay:'
@@ -349,7 +349,8 @@ def button22_click():
            'der Wert entspricht einzelnen Steps und darf zwischen -33 & 33 liegen')
     output_label_coord()
 
-    ind = Image.open("angle.jpeg")
+    ind = Image.open("Motoren.png")
+    # indi = resize_image(ind, 250, 500)
     pht = ImageTk.PhotoImage(ind)
     # img = Label(master=frameGui, image=photo)  # funktioniert nur mit master=frameGui
     # img.place(x=150, y=325, width=750, height=100)
@@ -587,12 +588,6 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
         functionsG.set_current_position()
         functionsG.automatic(x_dist, z_dist)
 
-        # TODO
-        # Pixel = 0,001149425 mm Höhe sowie Breite
-        # gewuenschte Position berechnen
-        # Motoren ansteuern
-        # Bildgroesse beachten 250,125
-
     # else:
     #     print("...")
     #
@@ -600,12 +595,6 @@ def start_algorithm(request, color_rng, color, x_coord, y_coord):
     # a_posi = old_posi[0]
     # b_posi = old_posi[1]
     # c_posi = old_posi[2]
-    #
-    # # TODO
-    # # Pixel = 0,001149425 mm Höhe sowie Breite
-    # # gewuenschte Position berechnen
-    # # Motoren ansteuern
-    # # Bildgroesse beachten 250,125
 
 
 #

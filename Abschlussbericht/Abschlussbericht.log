@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800) (preloaded format=pdflatex 2018.5.20)  28 SEP 2018 02:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800) (preloaded format=pdflatex 2018.5.20)  28 SEP 2018 02:51
 entering extended mode
 **./Abschlussbericht.tex
 (Abschlussbericht.tex
@@ -1162,7 +1162,11 @@ Package hyperref Info: Option `pdfmenubar' set `true' on input line 37.
 Package hyperref Info: Option `pdffitwindow' set `false' on input line 37.
 Package hyperref Info: Option `colorlinks' set `true' on input line 37.
 
-(Abschlussbericht.aux)
+(Abschlussbericht.aux
+
+LaTeX Warning: Label `fig:Bild8' multiply defined.
+
+)
 \openout1 = `Abschlussbericht.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
@@ -1185,6 +1189,7 @@ LaTeX Font Info:    Try loading font information for TS1+cmr on input line 39.
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 39.
+
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count145
@@ -1796,11 +1801,11 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 422.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 422.
- <gui.png, id=259, 501.875pt x 250.9375pt>
-File: gui.png Graphic file (type png)
- <use gui.png>
-Package pdftex.def Info: gui.png used on input line 427.
-(pdftex.def)             Requested size: 364.19667pt x 182.10689pt.
+ <GUI.png, id=259, 1001.7425pt x 742.775pt>
+File: GUI.png Graphic file (type png)
+ <use GUI.png>
+Package pdftex.def Info: GUI.png used on input line 427.
+(pdftex.def)             Requested size: 364.19667pt x 270.0509pt.
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 431.
 Package babel Info: Redefining ngerman shorthand "~
@@ -1819,18 +1824,19 @@ Package babel Info: Redefining ngerman shorthand "|
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 433.
 Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 442.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 442.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 442.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 442.
+ [15 <./GUI.png>]
+Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 443.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 443.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 446.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 446.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 446.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 446.
- [15 <./gui.png (PNG copy)>] <Motoren.png, id=269, 3107.61pt x 2505.36pt>
+ <Motoren.png, id=269, 3107.61pt x 2505.36pt>
 File: Motoren.png Graphic file (type png)
  <use Motoren.png>
 Package pdftex.def Info: Motoren.png used on input line 449.
@@ -1843,17 +1849,15 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 453.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 453.
-
-[16 <./Motoren.png>] <Motor_A.PNG, id=277, 323.39388pt x 218.53528pt>
+ [16 <./Motoren.png>] <Motor_A.PNG, id=277, 323.39388pt x 218.53528pt>
 File: Motor_A.PNG Graphic file (type png)
-
-<use Motor_A.PNG>
+ <use Motor_A.PNG>
 Package pdftex.def Info: Motor_A.PNG used on input line 457.
 (pdftex.def)             Requested size: 364.19667pt x 246.12166pt.
- <Motor_B.PNG, id=278, 368.34998pt x 188.9993pt>
-File: Motor_B.PNG Graphic file (type png)
 
-<use Motor_B.PNG>
+<Motor_B.PNG, id=278, 368.34998pt x 188.9993pt>
+File: Motor_B.PNG Graphic file (type png)
+ <use Motor_B.PNG>
 Package pdftex.def Info: Motor_B.PNG used on input line 465.
 (pdftex.def)             Requested size: 364.19667pt x 186.8705pt.
 
@@ -1936,7 +1940,7 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 529.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 529.
- <ICschaltung.png, id=308, 928.9104pt x 1335.5496pt>
+ <ICschaltung.png, id=309, 928.9104pt x 1335.5496pt>
 File: ICschaltung.png Graphic file (type png)
 
 <use ICschaltung.png>
@@ -1997,14 +2001,14 @@ Package rerunfilecheck Info: File `Abschlussbericht.out' has not changed.
 (rerunfilecheck)             Checksum: 4E703F54A6D21288E0CE2BAD8F25128E;1626.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 551.
  ) 
 Here is how much of TeX's memory you used:
  14896 strings out of 495176
  221114 string characters out of 3180430
- 394221 words of memory out of 3000000
+ 394260 words of memory out of 3000000
  17807 multiletter control sequences out of 15000+200000
  11677 words of font info for 43 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
@@ -2022,9 +2026,9 @@ sfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
 i12.pfb></home/lisa/.miktex/texmfs/install/fonts/type1/public/cm-super/sfrm1200
 .pfb>
-Output written on Abschlussbericht.pdf (27 pages, 11730808 bytes).
+Output written on Abschlussbericht.pdf (27 pages, 11769656 bytes).
 PDF statistics:
- 392 PDF objects out of 1000 (max. 8388607)
+ 393 PDF objects out of 1000 (max. 8388607)
  78 named destinations out of 1000 (max. 500000)
  294 words of extra memory for PDF output out of 10000 (max. 10000000)
 
