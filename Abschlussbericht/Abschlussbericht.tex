@@ -242,7 +242,14 @@ Im Gegensatz dazu wäre ein Tragarm eine sehr preiswerte Lösung. Jedoch könnte
 Der Gimbal erschien uns als eine gute Grundlage für das Kamera-Positionierungssystem, da er leicht, schnell und preiswert ist. Der Gimbal enthält drei bürstenlose Motoren mit denen sehr kleine Winkeländerungen möglich sind. Den mechanischen Teil der Führung würden wir auf unsere Anforderungen anpassen. Wir haben uns also für diese Variante der Kameraführung entschieden.
 
 \section{Aufbau des Gesamtsystems}
-TO DO BILD \\ \\
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../gitRaspi/Abschlussbericht/aufbauMitCam}
+	\caption{Gesamtaufbau auf der Teststation}
+	\label{fig:aufbaumitcam}
+\end{figure}
+
+
 Folgende Geräte und Bauteile wurden verwendet
 \begin{itemize} 
 \item Kamera: Guppy F - 146
@@ -272,11 +279,22 @@ Durch die Arbeit mit mehreren Raspberry Pis benötigten wir die Einstellung, das
 \subsubsection{STorM32BGC und ESC}
 Da ein Gimbal sehr kleine und präzise Winkeländerungen durchführen kann schien auch der mitgelieferte Controller, ein STorM32BGC, als optimal. Er besteht aus einem 32Bit-Prozessor (STM32F103RC) und hat einen Mikrocontroller je Motor und Phase. Es wurde nun versucht, die Firmware den eigenen Bedürfnissen anzupassen. Jedoch mussten wir feststellen, dass die Firmware zwar Anpassungen und auch die aktive Steuerung zulässt, jedoch nicht ohne eine Grundkalibrierung funktioniert. Diese Grundkalibrierung verlangt die drehmomentfreie Ausrichtung aller Achsen und Schwenken auf jeder Achse in einer bestimmten Reihenfolge. Aufgrund des stehenden Aufbaus des Gestells für dieses Projekt war und ist dies nicht möglich.
 
-TODO Bild Storm
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../gitRaspi/Abschlussbericht/storm32}
+	\caption{STorM32BGC}
+	\label{fig:storm32}
+\end{figure}
 
 Daraufhin fiel die Wahl auf sogenannte \textit{Electronic Speed Controller}, (\textit{ESC}). Diese sind speziell dafür entwickelt, bürstenlose Gleichstrommotoren (\textit{BLDC}) anzusteuern. Gemäß den Angaben zu Spannungsversorgung und anschließbaren Motoren haben wir \textit{F35A 3-6S BLHeli\_32} ESCs bestellt. Die Ansteuerung der Motoren mit diesen ESCs war völlig erfolglos. Da wir dann feststellten, dass ein anderer, sogar schwächerer ESC aber funktionierte, schlossen wir darauf, dass unsere ESCs wiederum ein Firmwareproblem hatten und/oder defekt sind.
 
-TODO Bild ESC
+\begin{figure}[th]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../gitRaspi/Abschlussbericht/ESC}
+	\caption{F35A 3-6S BLHeli\_32}
+	\label{fig:esc}
+\end{figure}
+
 
 \subsubsection{L293D}
 Letztlich entschieden wir uns für den Aufbau einer komplett eigenen Steuerung. Der RaspberryPi2B kann maximal 5V ausgeben, da die Motoren keinesfalls direkt angeschlossen werden können wählten wir einen Mikrocontroller als Relais. Da der mit den BLDC mitgeliferte Controller STorM32BGC eine Stromstärke von 0,6A/Motor verarbeiten kann entschieden wir uns für L293D-Mikrocontroller. Diesr hat ebenfalls eine zulässige Dauerlast von 0,6A und eine Spitzenlast von 1,2A. Je einer dieser ICs steuert nun drei Phasen eines Motors.
@@ -299,8 +317,7 @@ Wie man in \autoref{fig:l293dlogik} sieht, ist der L293D eine doppelte H-Brücke
 \end{figure}
 
 \subsubsection{Layout}
-Wie in \autoref{fig:platine} zu sehen ist, befinden sich neben den ICs und den Eingangswiderständen noch die Anschlüsse für $Ground$ und $14V$ (ganz links, von unten nach oben) und eine 40-polige Brücke für die GPIO-Pins des RaspberryPi auf der Platine.\\\\
-Die finale Pinbelegung am RaspberryPi ist wie folgt:
+Wie in \autoref{fig:platine} zu sehen ist, befinden sich neben den ICs und den Eingangswiderständen noch die Anschlüsse für $Ground$ und $14V$ (ganz links, von unten nach oben) und eine 40-polige Brücke für die GPIO-Pins des RaspberryPi auf der Platine. Die finale Pinbelegung am RaspberryPi ist in \autoref{tab:pins} dargestellt.
 
 \begin{table}[htp] 
 	\centering 
@@ -351,7 +368,17 @@ Die finale Pinbelegung am RaspberryPi ist wie folgt:
 	\label{tab:pins}
 \end{table}
 
-\begin{figure} 
+Die Schaltung wurde dann auf einen Lochplattenplan übertragen und gelötet. In \autoref{fig:platinePlan} sieht man den Lötplan und in \autoref{fig:platine} die fertige Platine.
+
+\begin{figure}[ht]
+	\centering
+	\subfigure[Bestückungsseite]{\includegraphics[width=0.49\textwidth]{platinePlanVorn}} 
+	\subfigure[Lötseite]{\includegraphics[width=0.49\textwidth]{platinePlanHinten}} 
+	\caption{Bestückungs- und Lötplan für die Schaltung} 
+	\label{fig:platinePlan}
+\end{figure} 
+
+\begin{figure}[ht] 
 	\centering
 	\subfigure[Oberseite der Platine]{\includegraphics[width=0.49\textwidth]{platinevorn}} 
 	\subfigure[Unterseite der Platine]{\includegraphics[width=0.49\textwidth]{platinehinten}} 
@@ -359,7 +386,7 @@ Die finale Pinbelegung am RaspberryPi ist wie folgt:
 	\label{fig:platine}
 \end{figure} 
 \subsubsection{Ansteuerung der Motoren}
-Geplant war die Ansteuerung der Motoren mit PWM-Signalen, um so die Phasenverschiebung der Phasen des Motors nutzen zu können und ihn beliebig langsam drehen zu lassen. Mangels Zeit haben wir dies nicht verwirklichen können. Die Motoren werden nun wie Schrittmotoren angesteuert. Das heißt es werden die 3 Phasen der Reihe nach an- und abgeschalten. Dadurch ergibt sich folgende Sequenz:
+Geplant war die Ansteuerung der Motoren mit PWM-Signalen, um so die Phasenverschiebung der Phasen des Motors nutzen zu können und ihn beliebig langsam drehen zu lassen. Mangels Zeit haben wir dies nicht verwirklichen können. Die Motoren werden nun wie Schrittmotoren angesteuert. Das heißt es werden die 3 Phasen der Reihe nach an- und abgeschalten. Dadurch ergibt sich die Sequenz in \autoref{tab:sequenz}.
 \begin{table}[htp] 
 	\centering 
 	\begin{tabular}{|c|c|c|c|}
@@ -383,8 +410,6 @@ Geplant war die Ansteuerung der Motoren mit PWM-Signalen, um so die Phasenversch
 
 Wie aus \autoref{tab:sequenz} zu entnehmen ist, wird dadurch das Magnetfeld um jeweils einen halben Pol verschoben und der Motor dementsprechend bewegt. In Abschnitt \ref{berechnungSteps} wird die maximale Auflösung rechnerisch ermittelt.
 \subsection{Konstruktion des Gestells}
-TODO Fotos Achsenweise
-
 Das Gestell des gelieferten Gimbal-Bausatzes gibt vor, wie es zu montieren ist und ermöglicht die Rotation einer Kamera um alle drei Achsen. Für dieses Projekt muss sich die Kamera auch auf allen drei Achsen bewegen, jedoch soll sich, im Gegensatz zum Gimbal, hier auch der Bildausschnitt ändern.
 
 Daher ist der Aufbau im weitesten Sinne gedreht worden. Der erste Motor dreht das gesamte Gestell um die Vertikale, und ermöglicht so die Änderung der x-Koordinate im Bildausschnitt. Motor 2 ist versetzt zur Achse von Motor 1, Achsenparallel zur x-Achse montiert. Über diesem ist in gleicher Ausrichtung Motor 3, an dem die Kamera befestigt ist.
