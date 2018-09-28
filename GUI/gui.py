@@ -976,9 +976,12 @@ def hold():
 
 
 def release():
-    # motor_controlG.reference_point()
-    comment('Referenzpunkt wurde angefahren')
-    print("")
+	global bu2_blocked
+	if not bu2_blocked:
+		functionsG.set_current_position()
+		functionsG.reference_point()
+		comment('Referenzpunkt wurde angefahren')
+		output_lab.place_forget()
 
 
 # blocked motor

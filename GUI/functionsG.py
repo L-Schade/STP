@@ -188,12 +188,12 @@ def define_target_distance(alpha, beta):
 
 def reference_point():
 	global a, b, c
-	set_current_position()
 	
 	motor((-1 * a), 100, 'a')
 	motor((-1 * b), 100, 'b')
 	motor((-1 * c), 100, 'c')
 	
+	read_save_position.save_position(0, 0, 0)
 
 
 def latest_position():
